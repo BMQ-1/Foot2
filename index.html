@@ -430,15 +430,13 @@
     let peer = null, conn = null, isHost = false;
     let keepAliveInt = null, lastPong = Date.now();
     
-    // Robust Configuration with Google STUN servers for high success rate bypassing NAT/Firewalls
+    // 3 enterprise-grade STUN servers to guarantee NAT traversal
     const PEER_CONFIG = {
-        host: '0.peerjs.com', port: 443, secure: true,
         config: {
             iceServers:[
                 { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun2.l.google.com:19302' },
-                { urls: 'stun:stun3.l.google.com:19302' }
+                { urls: 'stun:global.stun.twilio.com:3478' },
+                { urls: 'stun:stun.cloudflare.com:3478' }
             ]
         }
     };
@@ -479,6 +477,18 @@
     function switchScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
     function setWait(show, msg = 'الرجاء الانتظار') { document.getElementById('wait-overlay').style.display = show ? 'flex' : 'none'; document.getElementById('wait-msg').textContent = msg; }
 
+    function resetHostUI() {
+        const btn = document.getElementById('btn-host');
+        btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة'; 
+        btn.disabled = false;
+    }
+
+    function resetJoinUI() {
+        const btn = document.getElementById('btn-join');
+        btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; 
+        btn.disabled = false;
+    }
+
     // ════════════════════════════════════════════
     //  NETWORK / CONNECTION
     // ════════════════════════════════════════════
@@ -492,7 +502,6 @@
         keepAliveInt = setInterval(() => {
             if (conn && conn.open) {
                 conn.send({ type: 'ping' });
-                // If no pong received for 12 seconds, assume disconnected
                 if (Date.now() - lastPong > 12000) handleDisconnect();
             }
         }, 3000);
@@ -517,7 +526,17 @@
         try {
             peer = new Peer(fullId, PEER_CONFIG);
 
+            // 10 Second strict timeout to avoid eternal hanging
+            let hostTimeout = setTimeout(() => {
+                if (!isHost) {
+                    showToast("خوادم الاتصال مشغولة. حاول مجدداً.", "error");
+                    resetHostUI();
+                    if (peer) peer.destroy();
+                }
+            }, 10000);
+
             peer.on('open', () => {
+                clearTimeout(hostTimeout);
                 isHost = true;
                 document.getElementById('host-ui').style.display = 'none';
                 document.getElementById('lobby-divider').style.display = 'none';
@@ -528,25 +547,23 @@
             });
 
             peer.on('connection', c => {
-                if (conn) { c.close(); return; } // Prevent third wheels
+                if (conn && conn.open) { c.close(); return; } // Prevent third wheels
                 conn = c;
                 setupConnEvents();
             });
 
-            peer.on('disconnected', () => { peer.reconnect(); }); // Auto reconnect to signaling server
+            peer.on('disconnected', () => { peer.reconnect(); });
 
             peer.on('error', err => {
-                if (err.type === 'unavailable-id') { 
-                    // Collision! Just try again silently
-                    setTimeout(createGame, 500); return; 
-                }
+                clearTimeout(hostTimeout);
+                if (err.type === 'unavailable-id') { setTimeout(createGame, 500); return; } // Silent retry
                 showToast("خطأ: " + (err.type || 'غير معروف'), "error");
-                btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة'; btn.disabled = false;
+                resetHostUI();
             });
 
         } catch(e) {
             showToast("متصفحك منع الاتصال.", "error");
-            btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة'; btn.disabled = false;
+            resetHostUI();
         }
     }
 
@@ -560,49 +577,59 @@
         if (peer) { peer.destroy(); peer = null; }
 
         try {
-            peer = new Peer(PEER_CONFIG);
+            // Assign a specific random ID to the joiner to bypass strict PeerJS server rules
+            const joinerId = PREFIX + 'join-' + Math.floor(Math.random() * 90000);
+            peer = new Peer(joinerId, PEER_CONFIG);
+
+            // 10 Second strict timeout for joiner
+            let joinTimeout = setTimeout(() => {
+                showToast("فشل الاتصال بالخصم. تأكد من الكود أو جرب مجدداً.", "error");
+                resetJoinUI();
+                if (peer) peer.destroy();
+            }, 10000);
 
             peer.on('open', () => {
-                // Connect with reliable: true to ensure game state doesn't drop packets
-                conn = peer.connect(PREFIX + code, { reliable: true });
-                setupConnEvents();
+                // IMPORTANT: Removed { reliable: true } as it is known to cause infinite hangs on mobile browsers
+                conn = peer.connect(PREFIX + code);
                 
+                conn.on('open', () => {
+                    clearTimeout(joinTimeout);
+                    setupConnEvents();
+                });
+
                 conn.on('error', () => {
-                    showToast("تعذر الاتصال بالمضيف.", "error");
-                    btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
+                    clearTimeout(joinTimeout);
+                    showToast("انقطع الاتصال أثناء محاولة الربط.", "error");
+                    resetJoinUI();
                 });
             });
 
             peer.on('disconnected', () => { peer.reconnect(); });
 
             peer.on('error', err => {
+                clearTimeout(joinTimeout);
                 showToast(err.type === 'peer-unavailable' ? "الكود خاطئ أو المضيف غادر." : "خطأ في الاتصال.", "error");
-                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
+                resetJoinUI();
             });
 
         } catch(e) {
             showToast("خطأ في المتصفح.", "error");
-            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
+            resetJoinUI();
         }
     }
 
     function setupConnEvents() {
-        conn.on('open', () => {
-            showToast(isHost ? "اتصل الخصم! 🎮" : "تم الاتصال! ⚡", "success");
-            startHeartbeat();
-            
-            if (isHost) {
-                setTimeout(() => safeSend({ type:'settings', duration:timerDuration, playerCount }), 400);
-            }
-            startSelectionPhase();
-        });
+        showToast(isHost ? "اتصل الخصم! 🎮" : "تم الاتصال! ⚡", "success");
+        startHeartbeat();
+        
+        if (isHost) {
+            setTimeout(() => safeSend({ type:'settings', duration:timerDuration, playerCount }), 400);
+        }
+        startSelectionPhase();
 
         conn.on('data', data => {
-            // Heartbeat check
             if (data.type === 'ping') { safeSend({ type: 'pong' }); return; }
             if (data.type === 'pong') { lastPong = Date.now(); return; }
-            
-            // Game logic routing
             handleGameData(data);
         });
 
@@ -625,7 +652,7 @@
                 break;
             case 'select': oppCharId = data.id; checkStart(); break;
             case 'pass': startMyTurn(); break;
-            case 'result': endRound(!data.isCorrect); break; // If sender won, I lost
+            case 'result': endRound(!data.isCorrect); break;
             case 'ready': isOppReady = true; checkBothReady(); break;
         }
     }
