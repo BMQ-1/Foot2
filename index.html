@@ -35,6 +35,8 @@
   --r-sm:      8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;}
+/* Fix for iOS Safari inputs */
+input, select, textarea { user-select: auto; }
 html{scroll-behavior:smooth;}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;background-image:radial-gradient(ellipse 140% 55% at 50% -5%,rgba(59,130,246,.055) 0%,transparent 55%),radial-gradient(ellipse 70% 40% at 85% 105%,rgba(240,180,41,.035) 0%,transparent 55%);}
 ::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
@@ -82,7 +84,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .wbadge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid rgba(59,130,246,.22);color:var(--blue2);padding:7px 14px;border-radius:99px;font-size:.74rem;font-weight:700;margin-top:10px;}
 .cinput{width:100%;padding:13px;background:rgba(0,0,0,.35);border:1.5px solid var(--border);color:var(--text);border-radius:var(--r);text-align:center;font-size:1.5rem;font-family:var(--mono);letter-spacing:8px;outline:none;transition:.2s;margin:9px 0 5px;}
 .cinput:focus{border-color:var(--blue);background:var(--blue-dim);}
-.cinput::-webkit-outer-spin-button,.cinput::-webkit-inner-spin-button{-webkit-appearance:none;}
 
 /* BUTTONS */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 14px;border-radius:var(--r);border:none;font-family:var(--font);font-weight:800;font-size:.87rem;cursor:pointer;transition:transform .1s,box-shadow .2s,opacity .2s;}
@@ -229,7 +230,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 #wait h3{font-size:1.05rem;font-weight:900;color:var(--gold);}
 #wait p{font-size:.77rem;color:var(--text-dim);}
 
-/* TURN ACTION INFO BOX (shows current phase hint) */
+/* TURN ACTION INFO BOX */
 .turn-phase-hint{background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.15);border-radius:var(--r-sm);padding:7px 12px;font-size:.75rem;color:var(--gold2);font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:8px;}
 .turn-phase-hint.blue{background:var(--blue-dim);border-color:rgba(59,130,246,.2);color:var(--blue2);}
 
@@ -286,7 +287,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
     <div class="ordiv" id="or-line">أو</div>
     <div id="join-idle">
-      <input type="number" class="cinput" id="join-input" placeholder="1234" oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
+      <input type="text" pattern="\d*" class="cinput" id="join-input" placeholder="1234" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,4)">
       <button id="btn-join" class="btn btn-gold" onclick="joinGame()"><i class="fas fa-right-to-bracket"></i> انضمام للعبة</button>
     </div>
   </div>
@@ -614,25 +615,52 @@ function resetHost(){
 function resetJoin(){const b=document.getElementById("btn-join");b.innerHTML='<i class="fas fa-right-to-bracket"></i> انضمام للعبة';b.disabled=false;}
 
 // ══════════════════════════════════════════════════
-//  NETWORK
+//  NETWORK (FIXED & IMPROVED)
 // ══════════════════════════════════════════════════
 function safeSend(d){if(conn&&conn.open)conn.send(d);}
 function startHeartbeat(){
   clearInterval(keepAlive);lastPong=Date.now();
-  keepAlive=setInterval(()=>{if(conn&&conn.open){safeSend({type:"ping"});if(Date.now()-lastPong>14000)onDC();}},4000);
+  keepAlive=setInterval(()=>{
+    if(conn&&conn.open){
+      safeSend({type:"ping"});
+      if(Date.now()-lastPong>15000)onDC();
+    }
+  },4000);
 }
-function onDC(){clearInterval(keepAlive);toast("انقطع الاتصال بالخصم 🔌","err");setTimeout(()=>location.reload(),3000);}
+
+function onDC(){
+  clearInterval(keepAlive);
+  if(!document.getElementById("m-result").classList.contains("active")) {
+    toast("انقطع الاتصال بالخصم 🔌","err");
+    setTimeout(()=>location.reload(),3000);
+  }
+}
+
+// Helper to reliably attach listeners without race conditions
+function attachConnListeners(c) {
+  c.on("data", d => {
+    lastPong = Date.now(); // Any received message resets the disconnect timer
+    if(d.type==="ping"){safeSend({type:"pong"});return;}
+    if(d.type==="pong"){return;}
+    handleData(d);
+  });
+  c.on("close", onDC);
+  c.on("error", onDC);
+}
 
 function hostGame(){
-  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS.","err");
+  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS. تأكد من اتصالك بالإنترنت.","err");
   const btn=document.getElementById("btn-host");
   btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> جاري الإنشاء…';btn.disabled=true;
   if(peer){peer.destroy();peer=null;}
   cfg.timerDuration=parseInt(document.getElementById("st-timer").value)||60;
   const code=Math.floor(1000+Math.random()*9000);
+  
   try{
-    peer=new Peer(PFX+code,{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
-    const TO=setTimeout(()=>{toast("تعذّر الاتصال بالخادم.","err");resetHost();if(peer)peer.destroy();},12000);
+    // Added fallback STUN servers to bypass NAT/firewalls better
+    peer=new Peer(PFX+code,{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
+    const TO=setTimeout(()=>{toast("تعذّر الاتصال بخادم اللعب.","err");resetHost();if(peer)peer.destroy();},15000);
+    
     peer.on("open",()=>{
       clearTimeout(TO);iAmHost=true;
       document.getElementById("host-idle").style.display="none";
@@ -641,30 +669,56 @@ function hostGame(){
       document.getElementById("host-waiting").style.display="block";
       document.getElementById("my-code").textContent=code;
     });
-    peer.on("connection",c=>{if(conn&&conn.open){c.close();return;}conn=c;setupConn();});
-    peer.on("disconnected",()=>{if(peer)peer.reconnect();});
-    peer.on("error",e=>{clearTimeout(TO);if(e.type==="unavailable-id"){setTimeout(hostGame,600);return;}toast("خطأ: "+(e.type||"غير معروف"),"err");resetHost();});
+    
+    peer.on("connection",c=>{
+      if(conn&&conn.open){c.close();return;}
+      conn=c;
+      attachConnListeners(conn);
+      // Wait for data channel to fully open before sending settings
+      conn.on("open", () => {
+        setupConn();
+      });
+    });
+    
+    peer.on("disconnected",()=>{if(peer&&!peer.destroyed)peer.reconnect();});
+    peer.on("error",e=>{
+      clearTimeout(TO);
+      if(e.type==="unavailable-id"){setTimeout(hostGame,600);return;}
+      toast("خطأ: "+(e.type||"غير معروف"),"err");
+      resetHost();
+    });
   }catch(e){toast("خطأ في المتصفح.","err");resetHost();}
 }
 
 function joinGame(){
-  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS.","err");
+  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS. تأكد من اتصالك بالإنترنت.","err");
   const code=document.getElementById("join-input").value.trim();
   if(code.length!==4)return toast("الكود من 4 أرقام","err");
   const btn=document.getElementById("btn-join");
   btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> جاري الانضمام…';btn.disabled=true;
   if(peer){peer.destroy();peer=null;}
   iAmHost=false;
+  
   try{
-    peer=new Peer(PFX+"j-"+Math.floor(Math.random()*900000),{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
-    const TO=setTimeout(()=>{toast("فشل الاتصال. تأكد من الكود.","err");resetJoin();if(peer)peer.destroy();},12000);
+    peer=new Peer(PFX+"j-"+Math.floor(Math.random()*900000),{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
+    const TO=setTimeout(()=>{toast("فشل الاتصال. تأكد من الكود أو جودة الإنترنت.","err");resetJoin();if(peer)peer.destroy();},15000);
+    
     peer.on("open",()=>{
-      conn=peer.connect(PFX+code);
-      conn.on("open",()=>{clearTimeout(TO);setupConn();});
+      conn=peer.connect(PFX+code, { reliable: true });
+      attachConnListeners(conn);
+      conn.on("open",()=>{
+        clearTimeout(TO);
+        setupConn();
+      });
       conn.on("error",()=>{clearTimeout(TO);toast("انقطع الاتصال.","err");resetJoin();});
     });
-    peer.on("disconnected",()=>{if(peer)peer.reconnect();});
-    peer.on("error",e=>{clearTimeout(TO);toast(e.type==="peer-unavailable"?"الكود خاطئ أو المضيف غادر.":"خطأ في الاتصال.","err");resetJoin();});
+    
+    peer.on("disconnected",()=>{if(peer&&!peer.destroyed)peer.reconnect();});
+    peer.on("error",e=>{
+      clearTimeout(TO);
+      toast(e.type==="peer-unavailable"?"الكود خاطئ أو المضيف غادر.":"خطأ في الاتصال.","err");
+      resetJoin();
+    });
   }catch(e){toast("خطأ في المتصفح.","err");resetJoin();}
 }
 
@@ -677,14 +731,6 @@ function setupConn(){
       beginSelectionPhase();
     },400);
   }
-  // Guest waits for settings message
-  conn.on("data",d=>{
-    if(d.type==="ping"){safeSend({type:"pong"});return;}
-    if(d.type==="pong"){lastPong=Date.now();return;}
-    handleData(d);
-  });
-  conn.on("close",onDC);
-  conn.on("error",onDC);
 }
 
 // ══════════════════════════════════════════════════
@@ -704,11 +750,9 @@ function handleData(d){
       oppCharId=d.id;checkBothSelected();
       break;
     case"pass":
-      // Opponent finished their turn → my turn starts
       startMyTurn();
       break;
     case"result":
-      // d.correct=true means opponent guessed me correctly → I lose
       endRound(!d.correct);
       break;
     case"elim_update":
@@ -808,8 +852,7 @@ function buildFilterBar(){
   };
   add("الكل","all","fas fa-users");
   const posL={FW:"مهاجمين",MF:"وسط",DF:"مدافعين",GK:"حراس"};
-  ["FW","MF","DF","GK"].forEach(pos=>{if(activePlayers.some(p=>p.pos===pos))add(posL[pos],pos);});
-  [...new Set(activePlayers.map(p=>p.team))].slice(0,8).forEach(t=>add(t,t));
+  ["FW","MF","DF","GK"].forEach(pos=>{if(activePlayers.some(p=>p.pos===pos))add(posL[pos],pos);});[...new Set(activePlayers.map(p=>p.team))].slice(0,8).forEach(t=>add(t,t));
   [...new Set(activePlayers.map(p=>p.league))].slice(0,5).forEach(l=>add(l,l));
 }
 
