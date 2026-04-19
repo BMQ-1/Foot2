@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>أساطير كرة القدم 2026</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -336,6 +336,125 @@
 </div>
 
 <script>
+// ── WebSocket Relay Network Layer ──────────────────────
+// Uses a free public WebSocket channel relay.
+// Both players join the same channel code; messages are
+// broadcast to all members of that channel.
+const WS_RELAYS = [
+    'wss://socketsbay.com/wss/v2/1/demo/',
+    'wss://ws.postman-echo.com/raw'
+];
+let wsRelayIndex = 0;
+let ws = null;
+let wsConnected = false;
+let myRole = null; // 'host' | 'guest'
+let roomCode = null;
+let _wsOnOpen = null;
+
+function wsConnect(onOpen) {
+    _wsOnOpen = onOpen;
+    _tryConnect();
+}
+
+function _tryConnect() {
+    if (wsRelayIndex >= WS_RELAYS.length) {
+        showToast('تعذر الاتصال بأي خادم. تحقق من الإنترنت وأعد المحاولة', 'danger');
+        document.getElementById('btn-host').disabled = false;
+        document.getElementById('btn-join').disabled = false;
+        return;
+    }
+    ws = new WebSocket(WS_RELAYS[wsRelayIndex]);
+    ws.onopen = () => {
+        wsConnected = true;
+        _wsOnOpen && _wsOnOpen();
+    };
+    ws.onmessage = (ev) => {
+        let data;
+        try { data = JSON.parse(ev.data); } catch { return; }
+        if (!data.__room || data.__room !== roomCode) return;
+        if (data.__role === myRole) return;
+        handleMessage(data);
+    };
+    ws.onclose = () => {
+        wsConnected = false;
+        if (gameStarted) showToast('انقطع الاتصال بالخصم', 'danger');
+    };
+    ws.onerror = () => {
+        wsRelayIndex++;
+        setTimeout(_tryConnect, 500);
+    };
+}
+
+function send(data) {
+    if (!wsConnected || !ws) return;
+    ws.send(JSON.stringify({ ...data, __room: roomCode, __role: myRole }));
+}
+
+// ── Handshake: Host waits for HELLO, Guest sends HELLO ──
+// After WS connects:
+//   Host: sits and waits for guest's HELLO message
+//   Guest: sends HELLO immediately, waits for HELLO_ACK
+function hostStartListening() {
+    // host is already connected to WS, just wait
+    showToast('الغرفة جاهزة! شارك الكود مع صديقك');
+}
+
+function guestSayHello() {
+    send({ type: 'HELLO' });
+    // retry in case message was missed
+    let tries = 0;
+    const retry = setInterval(() => {
+        if (tries++ > 10 || gameStarted || wsConnected === false) { clearInterval(retry); return; }
+        if (!wsConnected) return;
+        send({ type: 'HELLO' });
+    }, 1500);
+    window._helloRetry = retry;
+}
+
+function handleMessage(data) {
+    switch (data.type) {
+        case 'HELLO':
+            // Host receives guest hello
+            if (myRole !== 'host') return;
+            clearInterval(window._helloRetry);
+            updateStatus('متصل الآن', true);
+            showToast('انضم الخصم! ابدأ الاختيار');
+            // Send config + ack
+            send({ type: 'HELLO_ACK', config });
+            startSelectionPhase();
+            break;
+
+        case 'HELLO_ACK':
+            // Guest receives ack with config
+            if (myRole !== 'guest') return;
+            clearInterval(window._helloRetry);
+            config = data.config;
+            updateStatus('متصل الآن', true);
+            showToast('اتصلت بالمضيف! ابدأ الاختيار');
+            startSelectionPhase();
+            break;
+
+        case 'PLAYER_SELECTED':
+            oppSecretPlayerId = data.playerId;
+            oppSelectionDone = true;
+            showToast('اختار الخصم لاعبه السري ✓');
+            checkBothSelected();
+            break;
+
+        case 'ACTION_CHOICE':
+            handleOpponentAction(data.action);
+            break;
+
+        case 'END_TURN':
+            startMyTurn();
+            break;
+
+        case 'FINAL_GUESS':
+            processOpponentGuess(data.guessId);
+            break;
+    }
+}
+
 const PLAYERS = [
     {id:1,name:"كيليان مبابي",team:"ريال مدريد",pos:"FW",rating:91,nat:"فرنسا",img:"KM"},
     {id:2,name:"إيرلينغ هالاند",team:"مانشستر سيتي",pos:"FW",rating:91,nat:"النرويج",img:"EH"},
@@ -388,8 +507,6 @@ const PLAYERS = [
 ];
 
 // ── State ──────────────────────────────────────────────
-let peer = null;
-let conn = null;
 let isHost = false;
 let mySecretPlayer = null;
 let oppSecretPlayerId = null;
@@ -453,7 +570,7 @@ function updateStatus(text, active) {
     s.className = 'status-badge' + (active ? ' active' : '');
 }
 
-// ── PeerJS avatar URL helper ──────────────────────────
+// ── Avatar URL helper ─────────────────────────────────
 function avatarUrl(code) {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(code)}&background=1a1f26&color=d4af37&bold=true&size=128`;
 }
@@ -461,30 +578,21 @@ function avatarUrl(code) {
 // ── Host ───────────────────────────────────────────────
 function hostGame() {
     document.getElementById('btn-host').disabled = true;
-    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    roomCode = 'LEG26-' + Math.floor(1000 + Math.random() * 9000).toString();
+    myRole = 'host';
+    isHost = true;
 
-    peer = new Peer('LEG26-' + code, { debug: 0 });
+    const displayCode = roomCode.replace('LEG26-', '');
 
-    peer.on('open', () => {
-        isHost = true;
+    updateStatus('جاري الاتصال...', false);
+    wsConnect(() => {
         document.getElementById('host-section').style.display = 'none';
         document.getElementById('join-area').style.display = 'none';
         document.querySelector('.join-divider').style.display = 'none';
         document.getElementById('waiting-area').style.display = 'block';
-        document.getElementById('display-code').textContent = code;
-        updateStatus('في الانتظار', false);
-        showToast('تم إنشاء الغرفة! انتظر خصمك');
-    });
-
-    peer.on('connection', (c) => {
-        if (conn) { c.close(); return; } // reject extra connections
-        conn = c;
-        setupConnection();
-    });
-
-    peer.on('error', (err) => {
-        showToast('خطأ في الاتصال: ' + err.type, 'danger');
-        document.getElementById('btn-host').disabled = false;
+        document.getElementById('display-code').textContent = displayCode;
+        updateStatus('في انتظار الخصم...', false);
+        hostStartListening();
     });
 }
 
@@ -496,91 +604,16 @@ function joinGame() {
     }
 
     document.getElementById('btn-join').disabled = true;
-    showToast('جاري الاتصال...');
+    roomCode = 'LEG26-' + rawCode;
+    myRole = 'guest';
+    isHost = false;
 
-    peer = new Peer(undefined, { debug: 0 });
-
-    peer.on('open', () => {
-        conn = peer.connect('LEG26-' + rawCode, { reliable: true });
-
-        conn.on('open', () => {
-            // Guest waits for SYNC_CONFIG from host before doing anything
-            updateStatus('متصل الآن', true);
-            showToast('تم الاتصال! في انتظار إعدادات المضيف...');
-        });
-
-        setupConnectionData();
-
-        conn.on('error', err => showToast('خطأ في الاتصال: ' + err, 'danger'));
+    updateStatus('جاري الاتصال...', false);
+    showToast('جاري الاتصال بالغرفة...');
+    wsConnect(() => {
+        updateStatus('متصل بالخادم', false);
+        guestSayHello();
     });
-
-    peer.on('error', (err) => {
-        showToast('تعذر الاتصال. تحقق من الكود', 'danger');
-        document.getElementById('btn-join').disabled = false;
-    });
-}
-
-// ── Connection Setup ───────────────────────────────────
-function setupConnection() {
-    // For HOST: conn is incoming, open event fires after both sides are ready
-    conn.on('open', () => {
-        updateStatus('متصل الآن', true);
-        showToast('انضم الخصم! ابدأ الاختيار');
-
-        // Send config to guest, then start selection
-        send({ type: 'SYNC_CONFIG', config });
-        startSelectionPhase();
-    });
-
-    setupConnectionData();
-
-    conn.on('error', err => showToast('خطأ في الاتصال', 'danger'));
-    conn.on('close', () => {
-        if (!gameStarted) return;
-        showToast('انقطع الاتصال بالخصم', 'danger');
-    });
-}
-
-function setupConnectionData() {
-    conn.on('data', (data) => {
-        switch (data.type) {
-            case 'SYNC_CONFIG':
-                // Guest receives config, then starts selection
-                config = data.config;
-                updateStatus('متصل الآن', true);
-                startSelectionPhase();
-                break;
-
-            case 'PLAYER_SELECTED':
-                oppSecretPlayerId = data.playerId;
-                oppSelectionDone = true;
-                showToast('اختار الخصم لاعبه السري ✓');
-                checkBothSelected();
-                break;
-
-            case 'ACTION_CHOICE':
-                handleOpponentAction(data.action);
-                break;
-
-            case 'END_TURN':
-                startMyTurn();
-                break;
-
-            case 'FINAL_GUESS':
-                processOpponentGuess(data.guessId);
-                break;
-
-            case 'OPPONENT_ELIMINATED':
-                // Opponent tells us which card THEY eliminated (for visual sync, optional)
-                break;
-        }
-    });
-}
-
-function send(data) {
-    if (conn && conn.open) {
-        conn.send(data);
-    }
 }
 
 // ── Selection Phase ────────────────────────────────────
