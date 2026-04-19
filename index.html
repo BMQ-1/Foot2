@@ -1,1032 +1,713 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>أساطير كرة القدم 2026 — النسخة الفاخرة</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<style>
-:root {
-  --bg: #0A0D14;
-  --panel: #121620;
-  --panel-light: #1A202D;
-  --border: #232B3E;
-  --border-hl: #3A4764;
-  --gold: #E6B953;
-  --gold-light: #F9D471;
-  --gold-glow: rgba(230, 185, 83, 0.25);
-  --blue: #3B82F6;
-  --blue-glow: rgba(59, 130, 246, 0.25);
-  --red: #EF4444;
-  --green: #10B981;
-  --text: #F8FAFC;
-  --text-dim: #94A3B8;
-  --text-muted: #64748B;
-  --font: 'Cairo', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
-  --radius-lg: 16px;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 8px 30px rgba(0,0,0,0.5);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أساطير كرة القدم 2026 — الإصدار الفاخر</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f1d592;
+            --bg: #05070a;
+            --surface: #0f1218;
+            --surface-light: #1a1f26;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --success: #10b981;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: #262c36;
+            --font-main: 'Cairo', sans-serif;
+            --font-head: 'Bebas Neue', sans-serif;
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --glass: rgba(15, 18, 24, 0.8);
+        }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent),
+                              radial-gradient(circle at bottom left, rgba(212, 175, 55, 0.05), transparent);
+        }
 
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  background-image: 
-    radial-gradient(circle at 15% 50%, rgba(230, 185, 83, 0.03), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03), transparent 25%);
-}
+        /* Loading Overlay */
+        #master-loader {
+            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
 
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-hl); border-radius: 10px; }
+        /* Typography */
+        h1, h2, h3 { font-family: var(--font-main); font-weight: 900; }
+        .en-font { font-family: var(--font-head); letter-spacing: 1px; }
 
-/* HEADER */
-#header {
-  position: sticky; top: 0; z-index: 200;
-  height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 20px;
-  background: rgba(10, 13, 20, 0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-}
-.logo {
-  font-size: 1.4rem; font-weight: 900;
-  background: linear-gradient(to left, var(--gold-light), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  display: flex; align-items: center; gap: 8px;
-}
-.logo i { color: var(--gold); -webkit-text-fill-color: initial; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-.header-btns { display: flex; gap: 8px; }
-.icon-btn {
-  width: 40px; height: 40px; border-radius: var(--radius-sm);
-  background: var(--panel); border: 1px solid var(--border);
-  color: var(--text-dim); font-size: 1.1rem; cursor: pointer;
-  transition: 0.2s; display: flex; align-items: center; justify-content: center;
-}
-.icon-btn:hover { background: var(--panel-light); color: var(--gold); border-color: var(--gold); }
+        /* --- Header --- */
+        header {
+            height: 70px; background: var(--glass); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.5rem; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+        .logo i { animation: spin 8s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* SCREENS */
-.screen { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
-.screen.active { display: flex; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- Screens --- */
+        .screen { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; min-height: calc(100vh - 70px); }
+        .screen.active { display: flex; flex-direction: column; }
 
-/* LOBBY */
-.hero-section { text-align: center; margin-bottom: 30px; }
-.hero-icon { font-size: 4rem; color: var(--gold); filter: drop-shadow(0 0 20px var(--gold-glow)); margin-bottom: 10px; }
-.hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
-.hero-sub { color: var(--text-dim); font-size: 1rem; }
+        /* --- Lobby Card --- */
+        .lobby-container {
+            max-width: 450px; margin: 40px auto; width: 100%;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; padding: 30px; box-shadow: var(--shadow-lg);
+        }
+        .config-box { background: var(--surface-light); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
+        .config-label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px; display: block; }
+        
+        .btn-group { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .btn-check {
+            background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
+            padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s;
+        }
+        .btn-check.active { background: var(--gold); color: var(--bg); border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
 
-.lobby-box {
-  width: 100%; max-width: 420px;
-  background: var(--panel); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 30px;
-  box-shadow: var(--shadow); position: relative; overflow: hidden;
-}
-.lobby-box::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.lobby-label { font-size: 0.85rem; color: var(--text-dim); font-weight: 700; margin-bottom: 10px; display: block; }
-.count-row { display: flex; gap: 8px; margin-bottom: 24px; }
-.cnt-btn {
-  flex: 1; padding: 10px 0; border-radius: var(--radius-sm);
-  background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-  color: var(--text-dim); font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.2s;
-}
-.cnt-btn:hover { border-color: var(--border-hl); color: var(--text); }
-.cnt-btn.on { background: rgba(230, 185, 83, 0.1); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+        .join-area { margin-top: 25px; border-top: 1px solid var(--border); pt: 25px; }
+        .input-code {
+            width: 100%; background: var(--bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 15px; color: var(--text); font-size: 1.2rem;
+            text-align: center; font-family: var(--font-head); letter-spacing: 5px; margin-bottom: 15px;
+        }
 
-.divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; }
-.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        /* --- Global Buttons --- */
+        .btn {
+            width: 100%; padding: 14px 20px; border-radius: 14px; border: none;
+            font-family: var(--font-main); font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--gold), #b38f2d); color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-outline:hover { background: var(--surface-light); border-color: var(--text-dim); }
 
-.code-display {
-  font-family: var(--font-mono); font-size: 2.8rem; font-weight: 700;
-  letter-spacing: 12px; color: var(--gold-light);
-  background: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius);
-  border: 1px dashed var(--gold); text-align: center; direction: ltr; margin: 15px 0;
-}
-.code-input {
-  width: 100%; padding: 16px; background: rgba(0,0,0,0.4);
-  border: 1px solid var(--border); color: var(--text);
-  border-radius: var(--radius); text-align: center; font-size: 1.8rem;
-  font-family: var(--font-mono); letter-spacing: 10px; outline: none; transition: 0.2s; margin-bottom: 15px;
-}
-.code-input:focus { border-color: var(--blue); box-shadow: 0 0 15px var(--blue-glow); }
+        /* --- Game Grid --- */
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px; width: 100%; padding-bottom: 120px;
+        }
+        @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; } }
 
-/* BUTTONS */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 14px 20px; border-radius: var(--radius-sm);
-  border: none; font-family: var(--font); font-weight: 800; font-size: 1rem;
-  cursor: pointer; transition: all 0.2s;
-}
-.btn:active:not(:disabled) { transform: scale(0.97); }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 15px var(--blue-glow); }
-.btn-primary:hover:not(:disabled) { background: #2563EB; }
-.btn-gold { background: linear-gradient(135deg, var(--gold), #D4AF37); color: #111; box-shadow: 0 4px 15px var(--gold-glow); }
-.btn-gold:hover:not(:disabled) { filter: brightness(1.1); }
-.btn-outline { background: transparent; border: 1px solid var(--border-hl); color: var(--text); }
-.btn-outline:hover:not(:disabled) { background: var(--panel-light); border-color: var(--text-dim); }
-.btn-danger { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--red); }
-.btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.2); }
+        /* --- Player Cards --- */
+        .card {
+            aspect-ratio: 2/3; background: var(--surface-light); border-radius: 12px;
+            position: relative; overflow: hidden; cursor: pointer;
+            border: 2px solid var(--border); transition: 0.3s;
+        }
+        .card img { width: 100%; height: 75%; object-fit: cover; transition: 0.5s; }
+        .card-info {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+            background: linear-gradient(to top, var(--surface) 80%, transparent);
+            padding: 5px 8px; display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .card-name { font-size: 0.75rem; font-weight: 800; line-height: 1.2; }
+        .card-meta { font-size: 0.6rem; color: var(--text-dim); }
+        .card-rating {
+            position: absolute; top: 5px; right: 5px; background: var(--gold);
+            color: var(--bg); font-weight: 900; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px;
+        }
+        .card.eliminated { opacity: 0.2; filter: grayscale(1) blur(1px); transform: scale(0.95); }
+        .card.my-choice { border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        .card.selected-anim { animation: pulse-select 0.5s ease-out; }
+        @keyframes pulse-select { 0% {transform: scale(1)} 50% {transform: scale(0.9)} 100% {transform: scale(1)} }
 
-/* GAME HEADER BAR (Clutter Free) */
-.game-header-bar {
-  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 12px 16px; margin-bottom: 16px; gap: 16px; box-shadow: var(--shadow);
-}
-.my-secret-card { display: flex; align-items: center; gap: 14px; }
-.mp-img { width: 54px; height: 54px; border-radius: 10px; border: 2px solid var(--gold); object-fit: cover; object-position: top; background: var(--panel-light); }
-.mp-info { display: flex; flex-direction: column; gap: 2px; }
-.mp-label { font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-.mp-name { font-size: 1.1rem; font-weight: 900; line-height: 1; }
-.mp-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.mp-tag { font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
-.mp-tag.rating { color: var(--gold-light); }
-.mp-tag.pos { color: var(--text); }
-.mp-tag.team { color: var(--text-dim); }
+        /* --- HUD & Turn System --- */
+        #game-hud {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border); padding: 15px 20px;
+            display: none; z-index: 500;
+        }
+        .hud-content { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .turn-indicator { display: flex; align-items: center; justify-content: space-between; }
+        
+        .status-badge {
+            background: var(--surface-light); padding: 6px 15px; border-radius: 99px;
+            font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px;
+        }
+        .status-badge.active { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid var(--success); }
 
-.match-stats { display: flex; gap: 12px; }
-.stat-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; text-align: center; min-width: 70px; }
-.stat-box.active { border-color: var(--border-hl); background: var(--panel-light); }
-.stat-lbl { font-size: 0.65rem; color: var(--text-dim); font-weight: 800; margin-bottom: 2px; }
-.stat-val { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; }
-.stat-val.me { color: var(--blue); }
-.stat-val.opp { color: var(--red); }
+        /* --- Player Secret Info --- */
+        .secret-info-bar {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 10px 15px; border-radius: 16px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .secret-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); }
+        .secret-details { flex: 1; }
+        .secret-details h4 { font-size: 0.9rem; color: var(--gold); }
+        .secret-details p { font-size: 0.7rem; color: var(--text-dim); }
 
-/* FILTER BAR */
-.filter-bar {
-  display: flex; gap: 8px; overflow-x: auto; width: 100%; padding-bottom: 12px; scrollbar-width: none;
-}
-.filter-bar::-webkit-scrollbar { display: none; }
-.chip {
-  flex-shrink: 0; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
-  border: 1px solid var(--border); background: var(--panel); color: var(--text-dim);
-  cursor: pointer; transition: 0.2s;
-}
-.chip:hover { border-color: var(--border-hl); color: var(--text); }
-.chip.on { background: var(--blue-glow); border-color: var(--blue); color: #fff; }
+        /* --- Choice Overlay --- */
+        .choice-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px;
+        }
+        .choice-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+            padding: 30px; width: 100%; max-width: 400px; text-align: center;
+        }
 
-/* GRID & CARDS (Deluxe Design) */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 14px; width: 100%; padding-bottom: 180px; }
+        /* --- Modals --- */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+        }
+        .modal-content {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; width: 100%; max-width: 500px; padding: 25px;
+            max-height: 80vh; overflow-y: auto;
+        }
 
-.card {
-  background: linear-gradient(160deg, #1A202D 0%, #121620 100%);
-  border: 1px solid var(--border-hl);
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  aspect-ratio: 2/3;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.card:hover { transform: translateY(-4px); border-color: var(--gold-light); box-shadow: 0 8px 20px rgba(230, 185, 83, 0.15); }
-.card.selected { border-color: var(--green); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); transform: scale(0.96); }
-.card.mine { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+        /* --- Notifications --- */
+        #toast-container { position: fixed; top: 85px; left: 50%; transform: translateX(-50%); z-index: 9999; }
+        .toast {
+            background: var(--surface); color: var(--text); padding: 12px 25px;
+            border-radius: 12px; border-bottom: 3px solid var(--gold);
+            margin-bottom: 10px; box-shadow: var(--shadow-lg); font-weight: 700;
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.c-top { position: absolute; top: 8px; left: 8px; z-index: 5; text-align: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border-radius: 6px; padding: 4px 6px; border: 1px solid rgba(255,255,255,0.1); }
-.c-rat { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
-.c-pos { font-size: 0.65rem; font-weight: 800; color: var(--text); margin-top: 2px; }
+        /* Search Guess Grid */
+        .guess-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;
+        }
+        .guess-item {
+            background: var(--surface-light); padding: 10px; border-radius: 10px;
+            text-align: center; cursor: pointer; border: 1px solid transparent;
+        }
+        .guess-item:hover { border-color: var(--gold); }
+        .guess-item img { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 5px; }
+        .guess-item div { font-size: 0.65rem; font-weight: 700; white-space: nowrap; overflow: hidden; }
 
-.c-img-wrap { position: absolute; inset: 0; height: 75%; }
-.c-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0.9; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
-
-.c-bot { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: linear-gradient(to top, rgba(10,13,20,1) 40%, transparent); text-align: center; z-index: 5; }
-.c-name { font-size: 0.8rem; font-weight: 900; color: var(--text); line-height: 1.1; }
-.c-team { font-size: 0.6rem; color: var(--text-dim); margin-top: 3px; }
-
-/* Dead Card Overlay */
-.card.dead { opacity: 0.4; filter: grayscale(100%); transform: scale(0.95); pointer-events: auto; }
-.card.dead:hover { transform: scale(0.95); border-color: var(--red); }
-.card.dead::after {
-  content: '\f00d'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-  position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-  font-size: 3.5rem; color: rgba(239, 68, 68, 0.9); z-index: 10; text-shadow: 0 0 20px rgba(0,0,0,0.8);
-}
-
-/* HUD (Turn Actions) */
-#hud {
-  position: fixed; bottom: 0; right: 0; left: 0; z-index: 300;
-  background: rgba(18, 22, 32, 0.95); backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border); padding: 16px 20px 24px;
-  display: none; flex-direction: column; gap: 12px; box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-  transition: border-color 0.3s;
-}
-#hud.myturn { border-top: 2px solid var(--gold); }
-.hud-header { display: flex; align-items: center; justify-content: space-between; }
-.turn-status { display: flex; align-items: center; gap: 12px; }
-.turn-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--text-muted); transition: 0.3s; }
-.turn-dot.glow { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
-.turn-text h3 { font-size: 1.1rem; font-weight: 900; line-height: 1.2; }
-.turn-text p { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; }
-.timer { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 4px 16px; border-radius: var(--radius-sm); min-width: 64px; text-align: center; }
-.timer.urgent { color: var(--red); border-color: rgba(239, 68, 68, 0.4); animation: pulse 0.5s infinite alternate; }
-@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
-
-.hud-actions { display: flex; gap: 10px; }
-.hud-actions .btn { flex: 1; padding: 12px; font-size: 0.9rem; }
-
-/* MODALS */
-.overlay {
-  position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-  display: none; justify-content: center; align-items: center; padding: 20px;
-}
-.overlay.active { display: flex; animation: fadeIn 0.3s ease; }
-.modal {
-  background: var(--panel); border: 1px solid var(--border-hl); border-radius: var(--radius-lg);
-  padding: 30px 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative;
-}
-.modal-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; text-align: center; }
-.modal-sub { font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-bottom: 24px; line-height: 1.5; }
-
-/* GUESS MODAL */
-.search-input { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm); outline: none; font-family: var(--font); margin-bottom: 16px; }
-.search-input:focus { border-color: var(--gold); }
-.guess-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; max-height: 40vh; overflow-y: auto; padding-right: 5px; }
-.g-item { background: var(--panel-light); border: 1px solid var(--border); border-radius: 8px; text-align: center; padding: 10px 5px; cursor: pointer; transition: 0.2s; }
-.g-item:hover { border-color: var(--gold); background: rgba(230, 185, 83, 0.1); transform: translateY(-2px); }
-.g-item img { width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-hl); object-fit: cover; margin-bottom: 6px; }
-.g-item div { font-size: 0.65rem; font-weight: 800; color: var(--text); line-height: 1.2; }
-
-/* CONFIRM GUESS */
-.confirm-box { background: rgba(0,0,0,0.4); border: 2px solid var(--gold); border-radius: var(--radius); padding: 24px; text-align: center; margin-bottom: 24px; }
-.confirm-box img { width: 90px; height: 90px; border-radius: 12px; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 12px; }
-.confirm-box h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; }
-.confirm-box p { font-size: 0.85rem; color: var(--text-dim); }
-
-/* RESULT MODAL */
-.res-card { display: flex; align-items: center; gap: 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin: 20px 0; text-align: right; }
-.res-card img { width: 70px; height: 70px; border-radius: 10px; border: 2px solid var(--border-hl); object-fit: cover; }
-.res-score { display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 2.5rem; font-family: var(--font-mono); font-weight: 900; background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius); margin-bottom: 24px; border: 1px solid var(--border); }
-
-/* TOASTS */
-#toasts { position: fixed; top: 80px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-.toast { background: var(--panel-light); color: var(--text); padding: 12px 20px; border-radius: var(--radius-sm); border-right: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-weight: 700; font-size: 0.9rem; animation: tIn 0.3s ease forwards, tOut 0.3s ease 3s forwards; }
-.toast.err { border-right-color: var(--red); }
-.toast.ok { border-right-color: var(--green); }
-.toast.gold { border-right-color: var(--gold); }
-@keyframes tIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes tOut { from { opacity: 1; } to { opacity: 0; transform: translateX(-20px); } }
-
-/* WAITING OVERLAY */
-#wait { position: fixed; inset: 0; z-index: 1100; background: rgba(10, 13, 20, 0.9); backdrop-filter: blur(12px); display: none; flex-direction: column; justify-content: center; align-items: center; gap: 16px; }
-.wait-spinner { font-size: 3rem; color: var(--gold); animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-#wait h3 { font-size: 1.3rem; font-weight: 900; color: var(--text); }
-#wait p { font-size: 0.9rem; color: var(--text-dim); }
-
-@media (max-width: 480px) {
-  .grid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 10px; }
-  .game-header-bar { flex-direction: column; align-items: flex-start; }
-  .match-stats { width: 100%; justify-content: space-between; }
-  .stat-box { flex: 1; }
-  #toasts { left: 16px; right: 16px; align-items: center; }
-  .toast { text-align: center; width: 100%; }
-}
-</style>
+        .disabled-action { opacity: 0.5; pointer-events: none; }
+    </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header id="header">
-  <div class="logo"><i class="fas fa-crown"></i> أساطير كرة القدم 2026</div>
-  <div class="header-btns">
-    <button class="icon-btn" onclick="openModal('m-howto')"><i class="fas fa-question"></i></button>
-  </div>
-</header>
-
-<div id="toasts"></div>
-
-<!-- ═══════════ LOBBY ═══════════ -->
-<div id="screen-lobby" class="screen active">
-  <div class="hero-section">
-    <i class="fas fa-trophy hero-icon"></i>
-    <h1 class="hero-title">النسخة الفاخرة</h1>
-    <p class="hero-sub">استضف صديقك، اختر أسطورتك، واكشف السر!</p>
-  </div>
-
-  <div class="lobby-box">
-    <!-- Host Section -->
-    <div id="host-idle">
-      <span class="lobby-label"><i class="fas fa-users"></i> عدد اللاعبين في الجولة (للمضيف):</span>
-      <div class="count-row">
-        <button class="cnt-btn on" onclick="setCount(20, this)">20</button>
-        <button class="cnt-btn" onclick="setCount(32, this)">32</button>
-        <button class="cnt-btn" onclick="setCount(48, this)">48</button>
-      </div>
-      <button id="btn-host" class="btn btn-primary" onclick="hostGame()">
-        <i class="fas fa-server"></i> استضافة لعبة جديدة
-      </button>
+    <div id="master-loader">
+        <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--gold); margin-bottom: 20px;"></i>
+        <h3>جاري تحميل النظام...</h3>
     </div>
 
-    <!-- Host Waiting -->
-    <div id="host-waiting" style="display:none; text-align:center;">
-      <span class="lobby-label" style="color:var(--green);">تم إنشاء الغرفة! أرسل الكود لصديقك:</span>
-      <div class="code-display" id="my-code">----</div>
-      <p style="font-size:0.8rem; color:var(--text-dim);"><i class="fas fa-circle-notch fa-spin"></i> في انتظار انضمام الخصم...</p>
+    <header>
+        <div class="logo">
+            <i class="fas fa-futbol"></i>
+            <span class="en-font">LEGENDS 2026</span>
+        </div>
+        <div id="connection-status" class="status-badge">
+            <i class="fas fa-wifi"></i>
+            <span>غير متصل</span>
+        </div>
+    </header>
+
+    <div id="toast-container"></div>
+
+    <!-- Screen: Lobby -->
+    <main id="screen-lobby" class="screen active">
+        <div class="lobby-container">
+            <h2 style="text-align: center; margin-bottom: 25px;">غرفة العمليات 🏟️</h2>
+            
+            <div id="host-controls">
+                <div class="config-box">
+                    <span class="config-label">عدد أساطير الجولة:</span>
+                    <div class="btn-group" id="count-selector">
+                        <button class="btn-check active" data-value="20">20</button>
+                        <button class="btn-check" data-value="32">32</button>
+                        <button class="btn-check" data-value="48">48</button>
+                        <button class="btn-check" data-value="0">الكل</button>
+                    </div>
+                </div>
+
+                <div class="config-box">
+                    <span class="config-label">مدة التفكير (ثانية):</span>
+                    <div class="btn-group" id="time-selector">
+                        <button class="btn-check active" data-value="30">30</button>
+                        <button class="btn-check" data-value="60">60</button>
+                        <button class="btn-check" data-value="90">90</button>
+                        <button class="btn-check" data-value="0">∞</button>
+                    </div>
+                </div>
+
+                <button id="btn-host" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> إنشاء مباراة جديدة
+                </button>
+            </div>
+
+            <div id="waiting-area" style="display: none; text-align: center;">
+                <p class="config-label">شارك الكود مع صديقك:</p>
+                <div class="input-code" id="display-code">----</div>
+                <div class="status-badge" style="justify-content: center;">
+                    <i class="fas fa-spinner fa-spin"></i> في انتظار الخصم...
+                </div>
+            </div>
+
+            <div class="join-area" id="join-area">
+                <input type="text" class="input-code" id="input-join" placeholder="كود الخصم" maxlength="4">
+                <button id="btn-join" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> انضمام للمباراة
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Screen: Selection -->
+    <main id="screen-select" class="screen">
+        <div class="secret-info-bar" style="border-color: var(--accent);">
+            <i class="fas fa-user-secret fa-2x" style="color: var(--accent);"></i>
+            <div class="secret-details">
+                <h4>اختر لاعباً سرياً</h4>
+                <p>هذا اللاعب هو من سيحاول خصمك تخمينه. اختر بذكاء!</p>
+            </div>
+        </div>
+        <div class="grid" id="grid-selection"></div>
+    </main>
+
+    <!-- Screen: Game -->
+    <main id="screen-game" class="screen">
+        <div class="secret-info-bar">
+            <img src="" id="my-secret-img" class="secret-avatar">
+            <div class="secret-details">
+                <h4 id="my-secret-name">اسم اللاعب</h4>
+                <p id="my-secret-meta">النادي | المركز | التقييم</p>
+            </div>
+            <div style="text-align: left;">
+                <div class="config-label">استبعدت</div>
+                <div style="font-weight: 900; font-size: 1.2rem;" id="count-eliminated">0</div>
+            </div>
+        </div>
+
+        <div class="grid" id="grid-main"></div>
+    </main>
+
+    <!-- Turn Decision Overlay -->
+    <div id="turn-decision" class="choice-overlay">
+        <div class="choice-card">
+            <h2 style="margin-bottom: 20px;">حان دورك! 🎤</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn btn-primary" onclick="handleActionChoice('ask')">
+                    <i class="fas fa-question-circle"></i> طرح سؤال (استبعاد)
+                </button>
+                <button class="btn btn-outline" style="border-color: var(--gold); color: var(--gold);" onclick="handleActionChoice('guess')">
+                    <i class="fas fa-bullseye"></i> تخمين نهائي (فرصة واحدة)
+                </button>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.75rem; color: var(--text-dim);">تنبيه: التخمين الخاطئ يعني الخسارة فوراً.</p>
+        </div>
     </div>
 
-    <div class="divider" id="or-line">أو انضم للعبة</div>
-
-    <!-- Join Section -->
-    <div id="join-idle">
-      <input type="number" class="code-input" id="join-input" placeholder="أدخل الكود" oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
-      <button id="btn-join" class="btn btn-gold" onclick="joinGame()">
-        <i class="fas fa-right-to-bracket"></i> انضمام
-      </button>
-      <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:10px;">(إعدادات الغرفة يحددها المضيف)</p>
+    <!-- Guess Modal -->
+    <div id="modal-guess" class="modal">
+        <div class="modal-content">
+            <h3>من هو لاعب الخصم؟ 🎯</h3>
+            <input type="text" class="input-code" style="letter-spacing: 0; font-size: 1rem; margin-top: 15px;" 
+                   placeholder="ابحث عن اسم اللاعب..." oninput="searchGuess(this.value)">
+            <div class="guess-grid" id="guess-list"></div>
+            <button class="btn btn-outline" style="margin-top: 20px;" onclick="closeModal('modal-guess')">إغلاق</button>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- ═══════════ SELECT SCREEN ═══════════ -->
-<div id="screen-select" class="screen">
-  <div style="text-align:center; margin-bottom:24px;">
-    <h2 style="font-size:1.6rem; font-weight:900; color:var(--gold);">اختر أسطورتك السرية</h2>
-    <p style="font-size:0.9rem; color:var(--text-dim); margin-top:4px;">هذا هو اللاعب الذي سيحاول خصمك تخمينه. اختر بذكاء!</p>
-  </div>
-  <div class="grid" id="grid-sel"></div>
-</div>
-
-<!-- ═══════════ GAME SCREEN ═══════════ -->
-<div id="screen-game" class="screen">
-  <!-- Top Stats Bar -->
-  <div class="game-header-bar">
-    <div class="my-secret-card" id="my-secret-ui">
-      <!-- Injected via JS -->
+    <!-- HUD -->
+    <div id="game-hud">
+        <div class="hud-content">
+            <div class="turn-indicator">
+                <div id="turn-status" class="status-badge">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>دور الخصم...</span>
+                </div>
+                <div class="en-font" id="game-timer" style="font-size: 1.5rem; font-weight: 900; color: var(--gold);">00</div>
+                <button id="btn-end-turn" class="btn btn-primary" style="width: auto; display: none;">
+                    إنهاء الدور <i class="fas fa-check-double"></i>
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="match-stats">
-      <div class="stat-box">
-        <div class="stat-lbl">استبعادك</div>
-        <div class="stat-val me" id="elim-me">0</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-lbl">استبعاد الخصم</div>
-        <div class="stat-val opp" id="elim-opp">0</div>
-      </div>
-      <div class="stat-box active">
-        <div class="stat-lbl">المتبقي</div>
-        <div class="stat-val" id="elim-left">0</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Filters -->
-  <div class="filter-bar" id="filter-bar"></div>
-  
-  <!-- Cards Grid -->
-  <div class="grid" id="grid-game"></div>
-</div>
+    <script>
+        // --- Database ---
+        const PLAYERS = [
+            { id: 1, name: "كيليان مبابي", team: "ريال مدريد", pos: "FW", rating: 91, nat: "فرنسا", img: "KM" },
+            { id: 2, name: "إيرلينغ هالاند", team: "مانشستر سيتي", pos: "FW", rating: 91, nat: "النرويج", img: "EH" },
+            { id: 3, name: "فينيسيوس جونيور", team: "ريال مدريد", pos: "FW", rating: 90, nat: "البرازيل", img: "VJ" },
+            { id: 4, name: "جود بيلينجهام", team: "ريال مدريد", pos: "MF", rating: 90, nat: "إنجلترا", img: "JB" },
+            { id: 5, name: "لامين يامال", team: "برشلونة", pos: "FW", rating: 86, nat: "إسبانيا", img: "LY" },
+            { id: 6, name: "رودري", team: "مانشستر سيتي", pos: "MF", rating: 91, nat: "إسبانيا", img: "R" },
+            { id: 7, name: "كيفين دي بروين", team: "مانشستر سيتي", pos: "MF", rating: 90, nat: "بلجيكا", img: "KDB" },
+            { id: 8, name: "محمد صلاح", team: "ليفربول", pos: "FW", rating: 89, nat: "مصر", img: "MS" },
+            { id: 9, name: "ليونيل ميسي", team: "إنتر ميامي", pos: "FW", rating: 88, nat: "الأرجنتين", img: "LM" },
+            { id: 10, name: "كريستيانو رونالدو", team: "النصر", pos: "FW", rating: 86, nat: "البرتغال", img: "CR" },
+            { id: 11, name: "هاري كين", team: "بايرن ميونخ", pos: "FW", rating: 90, nat: "إنجلترا", img: "HK" },
+            { id: 12, name: "فيرجيل فان دايك", team: "ليفربول", pos: "DF", rating: 89, nat: "هولندا", img: "VVD" },
+            { id: 13, name: "فلويريان فيرتز", team: "بايرن ليفركوزن", pos: "MF", rating: 88, nat: "ألمانيا", img: "FW" },
+            { id: 14, name: "جمال موسيالا", team: "بايرن ميونخ", pos: "MF", rating: 87, nat: "ألمانيا", img: "JM" },
+            { id: 15, name: "بوكايو ساكا", team: "أرسنال", pos: "FW", rating: 87, nat: "إنجلترا", img: "BS" },
+            { id: 16, name: "أنطوان غريزمان", team: "أتلتيكو مدريد", pos: "FW", rating: 88, nat: "فرنسا", img: "AG" },
+            { id: 17, name: "روبرت ليفاندوفسكي", team: "برشلونة", pos: "FW", rating: 88, nat: "بولندا", img: "RL" },
+            { id: 18, name: "باولو ديبالا", team: "روما", pos: "FW", rating: 86, nat: "الأرجنتين", img: "PD" },
+            { id: 19, name: "رافاييل لياو", team: "ميلان", pos: "FW", rating: 86, nat: "البرتغال", img: "RL2" },
+            { id: 20, name: "برناردو سيلفا", team: "مانشستر سيتي", pos: "MF", rating: 88, nat: "البرتغال", img: "BS2" },
+            { id: 21, name: "لاوتارو مارتينيز", team: "إنتر ميلان", pos: "FW", rating: 89, nat: "الأرجنتين", img: "LM2" },
+            { id: 22, name: "فيديريكو فالفيردي", team: "ريال مدريد", pos: "MF", rating: 88, nat: "الأوروغواي", img: "FV" },
+            { id: 23, name: "ثيبو كورتوا", team: "ريال مدريد", pos: "GK", rating: 89, nat: "بلجيكا", img: "TC" },
+            { id: 24, name: "أليسون بيكر", team: "ليفربول", pos: "GK", rating: 89, nat: "البرازيل", img: "AB" },
+            { id: 25, name: "مارتن أوديجارد", team: "أرسنال", pos: "MF", rating: 89, nat: "النرويج", img: "MO" },
+            { id: 26, name: "ديكلان رايس", team: "أرسنال", pos: "MF", rating: 87, nat: "إنجلترا", img: "DR" },
+            { id: 27, name: "فيل فودين", team: "مانشستر سيتي", pos: "FW", rating: 88, nat: "إنجلترا", img: "PF" },
+            { id: 28, name: "روبن دياز", team: "مانشستر سيتي", pos: "DF", rating: 89, nat: "البرتغال", img: "RD" },
+            { id: 29, name: "ويليام ساليبا", team: "أرسنال", pos: "DF", rating: 87, nat: "فرنسا", img: "WS" },
+            { id: 30, name: "كول بالمر", team: "تشيلسي", pos: "MF", rating: 85, nat: "إنجلترا", img: "CP" },
+            { id: 31, name: "فيكتور أوسيمين", team: "غلطة سراي", pos: "FW", rating: 87, nat: "نيجيريا", img: "VO" },
+            { id: 32, name: "برونو فيرنانديز", team: "مانشستر يونايتد", pos: "MF", rating: 87, nat: "البرتغال", img: "BF" }
+        ];
 
-<!-- ═══════════ HUD (BOTTOM BAR) ═══════════ -->
-<div id="hud">
-  <div class="hud-header">
-    <div class="turn-status">
-      <div class="turn-dot" id="turn-dot"></div>
-      <div class="turn-text">
-        <h3 id="turn-title">في الانتظار...</h3>
-        <p id="turn-sub">يرجى الانتظار</p>
-      </div>
-    </div>
-    <div class="timer" id="timer" style="display:none;">60</div>
-  </div>
+        // --- State Management ---
+        let peer = null;
+        let conn = null;
+        let isHost = false;
+        let mySecretPlayer = null;
+        let oppSecretPlayerId = null;
+        let activePlayersList = [];
+        let eliminatedIds = new Set();
+        let isMyTurn = false;
+        let timerInterval = null;
+        
+        let config = {
+            playerCount: 20,
+            timer: 30
+        };
 
-  <!-- Actions UI (Only visible when it's your turn and choosing) -->
-  <div id="hud-actions" class="hud-actions" style="display:none;">
-    <button class="btn btn-outline" onclick="chooseAction('ask')"><i class="fas fa-question-circle"></i> سؤال واستبعاد</button>
-    <button class="btn btn-danger" onclick="chooseAction('guess')"><i class="fas fa-bullseye"></i> تخمين نهائي</button>
-  </div>
+        // --- Core Functions ---
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('master-loader').style.display = 'none';
+            }, 1000);
 
-  <!-- Asking UI (Only visible when you selected 'Ask') -->
-  <div id="hud-asking" class="hud-actions" style="display:none;">
-    <div style="flex:1; font-size:0.85rem; color:var(--text-dim); display:flex; align-items:center;">
-      <i class="fas fa-hand-pointer" style="margin-left:8px; color:var(--gold);"></i> انقر لاستبعاد البطاقات، ثم أنهِ دورك.
-    </div>
-    <button class="btn btn-gold" style="flex:none; width:auto; padding:12px 24px;" onclick="passTurn()"><i class="fas fa-check"></i> إنهاء الدور</button>
-  </div>
-</div>
+            initLobbyListeners();
+        };
 
-<!-- ═══════════ MODALS ═══════════ -->
+        function initLobbyListeners() {
+            // Player Count Selector
+            document.querySelectorAll('#count-selector .btn-check').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('#count-selector .btn-check').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    config.playerCount = parseInt(btn.dataset.value);
+                };
+            });
 
-<!-- How To Play -->
-<div id="m-howto" class="overlay">
-  <div class="modal">
-    <div class="modal-title" style="color:var(--gold);"><i class="fas fa-book-open"></i> قوانين اللعبة</div>
-    <div class="modal-sub">تواصل صوتياً مع خصمك (Discord/WhatsApp) وابدأ التحدي!</div>
-    
-    <div style="font-size:0.85rem; line-height:1.6; color:var(--text-dim); margin-bottom:20px;">
-      <p style="margin-bottom:10px;"><b style="color:var(--text);">1. الاختيار:</b> في بداية الجولة، يختار كل لاعب شخصية سرية.</p>
-      <p style="margin-bottom:10px;"><b style="color:var(--text);">2. دورك:</b> عندما يحين دورك، يجب أن تختار بين الإجراءين:</p>
-      <ul style="list-style:none; padding-right:15px; margin-bottom:10px;">
-        <li style="margin-bottom:6px;"><i class="fas fa-question-circle" style="color:var(--blue);"></i> <b>سؤال واستبعاد:</b> اسأل الخصم سؤالاً إجابته (نعم/لا). بناءً على الإجابة، استبعد اللاعبين غير المطابقين، ثم أنهِ دورك.</li>
-        <li><i class="fas fa-bullseye" style="color:var(--red);"></i> <b>تخمين نهائي:</b> إذا عرفت شخصية الخصم، استخدم دورك للتخمين.</li>
-      </ul>
-      <p><b style="color:var(--red);">تحذير هام:</b> إذا قمت بتخمين خاطئ، ستخسر الجولة فوراً!</p>
-    </div>
-    <button class="btn btn-primary" onclick="closeModal('m-howto')">فهمت، لنلعب!</button>
-  </div>
-</div>
+            // Time Selector
+            document.querySelectorAll('#time-selector .btn-check').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('#time-selector .btn-check').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    config.timer = parseInt(btn.dataset.value);
+                };
+            });
 
-<!-- Guess Modal -->
-<div id="m-guess" class="overlay">
-  <div class="modal">
-    <!-- Pick UI -->
-    <div id="guess-pick-ui">
-      <div class="modal-title" style="color:var(--gold);">🎯 تخمين اللاعب</div>
-      <div class="modal-sub">اختر اللاعب الذي يخبئه خصمك. <b style="color:var(--red);">تخمين خاطئ = خسارة!</b></div>
-      <input type="text" class="search-input" id="guess-search" placeholder="ابحث بالاسم أو الفريق..." oninput="filterGuess(this.value)">
-      <div class="guess-grid" id="guess-grid"></div>
-      <button class="btn btn-outline" style="margin-top:16px;" onclick="cancelGuessPick()">إلغاء والعودة</button>
-    </div>
-    <!-- Confirm UI -->
-    <div id="confirm-ui" style="display:none; flex-direction:column; align-items:center;">
-      <div class="modal-title" style="color:var(--red);">⚠️ تأكيد التخمين</div>
-      <div class="confirm-box">
-        <img id="conf-img" src="">
-        <h3 id="conf-name">--</h3>
-        <p id="conf-team">--</p>
-      </div>
-      <p style="font-size:0.9rem; font-weight:800; margin-bottom:16px;">هل أنت متأكد بنسبة 100%؟ لا يمكن التراجع!</p>
-      <div style="display:flex; gap:10px; width:100%;">
-        <button class="btn btn-danger" style="flex:2;" onclick="commitGuess()">نعم، احسم الجولة!</button>
-        <button class="btn btn-outline" style="flex:1;" onclick="backToGuessPick()">تراجع</button>
-      </div>
-    </div>
-  </div>
-</div>
+            document.getElementById('btn-host').onclick = hostGame;
+            document.getElementById('btn-join').onclick = joinGame;
+        }
 
-<!-- Result Modal -->
-<div id="m-result" class="overlay">
-  <div class="modal" style="text-align:center;">
-    <div id="res-icon" style="font-size:4rem; margin-bottom:10px;">🏆</div>
-    <div class="modal-title" id="res-title" style="font-size:1.8rem;">انتهت الجولة</div>
-    <div class="modal-sub" id="res-msg" style="font-size:1rem; font-weight:700;">--</div>
-    
-    <div class="res-card">
-      <img id="res-img" src="">
-      <div>
-        <div style="font-size:0.75rem; color:var(--text-dim); font-weight:800; margin-bottom:4px;">شخصية الخصم كانت:</div>
-        <div id="res-name" style="font-weight:900; font-size:1.2rem; color:var(--gold-light);">--</div>
-        <div id="res-team" style="font-size:0.8rem; color:var(--text);">--</div>
-      </div>
-    </div>
-    
-    <div style="font-size:0.8rem; color:var(--text-dim); font-weight:800; margin-bottom:8px;">النتيجة الإجمالية</div>
-    <div class="res-score">
-      <div style="display:flex; flex-direction:column; align-items:center;">
-        <span style="font-size:0.7rem; color:var(--text-dim);">أنت</span>
-        <span id="res-sc-me" style="color:var(--blue);">0</span>
-      </div>
-      <span style="color:var(--border-hl); font-weight:400;">:</span>
-      <div style="display:flex; flex-direction:column; align-items:center;">
-        <span style="font-size:0.7rem; color:var(--text-dim);">الخصم</span>
-        <span id="res-sc-opp" style="color:var(--red);">0</span>
-      </div>
-    </div>
-    
-    <button class="btn btn-primary" onclick="nextRound()"><i class="fas fa-rotate-right"></i> الجولة التالية</button>
-    <button class="btn btn-outline" style="margin-top:10px;" onclick="location.reload()"><i class="fas fa-door-open"></i> خروج</button>
-  </div>
-</div>
+        function showToast(msg, type = 'gold') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.borderBottomColor = type === 'danger' ? 'var(--danger)' : 'var(--gold)';
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
 
-<!-- Wait Overlay -->
-<div id="wait">
-  <i class="fas fa-circle-notch wait-spinner"></i>
-  <h3 id="wait-title">في الانتظار...</h3>
-  <p id="wait-msg">الرجاء الانتظار</p>
-</div>
+        function hostGame() {
+            const code = Math.floor(1000 + Math.random() * 9000).toString();
+            peer = new Peer('LEG26-' + code);
+            
+            peer.on('open', () => {
+                isHost = true;
+                document.getElementById('host-controls').style.display = 'none';
+                document.getElementById('join-area').style.display = 'none';
+                document.getElementById('waiting-area').style.display = 'block';
+                document.getElementById('display-code').textContent = code;
+                updateStatus('في الانتظار', true);
+            });
 
-<script>
-// ════════════════════════════════════════════════════
-//  DATA (48 Players)
-// ════════════════════════════════════════════════════
-const ALL_PLAYERS =[
-  {id:1, name:"ك. مبابي", en:"K. Mbappe", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:93, pos:"FW"},
-  {id:2, name:"إ. هالاند", en:"E. Haaland", team:"مانشستر سيتي", league:"البريميرليغ", nat:"النرويج", rating:92, pos:"FW"},
-  {id:3, name:"فينيسيوس جونيور", en:"Vinicius Jr", team:"ريال مدريد", league:"لاليغا", nat:"البرازيل", rating:92, pos:"FW"},
-  {id:4, name:"ج. بيلينجهام", en:"J. Bellingham", team:"ريال مدريد", league:"لاليغا", nat:"انجلترا", rating:92, pos:"MF"},
-  {id:5, name:"ل. يامال", en:"L. Yamal", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:91, pos:"FW"},
-  {id:6, name:"رودري", en:"Rodri", team:"مانشستر سيتي", league:"البريميرليغ", nat:"اسبانيا", rating:91, pos:"MF"},
-  {id:7, name:"ف. فيرتز", en:"F. Wirtz", team:"بايرن ميونخ", league:"بوندسليغا", nat:"المانيا", rating:90, pos:"MF"},
-  {id:8, name:"ج. موسيالا", en:"J. Musiala", team:"بايرن ميونخ", league:"بوندسليغا", nat:"المانيا", rating:90, pos:"MF"},
-  {id:9, name:"ب. فودين", en:"P. Foden", team:"مانشستر سيتي", league:"البريميرليغ", nat:"انجلترا", rating:90, pos:"MF"},
-  {id:10, name:"ب. ساكا", en:"B. Saka", team:"أرسنال", league:"البريميرليغ", nat:"انجلترا", rating:90, pos:"FW"},
-  {id:11, name:"ك. بالمر", en:"C. Palmer", team:"تشيلسي", league:"البريميرليغ", nat:"انجلترا", rating:89, pos:"MF"},
-  {id:12, name:"هـ. كين", en:"H. Kane", team:"بايرن ميونخ", league:"بوندسليغا", nat:"انجلترا", rating:89, pos:"FW"},
-  {id:13, name:"و. ساليبا", en:"W. Saliba", team:"أرسنال", league:"البريميرليغ", nat:"فرنسا", rating:89, pos:"DF"},
-  {id:14, name:"ل. ميسي", en:"L. Messi", team:"إنتر ميامي", league:"MLS", nat:"الأرجنتين", rating:88, pos:"FW"},
-  {id:15, name:"م. صلاح", en:"M. Salah", team:"ليفربول", league:"البريميرليغ", nat:"مصر", rating:88, pos:"FW"},
-  {id:16, name:"ك. رونالدو", en:"C. Ronaldo", team:"النصر", league:"دوري روشن", nat:"البرتغال", rating:87, pos:"FW"},
-  {id:17, name:"ك. دي بروين", en:"K. De Bruyne", team:"مانشستر سيتي", league:"البريميرليغ", nat:"بلجيكا", rating:87, pos:"MF"},
-  {id:18, name:"ن. ويليامز", en:"N. Williams", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:88, pos:"DF"},
-  {id:19, name:"بيدري", en:"Pedri", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:88, pos:"MF"},
-  {id:20, name:"إ. كامافينجا", en:"E. Camavinga", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:88, pos:"MF"},
-  {id:21, name:"أ. تشواميني", en:"A. Tchouameni", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:87, pos:"MF"},
-  {id:22, name:"د. رايس", en:"D. Rice", team:"أرسنال", league:"البريميرليغ", nat:"انجلترا", rating:88, pos:"MF"},
-  {id:23, name:"ج. دوناروما", en:"G. Donnarumma", team:"باريس س.ج", league:"ليغ 1", nat:"ايطاليا", rating:88, pos:"GK"},
-  {id:24, name:"ت. كورتوا", en:"T. Courtois", team:"ريال مدريد", league:"لاليغا", nat:"بلجيكا", rating:88, pos:"GK"},
-  {id:25, name:"تش. سيمونز", en:"X. Simons", team:"باريس س.ج", league:"ليغ 1", nat:"هولندا", rating:87, pos:"MF"},
-  {id:26, name:"ر. لياو", en:"R. Leao", team:"إي سي ميلان", league:"سيريا", nat:"البرتغال", rating:87, pos:"FW"},
-  {id:27, name:"ل. مارتينيز", en:"L. Martinez", team:"إنتر ميلان", league:"سيريا", nat:"الأرجنتين", rating:88, pos:"FW"},
-  {id:28, name:"ر. أراوخو", en:"R. Araujo", team:"برشلونة", league:"لاليغا", nat:"الأوروغواي", rating:87, pos:"DF"},
-  {id:29, name:"إندريك", en:"Endrick", team:"ريال مدريد", league:"لاليغا", nat:"البرازيل", rating:86, pos:"FW"},
-  {id:30, name:"أ. جولر", en:"A. Guler", team:"ريال مدريد", league:"لاليغا", nat:"تركيا", rating:86, pos:"MF"},
-  {id:31, name:"ك. ماينو", en:"K. Mainoo", team:"مانشستر ي.", league:"البريميرليغ", nat:"انجلترا", rating:86, pos:"MF"},
-  {id:32, name:"ب. كوبارسي", en:"P. Cubarsi", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:86, pos:"DF"},
-  {id:33, name:"ت. ألكسندر-أرنولد", en:"T. Alexander-Arnold", team:"ليفربول", league:"البريميرليغ", nat:"انجلترا", rating:87, pos:"DF"},
-  {id:34, name:"أ. أرنولد", en:"A. Arnold", team:"ريال مدريد", league:"لاليغا", nat:"انجلترا", rating:86, pos:"DF"},
-  {id:35, name:"ر. غراف", en:"R. Gravenberch", team:"ليفربول", league:"البريميرليغ", nat:"هولندا", rating:85, pos:"MF"},
-  {id:36, name:"م. نونيز", en:"D. Nunez", team:"ليفربول", league:"البريميرليغ", nat:"الأوروغواي", rating:84, pos:"FW"},
-  {id:37, name:"م. كالافيوري", en:"R. Calafiori", team:"أرسنال", league:"البريميرليغ", nat:"ايطاليا", rating:86, pos:"DF"},
-  {id:38, name:"ج. غاكبو", en:"C. Gakpo", team:"ليفربول", league:"البريميرليغ", nat:"هولندا", rating:86, pos:"FW"},
-  {id:39, name:"أ. دياز", en:"L. Diaz", team:"ليفربول", league:"البريميرليغ", nat:"كولومبيا", rating:86, pos:"FW"},
-  {id:40, name:"م. زوبيمندي", en:"M. Zubimendi", team:"ريال سوسيداد", league:"لاليغا", nat:"اسبانيا", rating:86, pos:"MF"},
-  {id:41, name:"ب. هافيرتز", en:"K. Havertz", team:"أرسنال", league:"البريميرليغ", nat:"المانيا", rating:86, pos:"FW"},
-  {id:42, name:"م. دي ليخت", en:"M. de Ligt", team:"مانشستر ي.", league:"البريميرليغ", nat:"هولندا", rating:85, pos:"DF"},
-  {id:43, name:"أ. تيليمانز", en:"Y. Tielemans", team:"أستون فيلا", league:"البريميرليغ", nat:"بلجيكا", rating:84, pos:"MF"},
-  {id:44, name:"ن. مولينا", en:"N. Molina", team:"أتلتيكو", league:"لاليغا", nat:"الأرجنتين", rating:84, pos:"DF"},
-  {id:45, name:"ف. ديكو", en:"F. Deco Jr", team:"أتلتيكو", league:"لاليغا", nat:"البرتغال", rating:85, pos:"MF"},
-  {id:46, name:"م. زوما", en:"K. Zouma", team:"وست هام", league:"البريميرليغ", nat:"فرنسا", rating:83, pos:"DF"},
-  {id:47, name:"أ. ماكسيميان", en:"A. Maximiane", team:"بايرن ميونخ", league:"بوندسليغا", nat:"البرتغال", rating:84, pos:"DF"},
-  {id:48, name:"س. خوسيلو", en:"S. Joselu", team:"أتلتيكو", league:"لاليغا", nat:"اسبانيا", rating:83, pos:"FW"}
-];
+            peer.on('connection', (c) => {
+                conn = c;
+                setupConnection();
+            });
+        }
 
-const TEAM_COLORS = {
-  "ريال مدريد":"FFFFFF","مانشستر سيتي":"6CABDD","برشلونة":"A50044","بايرن ميونخ":"DC052D",
-  "أرسنال":"EF0107","ليفربول":"C8102E","تشيلسي":"034694","باريس س.ج":"004170",
-  "إنتر ميامي":"F47373","النصر":"FBBF24","إي سي ميلان":"FB090B","إنتر ميلان":"010E80",
-  "مانشستر ي.":"DA291C","أتلتيكو":"CB3524","ريال سوسيداد":"0067B1","وست هام":"7A263A",
-  "أستون فيلا":"95BFE5",
-};
+        function joinGame() {
+            const code = document.getElementById('input-join').value;
+            if (code.length !== 4) return showToast('الكود غير صالح', 'danger');
 
-const getImg = p => {
-  const bg = TEAM_COLORS[p.team] || "3b4a6b";
-  const tc =["FFFFFF","FBBF24","F47373","6CABDD"].includes(bg) ? "111" : "FFF";
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(p.en)}&background=${bg}&color=${tc}&size=256&font-size=0.3&bold=true`;
-};
+            peer = new Peer();
+            peer.on('open', () => {
+                conn = peer.connect('LEG26-' + code);
+                setupConnection();
+            });
+        }
 
-// ════════════════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════════════════
-const PFX = "dlx26-";
-let cfg = { playerCount: 20, timer: 60 };
-let myScore = 0, oppScore = 0, round = 1;
-let myChar = null, oppCharId = null;
-let isMyTurn = false, turnState = 'idle'; // 'idle', 'choosing', 'asking'
-let timerInt = null;
-let eliminated = new Set();
-let activeFilter = "all";
-let activePlayers =[];
-let iAmReady = false, oppIsReady = false;
+        function setupConnection() {
+            conn.on('open', () => {
+                updateStatus('متصل الآن', true);
+                showToast('تم الاتصال بالخصم!');
+                
+                if (isHost) {
+                    // Host sends config immediately
+                    conn.send({ type: 'SYNC_CONFIG', config: config });
+                    startSelectionPhase();
+                }
+            });
 
-// Network
-let peer = null, conn = null, iAmHost = false;
-let keepAlive = null, lastPong = Date.now();
+            conn.on('data', (data) => {
+                switch(data.type) {
+                    case 'SYNC_CONFIG':
+                        config = data.config;
+                        startSelectionPhase();
+                        break;
+                    case 'PLAYER_SELECTED':
+                        oppSecretPlayerId = data.playerId;
+                        checkStartGame();
+                        break;
+                    case 'ACTION_CHOICE':
+                        handleOpponentAction(data.action);
+                        break;
+                    case 'END_TURN':
+                        startMyTurn();
+                        break;
+                    case 'FINAL_GUESS':
+                        processOpponentGuess(data.guessId);
+                        break;
+                }
+            });
+        }
 
-// ════════════════════════════════════════════════════
-//  UI HELPERS
-// ════════════════════════════════════════════════════
-function toast(msg, type="") {
-  const c = document.getElementById("toasts");
-  const t = document.createElement("div");
-  t.className = `toast ${type}`;
-  t.innerHTML = msg;
-  c.appendChild(t);
-  setTimeout(() => t.remove(), 3300);
-}
-function openModal(id) { document.getElementById(id).classList.add("active"); }
-function closeModal(id) { document.getElementById(id).classList.remove("active"); }
-function switchScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-function showWait(show, title="في الانتظار...", msg="الرجاء الانتظار") {
-  const w = document.getElementById("wait");
-  w.style.display = show ? "flex" : "none";
-  document.getElementById("wait-title").textContent = title;
-  document.getElementById("wait-msg").textContent = msg;
-}
+        function updateStatus(text, active) {
+            const status = document.getElementById('connection-status');
+            status.querySelector('span').textContent = text;
+            status.className = 'status-badge' + (active ? ' active' : '');
+        }
 
-// ════════════════════════════════════════════════════
-//  LOBBY & NETWORK
-// ════════════════════════════════════════════════════
-function setCount(n, el) {
-  document.querySelectorAll(".cnt-btn").forEach(b => b.classList.remove("on"));
-  el.classList.add("on");
-  cfg.playerCount = n;
-}
+        // --- Phase: Selection ---
+        function startSelectionPhase() {
+            // Filter players based on config
+            const count = config.playerCount === 0 ? PLAYERS.length : config.playerCount;
+            activePlayersList = PLAYERS.slice(0, count);
 
-function safeSend(data) { if (conn && conn.open) conn.send(data); }
-function startHeartbeat() {
-  clearInterval(keepAlive); lastPong = Date.now();
-  keepAlive = setInterval(() => {
-    if (conn && conn.open) { safeSend({ type:"ping" }); if (Date.now() - lastPong > 14000) onDisconnect(); }
-  }, 4000);
-}
-function onDisconnect() {
-  clearInterval(keepAlive); toast("انقطع الاتصال بالخصم 🔌", "err");
-  setTimeout(() => location.reload(), 3000);
-}
+            switchScreen('screen-select');
+            renderGrid('grid-selection', activePlayersList, (p) => {
+                mySecretPlayer = p;
+                conn.send({ type: 'PLAYER_SELECTED', playerId: p.id });
+                showToast('تم اختيار لاعبك السري');
+                checkStartGame();
+            });
+        }
 
-const PEER_CFG = { config: { iceServers:[ {urls:"stun:stun.l.google.com:19302"} ] } };
+        function checkStartGame() {
+            if (mySecretPlayer && oppSecretPlayerId) {
+                initGameBoard();
+            } else {
+                showToast('في انتظار اختيار الخصم...');
+            }
+        }
 
-function hostGame() {
-  if (typeof Peer === "undefined") return toast("تعذّر تحميل الشبكة.", "err");
-  document.getElementById("btn-host").disabled = true;
-  if (peer) peer.destroy();
-  
-  const code = Math.floor(1000 + Math.random() * 9000);
-  peer = new Peer(PFX + code, PEER_CFG);
-  
-  peer.on("open", () => {
-    iAmHost = true;
-    document.getElementById("host-idle").style.display = "none";
-    document.getElementById("or-line").style.display = "none";
-    document.getElementById("join-idle").style.display = "none";
-    document.getElementById("host-waiting").style.display = "block";
-    document.getElementById("my-code").textContent = code;
-  });
-  
-  peer.on("connection", c => {
-    if (conn && conn.open) { c.close(); return; }
-    conn = c; setupConn();
-  });
-  peer.on("error", () => { toast("خطأ في الاتصال. حاول مجدداً.", "err"); location.reload(); });
-}
+        // --- Phase: Main Game ---
+        function initGameBoard() {
+            switchScreen('screen-game');
+            document.getElementById('game-hud').style.display = 'block';
+            
+            // Update My Secret Info UI
+            document.getElementById('my-secret-img').src = `https://ui-avatars.com/api/?name=${mySecretPlayer.img}&background=d4af37&color=05070a&bold=true`;
+            document.getElementById('my-secret-name').textContent = mySecretPlayer.name;
+            document.getElementById('my-secret-meta').textContent = `${mySecretPlayer.team} | ${mySecretPlayer.pos} | ${mySecretPlayer.rating}`;
 
-function joinGame() {
-  const code = document.getElementById("join-input").value.trim();
-  if (code.length !== 4) return toast("الكود مكون من 4 أرقام", "err");
-  document.getElementById("btn-join").disabled = true;
-  if (peer) peer.destroy();
-  iAmHost = false;
-  
-  peer = new Peer(PFX + "j-" + Math.floor(Math.random() * 900000), PEER_CFG);
-  peer.on("open", () => {
-    conn = peer.connect(PFX + code);
-    conn.on("open", setupConn);
-    conn.on("error", () => { toast("فشل الاتصال.", "err"); location.reload(); });
-  });
-  peer.on("error", () => { toast("الكود خاطئ أو المضيف غير موجود.", "err"); location.reload(); });
-}
+            renderGrid('grid-main', activePlayersList, (p, el) => {
+                if (!isMyTurn) return;
+                el.classList.toggle('eliminated');
+                if (el.classList.contains('eliminated')) eliminatedIds.add(p.id);
+                else eliminatedIds.delete(p.id);
+                document.getElementById('count-eliminated').textContent = eliminatedIds.size;
+            });
 
-function setupConn() {
-  toast(iAmHost ? "انضم الخصم بنجاح! 🎮" : "تم الاتصال بالغرفة! ⚡", "ok");
-  startHeartbeat();
-  
-  if (iAmHost) {
-    // Host prepares the EXACT player list to sync
-    setTimeout(() => {
-      const sorted = [...ALL_PLAYERS].sort((a, b) => b.rating - a.rating || a.id - b.id);
-      const sliced = sorted.slice(0, cfg.playerCount);
-      const activeIds = sliced.map(p => p.id);
-      
-      safeSend({ type: "settings", activeIds: activeIds });
-      beginSelectionPhase(activeIds);
-    }, 500);
-  }
-  
-  conn.on("data", d => {
-    if (d.type === "ping") { safeSend({ type:"pong" }); return; }
-    if (d.type === "pong") { lastPong = Date.now(); return; }
-    handleData(d);
-  });
-  conn.on("close", onDisconnect);
-}
+            // Decide who starts (Host starts)
+            if (isHost) startMyTurn();
+            else startOpponentTurn();
+        }
 
-function handleData(d) {
-  switch (d.type) {
-    case "settings":
-      beginSelectionPhase(d.activeIds);
-      break;
-    case "selected":
-      oppCharId = d.id; checkBothSelected();
-      break;
-    case "pass":
-      startMyTurn();
-      break;
-    case "elim_update":
-      document.getElementById("elim-opp").textContent = d.count;
-      break;
-    case "game_over":
-      const iWon = (d.winner === (iAmHost ? 'host' : 'guest'));
-      endRound(iWon, d.correct, d.guesser === (iAmHost ? 'host' : 'guest'));
-      break;
-    case "ready":
-      oppIsReady = true; checkBothReady();
-      break;
-  }
-}
+        function startMyTurn() {
+            isMyTurn = true;
+            document.getElementById('turn-decision').style.display = 'flex';
+            document.getElementById('turn-status').className = 'status-badge active';
+            document.getElementById('turn-status').querySelector('span').textContent = 'دورك الآن';
+            document.getElementById('btn-end-turn').style.display = 'none';
+            
+            startTimer();
+        }
 
-// ════════════════════════════════════════════════════
-//  SELECTION PHASE
-// ════════════════════════════════════════════════════
-function beginSelectionPhase(ids) {
-  showWait(false);
-  activePlayers = ALL_PLAYERS.filter(p => ids.includes(p.id)).sort((a,b) => b.rating - a.rating || a.id - b.id);
-  eliminated.clear(); myChar = null; oppCharId = null; iAmReady = false; oppIsReady = false; activeFilter = "all";
-  
-  switchScreen("screen-select");
-  renderSelectGrid();
-}
+        function handleActionChoice(choice) {
+            document.getElementById('turn-decision').style.display = 'none';
+            if (choice === 'ask') {
+                document.getElementById('btn-end-turn').style.display = 'flex';
+                document.getElementById('btn-end-turn').onclick = endTurn;
+                showToast('اطرح سؤالك واستبعد اللاعبين');
+            } else {
+                openGuessModal();
+            }
+            conn.send({ type: 'ACTION_CHOICE', action: choice });
+        }
 
-function renderSelectGrid() {
-  const grid = document.getElementById("grid-sel");
-  grid.innerHTML = "";
-  activePlayers.forEach(p => {
-    const c = makeCard(p, false);
-    c.onclick = () => {
-      if (myChar) return;
-      myChar = p; c.classList.add("selected");
-      safeSend({ type:"selected", id:p.id });
-      checkBothSelected();
-    };
-    grid.appendChild(c);
-  });
-}
+        function startOpponentTurn() {
+            isMyTurn = false;
+            document.getElementById('turn-status').className = 'status-badge';
+            document.getElementById('turn-status').querySelector('span').textContent = 'دور الخصم...';
+            document.getElementById('btn-end-turn').style.display = 'none';
+            clearInterval(timerInterval);
+            document.getElementById('game-timer').textContent = '..';
+        }
 
-function makeCard(p, isGame) {
-  const c = document.createElement("div");
-  c.className = "card";
-  if (isGame) c.id = "c-" + p.id;
-  c.innerHTML = `
-    <div class="c-top">
-      <div class="c-rat">${p.rating}</div>
-      <div class="c-pos">${p.pos}</div>
-    </div>
-    <div class="c-img-wrap"><img src="${getImg(p)}" loading="lazy"></div>
-    <div class="c-bot">
-      <div class="c-name">${p.name}</div>
-      <div class="c-team">${p.team}</div>
-    </div>`;
-  return c;
-}
+        function handleOpponentAction(action) {
+            if (action === 'ask') {
+                showToast('الخصم يقوم بالتحليل الآن...');
+            } else {
+                showToast('الخصم يستعد للتخمين النهائي!', 'danger');
+            }
+        }
 
-function checkBothSelected() {
-  if (myChar && oppCharId !== null) {
-    showWait(false); setTimeout(startGame, 500);
-  } else if (myChar && oppCharId === null) {
-    showWait(true, "انتظار الخصم...", "الخصم يختار لاعبه السري");
-  }
-}
+        function endTurn() {
+            clearInterval(timerInterval);
+            conn.send({ type: 'END_TURN' });
+            startOpponentTurn();
+        }
 
-// ════════════════════════════════════════════════════
-//  GAME START
-// ════════════════════════════════════════════════════
-function startGame() {
-  showWait(false);
-  eliminated.clear(); activeFilter = "all";
-  
-  // Update My Player UI
-  document.getElementById("my-secret-ui").innerHTML = `
-    <img src="${getImg(myChar)}" class="mp-img">
-    <div class="mp-info">
-      <div class="mp-label">بطاقتك السرية</div>
-      <div class="mp-name">${myChar.name}</div>
-      <div class="mp-meta">
-        <span class="mp-tag rating"><i class="fas fa-star"></i> ${myChar.rating}</span>
-        <span class="mp-tag pos">${myChar.pos}</span>
-        <span class="mp-tag team">${myChar.team}</span>
-      </div>
-    </div>`;
-  
-  updateElimCounters();
-  switchScreen("screen-game");
-  buildFilterBar(); renderGameGrid();
-  document.getElementById("hud").style.display = "flex";
-  
-  // Alternating turns
-  const oddRound = (round % 2 !== 0);
-  if ((iAmHost && oddRound) || (!iAmHost && !oddRound)) startMyTurn();
-  else startOppTurn();
-}
+        // --- Guess Logic ---
+        function openGuessModal() {
+            document.getElementById('modal-guess').style.display = 'flex';
+            searchGuess('');
+        }
 
-function buildFilterBar() {
-  const bar = document.getElementById("filter-bar"); bar.innerHTML = "";
-  const add = (lbl, val) => {
-    const ch = document.createElement("div");
-    ch.className = "chip" + (val===activeFilter ? " on" : "");
-    ch.textContent = lbl;
-    ch.onclick = () => { activeFilter=val; document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); ch.classList.add("on"); renderGameGrid(); };
-    bar.appendChild(ch);
-  };
-  add("الكل", "all");["FW","MF","DF","GK"].forEach(pos => { const L={FW:"مهاجمين",MF:"وسط",DF:"مدافعين",GK:"حراس"}; if(activePlayers.some(p=>p.pos===pos)) add(L[pos], pos); });
-  [...new Set(activePlayers.map(p=>p.team))].slice(0,6).forEach(t => add(t, t));
-}
+        function searchGuess(query) {
+            const list = document.getElementById('guess-list');
+            list.innerHTML = '';
+            const filtered = activePlayersList.filter(p => p.name.includes(query));
+            
+            filtered.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'guess-item';
+                item.innerHTML = `
+                    <img src="https://ui-avatars.com/api/?name=${p.img}&background=1a1f26&color=fff">
+                    <div>${p.name}</div>
+                `;
+                item.onclick = () => confirmGuess(p);
+                list.appendChild(item);
+            });
+        }
 
-function renderGameGrid() {
-  const grid = document.getElementById("grid-game"); grid.innerHTML = "";
-  const list = activeFilter === "all" ? activePlayers : activePlayers.filter(p => [p.pos, p.team, p.league].includes(activeFilter));
-  
-  list.forEach(p => {
-    const c = makeCard(p, true);
-    if (p.id === myChar.id) c.classList.add("mine");
-    if (eliminated.has(p.id)) c.classList.add("dead");
-    c.onclick = () => toggleElim(p.id);
-    grid.appendChild(c);
-  });
-}
+        function confirmGuess(p) {
+            if (!confirm(`هل أنت متأكد من أن لاعب الخصم هو ${p.name}؟\nتذكر: التخمين الخاطئ يعني الخسارة!`)) return;
+            
+            closeModal('modal-guess');
+            if (p.id === oppSecretPlayerId) {
+                victory();
+            } else {
+                defeat(`تخمين خاطئ! لاعب الخصم كان ${PLAYERS.find(x => x.id === oppSecretPlayerId).name}`);
+            }
+            conn.send({ type: 'FINAL_GUESS', guessId: p.id });
+        }
 
-function toggleElim(id) {
-  if (!isMyTurn) return toast("ليس دورك! انتظر الخصم.", "err");
-  if (turnState !== 'asking') return toast("اختر (سؤال واستبعاد) أولاً من القائمة السفلية!", "err");
-  
-  const c = document.getElementById("c-" + id);
-  if (!c) return;
-  
-  if (eliminated.has(id)) { eliminated.delete(id); c.classList.remove("dead"); }
-  else { eliminated.add(id); c.classList.add("dead"); }
-  
-  updateElimCounters();
-  safeSend({ type:"elim_update", count: eliminated.size });
-}
+        function processOpponentGuess(guessId) {
+            if (guessId === mySecretPlayer.id) {
+                defeat('قام الخصم بتخمين لاعبك بنجاح!');
+            } else {
+                victory('الخصم أخطأ في التخمين! أنت الفائز.');
+            }
+        }
 
-function updateElimCounters() {
-  const cnt = eliminated.size;
-  document.getElementById("elim-me").textContent = cnt;
-  document.getElementById("elim-left").textContent = activePlayers.length - cnt;
-}
+        // --- Helpers ---
+        function renderGrid(containerId, players, onClick) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            players.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-rating">${p.rating}</div>
+                    <img src="https://ui-avatars.com/api/?name=${p.img}&background=1a1f26&color=fff&size=128" loading="lazy">
+                    <div class="card-info">
+                        <div class="card-meta">${p.team}</div>
+                        <div class="card-name">${p.name}</div>
+                    </div>
+                `;
+                card.onclick = () => {
+                    card.classList.add('selected-anim');
+                    onClick(p, card);
+                };
+                container.appendChild(card);
+            });
+        }
 
-// ════════════════════════════════════════════════════
-//  TURN MANAGEMENT
-// ════════════════════════════════════════════════════
-function startMyTurn() {
-  isMyTurn = true; turnState = 'choosing'; clearInterval(timerInt);
-  
-  document.getElementById("hud").classList.add("myturn");
-  document.getElementById("turn-dot").classList.add("glow");
-  document.getElementById("turn-title").textContent = "دورك الآن!";
-  document.getElementById("turn-title").style.color = "var(--gold)";
-  document.getElementById("turn-sub").textContent = "ماذا ستفعل في هذا الدور؟";
-  
-  document.getElementById("hud-actions").style.display = "flex";
-  document.getElementById("hud-asking").style.display = "none";
-  startTimer();
-}
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0,0);
+        }
 
-function startOppTurn() {
-  isMyTurn = false; turnState = 'idle'; clearInterval(timerInt);
-  
-  document.getElementById("hud").classList.remove("myturn");
-  document.getElementById("turn-dot").classList.remove("glow");
-  document.getElementById("turn-title").textContent = "دور الخصم";
-  document.getElementById("turn-title").style.color = "var(--text)";
-  document.getElementById("turn-sub").textContent = "أجب على أسئلته بـ (نعم/لا)";
-  
-  document.getElementById("hud-actions").style.display = "none";
-  document.getElementById("hud-asking").style.display = "none";
-  document.getElementById("timer").style.display = "none";
-}
+        function startTimer() {
+            if (config.timer === 0) {
+                document.getElementById('game-timer').textContent = '∞';
+                return;
+            }
+            let timeLeft = config.timer;
+            const timerEl = document.getElementById('game-timer');
+            timerEl.textContent = timeLeft;
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showToast('انتهى الوقت! تم إنهاء دورك تلقائياً', 'danger');
+                    endTurn();
+                }
+            }, 1000);
+        }
 
-function chooseAction(act) {
-  if (act === 'ask') {
-    turnState = 'asking';
-    document.getElementById("hud-actions").style.display = "none";
-    document.getElementById("hud-asking").style.display = "flex";
-    document.getElementById("turn-sub").textContent = "اسأل الخصم واستبعد البطاقات";
-  } else if (act === 'guess') {
-    openGuessModal();
-  }
-}
+        function victory(msg = 'مبروك! لقد فزت بالمباراة 🏆') {
+            alert(msg);
+            location.reload();
+        }
 
-function passTurn() {
-  if (!isMyTurn) return;
-  safeSend({ type:"pass" });
-  startOppTurn();
-}
+        function defeat(msg = 'للأسف، لقد خسرت المباراة 💔') {
+            alert(msg);
+            location.reload();
+        }
 
-function startTimer() {
-  if (cfg.timer <= 0) { document.getElementById("timer").style.display = "none"; return; }
-  const timerEl = document.getElementById("timer");
-  timerEl.style.display = "block"; timerEl.className = "timer";
-  let t = cfg.timer; timerEl.textContent = t;
-  
-  timerInt = setInterval(() => {
-    t--; timerEl.textContent = t;
-    if (t <= 10) timerEl.classList.add("urgent");
-    if (t <= 0) {
-      clearInterval(timerInt); toast("انتهى وقتك!", "err");
-      closeModal("m-guess"); passTurn();
-    }
-  }, 1000);
-}
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-// ════════════════════════════════════════════════════
-//  GUESSING LOGIC
-// ════════════════════════════════════════════════════
-let pendingGuess = null;
-
-function openGuessModal() {
-  document.getElementById("guess-search").value = "";
-  document.getElementById("guess-pick-ui").style.display = "block";
-  document.getElementById("confirm-ui").style.display = "none";
-  renderGuessGrid(activePlayers);
-  openModal("m-guess");
-}
-
-function renderGuessGrid(list) {
-  const g = document.getElementById("guess-grid"); g.innerHTML = "";
-  list.forEach(p => {
-    const d = document.createElement("div"); d.className = "g-item";
-    d.innerHTML = `<img src="${getImg(p)}"><div>${p.name}</div>`;
-    d.onclick = () => {
-      pendingGuess = p;
-      document.getElementById("conf-img").src = getImg(p);
-      document.getElementById("conf-name").textContent = p.name;
-      document.getElementById("conf-team").textContent = p.team;
-      document.getElementById("guess-pick-ui").style.display = "none";
-      document.getElementById("confirm-ui").style.display = "flex";
-    };
-    g.appendChild(d);
-  });
-}
-
-function filterGuess(q) {
-  const v = q.toLowerCase();
-  renderGuessGrid(activePlayers.filter(p => p.name.includes(q) || p.en.toLowerCase().includes(v) || p.team.includes(q)));
-}
-
-function cancelGuessPick() { closeModal('m-guess'); }
-function backToGuessPick() { pendingGuess = null; document.getElementById("confirm-ui").style.display = "none"; document.getElementById("guess-pick-ui").style.display = "block"; }
-
-function commitGuess() {
-  if (!pendingGuess) return;
-  closeModal("m-guess"); clearInterval(timerInt);
-  
-  const iAmCorrect = (pendingGuess.id === oppCharId);
-  const myRole = iAmHost ? 'host' : 'guest';
-  const winner = iAmCorrect ? myRole : (iAmHost ? 'guest' : 'host');
-  
-  safeSend({ type: "game_over", winner: winner, guesser: myRole, correct: iAmCorrect });
-  endRound(iAmCorrect, iAmCorrect, true);
-}
-
-// ════════════════════════════════════════════════════
-//  GAME OVER / RESULTS
-// ════════════════════════════════════════════════════
-function endRound(iWon, wasCorrectGuess, iGuessed) {
-  clearInterval(timerInt);
-  if (iWon) myScore++; else oppScore++;
-  
-  const opp = activePlayers.find(p => p.id === oppCharId);
-  document.getElementById("res-img").src = getImg(opp);
-  document.getElementById("res-name").textContent = opp.name;
-  document.getElementById("res-team").textContent = `${opp.team} • تقييم ${opp.rating}`;
-  document.getElementById("res-sc-me").textContent = myScore;
-  document.getElementById("res-sc-opp").textContent = oppScore;
-  
-  const title = document.getElementById("res-title");
-  const msg = document.getElementById("res-msg");
-  const icon = document.getElementById("res-icon");
-  
-  if (iWon) {
-    icon.textContent = "🏆"; title.textContent = "انتصرت!"; title.style.color = "var(--green)";
-    msg.textContent = iGuessed ? "تخمين صحيح وحاسم!" : "الخصم أخطأ في التخمين وأهداك الفوز!";
-  } else {
-    icon.textContent = "💀"; title.textContent = "خسرت!"; title.style.color = "var(--red)";
-    msg.textContent = iGuessed ? "لقد تسرعت! تخمينك كان خاطئاً." : "الخصم كشف شخصيتك ببراعة!";
-  }
-  
-  openModal("m-result");
-}
-
-function nextRound() {
-  closeModal("m-result");
-  iAmReady = true; safeSend({ type:"ready" });
-  showWait(true, "الجولة القادمة", "في انتظار موافقة الخصم...");
-  checkBothReady();
-}
-
-function checkBothReady() {
-  if (iAmReady && oppIsReady) {
-    round++;
-    if (iAmHost) {
-      const sorted = [...ALL_PLAYERS].sort((a, b) => b.rating - a.rating || a.id - b.id);
-      const sliced = sorted.slice(0, cfg.playerCount);
-      const activeIds = sliced.map(p => p.id);
-      safeSend({ type: "settings", activeIds: activeIds });
-      beginSelectionPhase(activeIds);
-    }
-  }
-}
-</script>
+    </script>
 </body>
 </html>
