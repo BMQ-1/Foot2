@@ -34,6 +34,7 @@
         .score-pill { background: var(--panel); border: 1px solid var(--border2); padding: 5px 14px; border-radius: 30px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .score-val { color: var(--gold2); font-size: 1.05rem; margin-right: 3px; }
         .score-sep { color: var(--border2); font-size: 0.7rem; }
+        .header-actions { display: flex; gap: 8px; }
         .btn-icon { background: none; border: none; color: var(--text-dim); font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
         .btn-icon:hover { color: var(--text); background: var(--panel2); }
 
@@ -42,7 +43,7 @@
         .active { display: flex !important; }
 
         /* LOBBY */
-        .lobby-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; gap: 16px; }
+        .lobby-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 10px; gap: 16px; }
         .lobby-hero { font-size: 3rem; animation: spin 12s linear infinite; margin-bottom: 4px; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .lobby-card { background: var(--panel); padding: 28px 24px; border-radius: 20px; border: 1px solid var(--border2); text-align: center; max-width: 380px; width: 100%; box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03) inset; position: relative; overflow: hidden; }
@@ -51,7 +52,13 @@
         .lobby-subtitle { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 22px; line-height: 1.5; }
         .divider { display: flex; align-items: center; gap: 12px; color: var(--border2); font-size: 0.75rem; font-weight: 700; margin: 4px 0; }
         .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-        .code-display { font-size: 2.8rem; font-weight: 900; letter-spacing: 8px; color: var(--gold2); margin: 12px 0; font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 12px; border: 1px dashed var(--border2); direction: ltr; position: relative; }
+        
+        .code-display-wrap { position: relative; margin: 12px 0; }
+        .code-display { font-size: 2.8rem; font-weight: 900; letter-spacing: 8px; color: var(--gold2); font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 12px; border: 1px dashed var(--border2); direction: ltr; cursor: pointer; transition: 0.2s; }
+        .code-display:hover { border-color: var(--gold); background: rgba(245,158,11,0.05); }
+        .code-copy-hint { position: absolute; top: -10px; right: 50%; transform: translateX(50%); background: var(--accent); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; pointer-events: none; opacity: 0; transition: 0.2s; }
+        .code-display-wrap:hover .code-copy-hint { opacity: 1; top: -15px; }
+
         .waiting-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--accent2); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-top: 8px; }
         input[type="number"] { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 2px solid var(--border2); color: white; border-radius: 12px; text-align: center; font-size: 1.6rem; letter-spacing: 6px; margin: 10px 0 6px; outline: none; transition: 0.2s; direction: ltr; font-family: monospace; }
         input[type="number"]:focus { border-color: var(--accent); background: rgba(59,130,246,0.05); }
@@ -88,11 +95,10 @@
         .card { position: relative; background: var(--panel); border: 1.5px solid var(--border); border-radius: 13px; overflow: hidden; aspect-ratio: 0.7; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s, box-shadow 0.18s; }
         .card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
         .card.my-card { border: 2px solid var(--gold); box-shadow: 0 0 18px var(--gold-glow); }
-        .card.my-card::before { content: 'أنت'; position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; font-size: 0.58rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; z-index: 10; }
+        .card.my-card::before { content: 'لاعبك'; position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; z-index: 10; }
         .card.selected { border: 2.5px solid var(--success); transform: scale(0.97); }
-        .card.eliminated { opacity: 0.3; filter: grayscale(1) brightness(0.6); pointer-events: none; }
+        .card.eliminated { opacity: 0.3; filter: grayscale(1) brightness(0.6); }
         .card.eliminated::after { content: '\f00d'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: var(--danger); z-index: 20; pointer-events: none; text-shadow: 0 0 20px rgba(0,0,0,0.9); }
-        .card.eliminated { pointer-events: auto; }
 
         .card-rating { position: absolute; top: 5px; right: 7px; font-size: 1.05rem; font-weight: 900; z-index: 2; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); }
         .r-top { color: var(--gold2); }
@@ -105,13 +111,22 @@
         .name { font-size: 0.7rem; font-weight: 800; text-align: center; line-height: 1.15; }
         .team { font-size: 0.58rem; color: var(--text-dim); margin-top: 1px; }
 
+        /* IN-GAME STATS BAR */
+        .stats-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--border); }
+        .stat-box { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { font-size: 0.7rem; color: var(--text-dim); font-weight: 700; margin-bottom: 2px; }
+        .stat-value { font-size: 1.1rem; font-weight: 900; }
+        .stat-value.mine { color: var(--accent2); }
+        .stat-value.opp { color: var(--danger); }
+        .stat-divider { width: 1px; height: 30px; background: var(--border2); }
+
         /* HUD */
-        .hud { position: fixed; bottom: 0; right: 0; width: 100%; background: rgba(8, 13, 24, 0.97); backdrop-filter: blur(14px); border-top: 1px solid var(--border2); padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; z-index: 200; box-shadow: 0 -12px 40px rgba(0,0,0,0.6); transition: border-color 0.3s; }
-        .hud.my-turn { border-top: 2px solid var(--gold); }
+        .hud { position: fixed; bottom: 0; right: 0; width: 100%; background: rgba(8, 13, 24, 0.97); backdrop-filter: blur(14px); border-top: 2px solid var(--border2); padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; z-index: 200; box-shadow: 0 -12px 40px rgba(0,0,0,0.6); transition: border-color 0.3s; }
+        .hud.my-turn { border-top: 2px solid var(--gold); background: rgba(17, 24, 39, 0.98); }
         .hud-top { display: flex; justify-content: space-between; align-items: center; }
-        .turn-indicator { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
+        .turn-indicator { font-size: 0.9rem; font-weight: 800; color: var(--text-dim); display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
         .turn-indicator.active { color: var(--gold); }
-        .dot { width: 9px; height: 9px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+        .dot { width: 10px; height: 10px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
         .timer-box { font-family: monospace; font-size: 1.3rem; font-weight: 800; color: var(--text); background: var(--panel2); padding: 3px 12px; border-radius: 8px; transition: color 0.3s, background 0.3s; direction: ltr; border: 1px solid var(--border2); min-width: 56px; text-align: center; }
         .timer-box.urgent { color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); animation: timerPulse 0.5s ease-in-out infinite alternate; }
         @keyframes timerPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
@@ -119,20 +134,22 @@
         .hud-buttons .btn { flex: 1; margin: 0; padding: 11px 6px; font-size: 0.85rem; }
 
         /* FILTER BAR */
-        .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px 0 14px; width: 100%; }
+        .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 0 14px; width: 100%; }
         .filter-chip { padding: 5px 12px; border-radius: 20px; font-size: 0.73rem; font-weight: 700; border: 1px solid var(--border2); background: var(--panel); color: var(--text-dim); cursor: pointer; transition: 0.15s; white-space: nowrap; }
         .filter-chip.active { background: rgba(59,130,246,0.15); border-color: var(--accent); color: var(--accent2); }
 
         /* MODALS */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-box { background: var(--panel); border: 1px solid var(--border2); border-radius: 22px; padding: 24px; width: 100%; max-width: 480px; text-align: center; animation: popIn 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 30px 70px rgba(0,0,0,0.9); position: relative; overflow: hidden; max-height: 90vh; overflow-y: auto; }
-        .modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
         @keyframes popIn { from { transform: scale(0.85) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
         .modal-title { font-size: 1.15rem; font-weight: 900; margin-bottom: 6px; }
-        .modal-sub { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4; }
-        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; background: rgba(0,0,0,0.25); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border); }
-        .setting-row label { font-size: 0.85rem; font-weight: 600; }
-        select { padding: 7px 10px; border-radius: 8px; background: var(--panel2); color: white; border: 1px solid var(--border2); outline: none; font-family: 'Cairo'; font-size: 0.8rem; }
+        .modal-sub { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5; }
+
+        /* INSTRUCTIONS MODAL */
+        .instruction-list { text-align: right; font-size: 0.85rem; line-height: 1.6; color: var(--text); background: rgba(0,0,0,0.2); padding: 16px; border-radius: 12px; margin-bottom: 16px; }
+        .instruction-list li { margin-bottom: 10px; margin-right: 18px; }
+        .instruction-list li:last-child { margin-bottom: 0; }
 
         /* GUESS GRID */
         .guess-search { width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1.5px solid var(--border2); color: white; border-radius: 10px; margin-bottom: 10px; outline: none; font-family: var(--font); font-size: 0.9rem; transition: 0.2s; text-align: right; }
@@ -146,6 +163,12 @@
         .guess-item img { width: 38px; height: 38px; border-radius: 50%; }
         .guess-item div { font-size: 0.6rem; font-weight: 700; margin-top: 5px; line-height: 1.2; color: var(--text-dim); }
         .guess-item:hover div { color: var(--text); }
+
+        /* CONFIRM GUESS UI */
+        #confirm-guess-ui { display: none; flex-direction: column; align-items: center; padding: 10px 0; }
+        .confirm-card { background: rgba(0,0,0,0.3); padding: 16px; border-radius: 16px; margin: 16px 0; border: 1px solid var(--gold); box-shadow: 0 0 20px var(--gold-glow); }
+        .confirm-card img { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 8px; }
+        .confirm-card h3 { font-size: 1.2rem; font-weight: 900; }
 
         /* RESULTS */
         .result-icon-wrap { margin-bottom: 14px; }
@@ -181,14 +204,17 @@
 </head>
 <body>
 
-    <header id="main-header" style="display:none;">
+    <header id="main-header">
         <div class="logo"><i class="fas fa-futbol"></i> أساطير <span>26</span></div>
-        <div class="score-pill">
+        <div class="score-pill" id="score-display" style="display:none;">
             <span>أنت <span id="score-me" class="score-val">0</span></span>
             <span class="score-sep">|</span>
-            <span>خصم <span id="score-opp" class="score-val">0</span></span>
+            <span>الخصم <span id="score-opp" class="score-val">0</span></span>
         </div>
-        <button class="btn-icon" onclick="showSettings()" title="الإعدادات"><i class="fas fa-cog"></i></button>
+        <div class="header-actions">
+            <button class="btn-icon" onclick="showModal('modal-howto')" title="طريقة اللعب"><i class="fas fa-question-circle"></i></button>
+            <button class="btn-icon" onclick="showModal('modal-settings')" title="الإعدادات"><i class="fas fa-cog"></i></button>
+        </div>
     </header>
 
     <div id="toast-container"></div>
@@ -220,7 +246,10 @@
 
                 <div id="host-code-ui" style="display:none;">
                     <div style="font-size:0.75rem; color:var(--text-dim);">أرسل هذا الكود لصديقك:</div>
-                    <div class="code-display" id="my-code">----</div>
+                    <div class="code-display-wrap" onclick="copyCode()">
+                        <div class="code-copy-hint">اضغط للنسخ</div>
+                        <div class="code-display" id="my-code">----</div>
+                    </div>
                     <div class="waiting-badge">
                         <i class="fas fa-circle-notch fa-spin"></i> في انتظار الخصم…
                     </div>
@@ -235,11 +264,10 @@
                     </button>
                 </div>
             </div>
-
-            <div style="font-size:0.75rem; color:var(--border2); text-align:center; line-height:1.6;">
-                اتصال P2P مباشر محمي بـ STUN<br>
-                كلا اللاعبين يجب أن يختاروا نفس عدد اللاعبين
-            </div>
+            
+            <button class="btn btn-outline" style="max-width:380px;" onclick="showModal('modal-howto')">
+                <i class="fas fa-book-open"></i> طريقة اللعب
+            </button>
         </div>
     </div>
 
@@ -257,14 +285,18 @@
 
     <!-- GAME -->
     <div id="screen-game" class="screen">
-        <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
-            <div style="font-size:0.75rem; color:var(--text-dim);">
-                <i class="fas fa-hand-pointer"></i> انقر على بطاقة للاستبعاد
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-label">أنت استبعدت</div>
+                <div class="stat-value mine" id="elim-count-mine">0 <span style="font-size:0.7rem; color:var(--text-dim)">/ 20</span></div>
             </div>
-            <div id="elim-counter" style="font-size:0.75rem; font-weight:700; color:var(--text-dim);">
-                مستبعد: <span id="elim-count">0</span>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <div class="stat-label">الخصم استبعد</div>
+                <div class="stat-value opp" id="elim-count-opp">0 <span style="font-size:0.7rem; color:var(--text-dim)">/ 20</span></div>
             </div>
         </div>
+        
         <div class="filter-bar" id="filter-bar"></div>
         <div class="grid" id="grid-game"></div>
     </div>
@@ -272,15 +304,12 @@
     <!-- HUD -->
     <div id="hud" class="hud" style="display: none;">
         <div class="hud-top">
-            <div id="turn-indicator" class="turn-indicator"><div class="dot"></div><span>في الانتظار…</span></div>
+            <div id="turn-indicator" class="turn-indicator"><div class="dot"></div><span id="turn-text">في الانتظار…</span></div>
             <div id="timer" class="timer-box" style="display:none;">60</div>
         </div>
         <div class="hud-buttons">
-            <button id="btn-ask" class="btn btn-primary" onclick="startAskTimer()">
-                <i class="fas fa-comment-dots"></i> اسأل
-            </button>
             <button id="btn-guess" class="btn btn-gold" onclick="showGuessModal()">
-                <i class="fas fa-bullseye"></i> خمن
+                <i class="fas fa-bullseye"></i> تخمين اللاعب
             </button>
             <button id="btn-pass" class="btn btn-outline" style="display:none;" onclick="passTurn()">
                 <i class="fas fa-forward-step"></i> إنهاء الدور
@@ -289,12 +318,32 @@
     </div>
 
     <!-- MODALS -->
+    
+    <!-- How To Play Modal -->
+    <div id="modal-howto" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-title" style="color:var(--gold);">📖 طريقة اللعب</div>
+            <div class="modal-sub">الهدف: خمن لاعب الخصم قبل أن يخمن لاعبك!</div>
+            
+            <ul class="instruction-list">
+                <li><i class="fas fa-microphone" style="color:var(--accent2); margin-left:6px;"></i> <b>التواصل:</b> تواصل مع خصمك عبر مكالمة صوتية (Discord وغيرها) أو في نفس الغرفة.</li>
+                <li><i class="fas fa-user-check" style="color:var(--success); margin-left:6px;"></i> <b>الاختيار:</b> في بداية الجولة، يخفي كل لاعب شخصية سرية.</li>
+                <li><i class="fas fa-question" style="color:var(--gold); margin-left:6px;"></i> <b>الأسئلة:</b> عندما يحين دورك، اسأل خصمك سؤالاً إجابته (نعم أو لا). <i>مثال: هل لاعبك في ريال مدريد؟</i></li>
+                <li><i class="fas fa-times-circle" style="color:var(--danger); margin-left:6px;"></i> <b>الاستبعاد:</b> بناءً على الإجابة، قم بالنقر على البطاقات لاستبعادها، ثم أنهِ دورك.</li>
+                <li><i class="fas fa-trophy" style="color:var(--gold2); margin-left:6px;"></i> <b>الفوز:</b> عندما تتأكد من شخصية الخصم، استخدم زر <b>تخمين</b>. (تخمين خاطئ يمنح خصمك الفوز!).</li>
+            </ul>
+
+            <button class="btn btn-primary" onclick="closeModal('modal-howto')">فهمت، لنلعب!</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
     <div id="modal-settings" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-title">⚙️ الإعدادات</div>
             <div style="margin-top:16px;">
                 <div class="setting-row">
-                    <label>مدة المؤقت</label>
+                    <label>مدة الدور (ثواني)</label>
                     <select id="setting-timer">
                         <option value="30">30 ث</option>
                         <option value="60" selected>60 ث</option>
@@ -309,16 +358,36 @@
         </div>
     </div>
 
+    <!-- Guess Modal -->
     <div id="modal-guess" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-title" style="color:var(--gold);">🎯 تخمين اللاعب</div>
-            <div class="modal-sub">تخمين خاطئ = نقطة للخصم. كن متأكداً!</div>
-            <input class="guess-search" id="guess-search" type="text" placeholder="ابحث عن لاعب…" oninput="filterGuess(this.value)">
-            <div class="guess-grid" id="guess-grid"></div>
-            <button class="btn btn-outline" style="margin-top:12px; width:100%;" onclick="closeModal('modal-guess')">إلغاء</button>
+            <div id="guess-select-ui">
+                <div class="modal-title" style="color:var(--gold);">🎯 تخمين اللاعب</div>
+                <div class="modal-sub">اختر اللاعب الذي تعتقد أن خصمك يخبئه. <br><b>تحذير: تخمين خاطئ ينهي الجولة بخسارتك!</b></div>
+                <input class="guess-search" id="guess-search" type="text" placeholder="ابحث عن لاعب…" oninput="filterGuess(this.value)">
+                <div class="guess-grid" id="guess-grid"></div>
+            </div>
+
+            <!-- Confirm Guess Step -->
+            <div id="confirm-guess-ui">
+                <div class="modal-title" style="color:var(--danger);">تأكيد التخمين</div>
+                <div class="confirm-card">
+                    <img id="confirm-img" src="" alt="">
+                    <h3 id="confirm-name">اسم اللاعب</h3>
+                    <div style="font-size:0.8rem; color:var(--text-dim);" id="confirm-team">الفريق</div>
+                </div>
+                <p style="font-size:0.85rem; margin-bottom:12px;">هل أنت متأكد بنسبة 100%؟</p>
+                <div style="display:flex; gap:10px; width:100%;">
+                    <button class="btn btn-success" style="background:var(--success); color:white;" id="btn-confirm-yes">نعم، متأكد!</button>
+                    <button class="btn btn-outline" onclick="cancelConfirm()">تراجع</button>
+                </div>
+            </div>
+
+            <button id="btn-cancel-guess" class="btn btn-outline" style="margin-top:12px; width:100%;" onclick="closeModal('modal-guess')">إلغاء</button>
         </div>
     </div>
 
+    <!-- Result Modal -->
     <div id="modal-result" class="modal-overlay">
         <div class="modal-box">
             <div class="result-icon-wrap"><i id="res-icon" class="fas fa-trophy fa-3x"></i></div>
@@ -345,6 +414,7 @@
         </div>
     </div>
 
+    <!-- Wait Overlay -->
     <div id="wait-overlay">
         <div class="wait-content">
             <i class="fas fa-circle-notch fa-spin fa-3x"></i>
@@ -430,7 +500,6 @@
     let peer = null, conn = null, isHost = false;
     let keepAliveInt = null, lastPong = Date.now();
     
-    // 3 enterprise-grade STUN servers to guarantee NAT traversal
     const PEER_CONFIG = {
         config: {
             iceServers:[
@@ -472,7 +541,7 @@
         c.appendChild(t); setTimeout(() => t.remove(), 3200);
     }
 
-    function showSettings() { document.getElementById('modal-settings').style.display = 'flex'; }
+    function showModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function switchScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
     function setWait(show, msg = 'الرجاء الانتظار') { document.getElementById('wait-overlay').style.display = show ? 'flex' : 'none'; document.getElementById('wait-msg').textContent = msg; }
@@ -487,6 +556,14 @@
         const btn = document.getElementById('btn-join');
         btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; 
         btn.disabled = false;
+    }
+
+    function copyCode() {
+        const code = document.getElementById('my-code').textContent;
+        if(code === "----") return;
+        navigator.clipboard.writeText(code).then(() => {
+            showToast("تم نسخ الكود!", "success");
+        });
     }
 
     // ════════════════════════════════════════════
@@ -526,7 +603,6 @@
         try {
             peer = new Peer(fullId, PEER_CONFIG);
 
-            // 10 Second strict timeout to avoid eternal hanging
             let hostTimeout = setTimeout(() => {
                 if (!isHost) {
                     showToast("خوادم الاتصال مشغولة. حاول مجدداً.", "error");
@@ -547,7 +623,7 @@
             });
 
             peer.on('connection', c => {
-                if (conn && conn.open) { c.close(); return; } // Prevent third wheels
+                if (conn && conn.open) { c.close(); return; } 
                 conn = c;
                 setupConnEvents();
             });
@@ -556,15 +632,12 @@
 
             peer.on('error', err => {
                 clearTimeout(hostTimeout);
-                if (err.type === 'unavailable-id') { setTimeout(createGame, 500); return; } // Silent retry
+                if (err.type === 'unavailable-id') { setTimeout(createGame, 500); return; } 
                 showToast("خطأ: " + (err.type || 'غير معروف'), "error");
                 resetHostUI();
             });
 
-        } catch(e) {
-            showToast("متصفحك منع الاتصال.", "error");
-            resetHostUI();
-        }
+        } catch(e) { showToast("متصفحك منع الاتصال.", "error"); resetHostUI(); }
     }
 
     function joinGame() {
@@ -577,19 +650,16 @@
         if (peer) { peer.destroy(); peer = null; }
 
         try {
-            // Assign a specific random ID to the joiner to bypass strict PeerJS server rules
             const joinerId = PREFIX + 'join-' + Math.floor(Math.random() * 90000);
             peer = new Peer(joinerId, PEER_CONFIG);
 
-            // 10 Second strict timeout for joiner
             let joinTimeout = setTimeout(() => {
-                showToast("فشل الاتصال بالخصم. تأكد من الكود أو جرب مجدداً.", "error");
+                showToast("فشل الاتصال بالخصم. تأكد من الكود.", "error");
                 resetJoinUI();
                 if (peer) peer.destroy();
             }, 10000);
 
             peer.on('open', () => {
-                // IMPORTANT: Removed { reliable: true } as it is known to cause infinite hangs on mobile browsers
                 conn = peer.connect(PREFIX + code);
                 
                 conn.on('open', () => {
@@ -598,9 +668,7 @@
                 });
 
                 conn.on('error', () => {
-                    clearTimeout(joinTimeout);
-                    showToast("انقطع الاتصال أثناء محاولة الربط.", "error");
-                    resetJoinUI();
+                    clearTimeout(joinTimeout); showToast("انقطع الاتصال أثناء الربط.", "error"); resetJoinUI();
                 });
             });
 
@@ -612,10 +680,7 @@
                 resetJoinUI();
             });
 
-        } catch(e) {
-            showToast("خطأ في المتصفح.", "error");
-            resetJoinUI();
-        }
+        } catch(e) { showToast("خطأ في المتصفح.", "error"); resetJoinUI(); }
     }
 
     function setupConnEvents() {
@@ -654,6 +719,9 @@
             case 'pass': startMyTurn(); break;
             case 'result': endRound(!data.isCorrect); break;
             case 'ready': isOppReady = true; checkBothReady(); break;
+            case 'elim_update': 
+                document.getElementById('elim-count-opp').innerHTML = `${data.count} <span style="font-size:0.7rem; color:var(--text-dim)">/ ${activePlayers.length}</span>`; 
+                break;
         }
     }
 
@@ -667,7 +735,7 @@
         myChar = null; oppCharId = null;
         clearInterval(timerInt);
 
-        document.getElementById('main-header').style.display = 'flex';
+        document.getElementById('score-display').style.display = 'flex';
         document.getElementById('hud').style.display = 'none';
         document.getElementById('round-label').textContent = `· الجولة ${roundNum}`;
         document.getElementById('select-count-label').textContent = `${activePlayers.length} لاعب`;
@@ -716,10 +784,14 @@
 
     function startGame() {
         setWait(false); eliminated.clear(); activeFilter = 'all';
+        
+        // Reset counters UI
+        document.getElementById('elim-count-mine').innerHTML = `0 <span style="font-size:0.7rem; color:var(--text-dim)">/ ${activePlayers.length}</span>`;
+        document.getElementById('elim-count-opp').innerHTML = `0 <span style="font-size:0.7rem; color:var(--text-dim)">/ ${activePlayers.length}</span>`;
+
         switchScreen('screen-game');
         renderGameGrid(); buildFilterBar();
         document.getElementById('hud').style.display = 'flex';
-        updateElimCounter();
 
         const isOddRound = (roundNum % 2 !== 0);
         if ((isHost && isOddRound) || (!isHost && !isOddRound)) startMyTurn(); else startOppTurn();
@@ -728,7 +800,7 @@
     function renderGameGrid() {
         const grid = document.getElementById('grid-game');
         grid.innerHTML = '';
-        let toShow = activeFilter === 'all' ? activePlayers : activePlayers.filter(p => ['GK','DF','MF','FW'].includes(activeFilter) ? p.pos === activeFilter : p.team === activeFilter);
+        let toShow = activeFilter === 'all' ? activePlayers : activePlayers.filter(p =>['GK','DF','MF','FW'].includes(activeFilter) ? p.pos === activeFilter : p.team === activeFilter);
         toShow.forEach(p => {
             const card = makeCard(p, true);
             if (p.id === myChar?.id) card.classList.add('my-card');
@@ -752,18 +824,21 @@
     }
 
     function toggleEliminate(id) {
-        if (!isMyTurn) return showToast("ليس دورك!", "error");
-        if (!timerInt) return showToast("انقر 'اسأل' أولاً لبدء الدور", "error");
+        // Removed strict turn check so players can eliminate at any time (just like real Guess Who)
         if (myChar && id === myChar.id) return showToast("لا يمكنك استبعاد بطاقتك!", "error");
 
         const card = document.getElementById(`card-${id}`);
         if (!card) return;
         if (eliminated.has(id)) { eliminated.delete(id); card.classList.remove('eliminated'); }
         else { eliminated.add(id); card.classList.add('eliminated'); }
-        updateElimCounter();
+        
+        updateElimCounters();
     }
 
-    function updateElimCounter() { document.getElementById('elim-count').textContent = eliminated.size; }
+    function updateElimCounters() { 
+        document.getElementById('elim-count-mine').innerHTML = `${eliminated.size} <span style="font-size:0.7rem; color:var(--text-dim)">/ ${activePlayers.length}</span>`; 
+        safeSend({ type: 'elim_update', count: eliminated.size });
+    }
 
     // ════════════════════════════════════════════
     //  TURN MANAGEMENT
@@ -771,44 +846,59 @@
     function startMyTurn() {
         isMyTurn = true; clearInterval(timerInt);
         const ind = document.getElementById('turn-indicator');
-        ind.innerHTML = `<div class="dot"></div> <span>دورك الآن!</span>`; ind.classList.add('active');
+        ind.innerHTML = `<div class="dot"></div><span id="turn-text">دورك الآن! اسأل سؤالاً</span>`; ind.classList.add('active');
         document.getElementById('hud').classList.add('my-turn');
-        document.getElementById('btn-ask').style.display = ''; document.getElementById('btn-guess').style.display = ''; document.getElementById('btn-pass').style.display = 'none';
-        const timer = document.getElementById('timer'); timer.style.display = 'none'; timer.className = 'timer-box';
-        showToast("دورك! 🎤", "gold");
+        
+        document.getElementById('btn-pass').style.display = '';
+        
+        // Auto start timer to enforce game pace
+        const timerEl = document.getElementById('timer'); 
+        timerEl.style.display = ''; 
+        timerEl.className = 'timer-box';
+        let t = timerDuration; timerEl.textContent = t;
+        
+        showToast("حان دورك! 🎤", "gold");
+
+        timerInt = setInterval(() => {
+            t--; timerEl.textContent = t;
+            if (t <= 10) timerEl.classList.add('urgent');
+            if (t <= 0) { 
+                clearInterval(timerInt); 
+                // Don't auto-pass, just alert them (better UX)
+                timerEl.textContent = "0";
+                document.getElementById('turn-text').textContent = "انتهى وقتك! قم بإنهاء الدور.";
+                showToast("انتهى وقتك! قم بإنهاء الدور عندما تنتهي من الاستبعاد.", "error");
+            }
+        }, 1000);
     }
 
     function startOppTurn() {
         isMyTurn = false; clearInterval(timerInt);
         const ind = document.getElementById('turn-indicator');
-        ind.innerHTML = `<div class="dot" style="opacity:0.3"></div> <span>دور الخصم…</span>`; ind.classList.remove('active');
+        ind.innerHTML = `<div class="dot" style="opacity:0.3"></div><span id="turn-text">دور الخصم…</span>`; ind.classList.remove('active');
         document.getElementById('hud').classList.remove('my-turn');
-        document.getElementById('btn-ask').style.display = 'none'; document.getElementById('btn-guess').style.display = 'none'; document.getElementById('btn-pass').style.display = 'none';
+        document.getElementById('btn-pass').style.display = 'none';
         document.getElementById('timer').style.display = 'none';
     }
 
-    function startAskTimer() {
-        document.getElementById('btn-ask').style.display = 'none'; document.getElementById('btn-guess').style.display = 'none'; document.getElementById('btn-pass').style.display = '';
-        const timerEl = document.getElementById('timer'); timerEl.style.display = ''; timerEl.className = 'timer-box';
-        let t = timerDuration; timerEl.textContent = t;
-        clearInterval(timerInt);
-        timerInt = setInterval(() => {
-            t--; timerEl.textContent = t;
-            if (t <= 10) timerEl.classList.add('urgent');
-            if (t <= 0) { clearInterval(timerInt); passTurn(); }
-        }, 1000);
-    }
-
     function passTurn() {
+        if (!isMyTurn) return;
         clearInterval(timerInt); safeSend({ type: 'pass' }); startOppTurn();
     }
 
     // ════════════════════════════════════════════
     //  GUESS & RESULTS
     // ════════════════════════════════════════════
+    let pendingGuessId = null;
+
     function showGuessModal() {
-        document.getElementById('guess-search').value = ''; renderGuessGrid(activePlayers);
-        document.getElementById('modal-guess').style.display = 'flex';
+        document.getElementById('guess-search').value = ''; 
+        document.getElementById('guess-select-ui').style.display = 'block';
+        document.getElementById('confirm-guess-ui').style.display = 'none';
+        document.getElementById('btn-cancel-guess').style.display = 'block';
+        
+        renderGuessGrid(activePlayers);
+        showModal('modal-guess');
         setTimeout(() => document.getElementById('guess-search').focus(), 100);
     }
 
@@ -817,11 +907,34 @@
         list.forEach(p => {
             const div = document.createElement('div'); div.className = 'guess-item';
             div.innerHTML = `<img src="${getImg(p)}" alt="${p.name}"><div>${p.name}</div>`;
-            div.onclick = () => makeGuess(p.id); grid.appendChild(div);
+            div.onclick = () => confirmGuessPrompt(p); grid.appendChild(div);
         });
     }
 
     function filterGuess(q) { renderGuessGrid(activePlayers.filter(p => p.name.includes(q) || p.enName.toLowerCase().includes(q.toLowerCase()) || p.team.includes(q))); }
+
+    function confirmGuessPrompt(player) {
+        pendingGuessId = player.id;
+        document.getElementById('guess-select-ui').style.display = 'none';
+        document.getElementById('btn-cancel-guess').style.display = 'none';
+        
+        document.getElementById('confirm-img').src = getImg(player);
+        document.getElementById('confirm-name').textContent = player.name;
+        document.getElementById('confirm-team').textContent = player.team;
+        
+        document.getElementById('confirm-guess-ui').style.display = 'flex';
+        
+        document.getElementById('btn-confirm-yes').onclick = () => {
+            makeGuess(pendingGuessId);
+        };
+    }
+
+    function cancelConfirm() {
+        pendingGuessId = null;
+        document.getElementById('confirm-guess-ui').style.display = 'none';
+        document.getElementById('guess-select-ui').style.display = 'block';
+        document.getElementById('btn-cancel-guess').style.display = 'block';
+    }
 
     function makeGuess(id) {
         closeModal('modal-guess'); clearInterval(timerInt);
@@ -847,12 +960,12 @@
         const title = document.getElementById('res-title'), msg = document.getElementById('res-msg'), icon = document.getElementById('res-icon');
         if (iWon) {
             title.textContent = "فزت! 🏆"; title.style.color = "var(--success)";
-            icon.className = "fas fa-check-circle fa-3x"; icon.style.color = "var(--success)"; msg.textContent = "تخمين صحيح!";
+            icon.className = "fas fa-check-circle fa-3x"; icon.style.color = "var(--success)"; msg.textContent = "تخمين صحيح ومثالي!";
         } else {
             title.textContent = "خسرت 😔"; title.style.color = "var(--danger)";
-            icon.className = "fas fa-times-circle fa-3x"; icon.style.color = "var(--danger)"; msg.textContent = "الخصم خمّن صحيح.";
+            icon.className = "fas fa-times-circle fa-3x"; icon.style.color = "var(--danger)"; msg.textContent = "تخمين الخصم كان صحيحاً، أو أنك أخطأت التخمين.";
         }
-        document.getElementById('modal-result').style.display = 'flex';
+        showModal('modal-result');
     }
 
     function nextRound() {
