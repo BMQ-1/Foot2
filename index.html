@@ -10,184 +10,55 @@
     
     <style>
         :root {
-            --bg: #080d18;
-            --panel: #111827;
-            --panel2: #1a2236;
-            --gold: #f59e0b;
-            --gold2: #fbbf24;
-            --gold-glow: rgba(245, 158, 11, 0.4);
-            --accent: #3b82f6;
-            --accent2: #60a5fa;
-            --danger: #ef4444;
-            --success: #10b981;
-            --text: #f1f5f9;
-            --text-dim: #94a3b8;
-            --border: #1e293b;
-            --border2: #334155;
+            --bg: #080d18; --panel: #111827; --panel2: #1a2236;
+            --gold: #f59e0b; --gold2: #fbbf24; --gold-glow: rgba(245, 158, 11, 0.4);
+            --accent: #3b82f6; --accent2: #60a5fa;
+            --danger: #ef4444; --success: #10b981;
+            --text: #f1f5f9; --text-dim: #94a3b8;
+            --border: #1e293b; --border2: #334155;
             --font: 'Cairo', system-ui, sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); -webkit-tap-highlight-color: transparent; user-select: none; }
-
         html { scroll-behavior: smooth; }
-
         body {
             background: var(--bg);
-            background-image:
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.07) 0%, transparent 70%),
-                radial-gradient(ellipse 60% 40% at 80% 110%, rgba(245,158,11,0.05) 0%, transparent 70%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+            background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.07) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 80% 110%, rgba(245,158,11,0.05) 0%, transparent 70%);
+            color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
         }
 
-        /* ───── HEADER ───── */
-        header {
-            background: rgba(8, 13, 24, 0.92);
-            backdrop-filter: blur(16px);
-            padding: 0 18px;
-            height: 60px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.5px;
-        }
-        .logo i { color: var(--gold); }
-        .logo span { color: var(--gold); }
-
-        .score-pill {
-            background: var(--panel);
-            border: 1px solid var(--border2);
-            padding: 5px 14px;
-            border-radius: 30px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        /* HEADER */
+        header { background: rgba(8, 13, 24, 0.92); backdrop-filter: blur(16px); padding: 0 18px; height: 60px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 900; font-size: 1rem; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .logo i, .logo span { color: var(--gold); }
+        .score-pill { background: var(--panel); border: 1px solid var(--border2); padding: 5px 14px; border-radius: 30px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .score-val { color: var(--gold2); font-size: 1.05rem; margin-right: 3px; }
         .score-sep { color: var(--border2); font-size: 0.7rem; }
-
-        .btn-icon {
-            background: none; border: none; color: var(--text-dim);
-            font-size: 1.1rem; cursor: pointer; transition: 0.2s;
-            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-            border-radius: 8px;
-        }
+        .btn-icon { background: none; border: none; color: var(--text-dim); font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; }
         .btn-icon:hover { color: var(--text); background: var(--panel2); }
 
-        /* ───── SCREENS ───── */
+        /* SCREENS */
         .screen { display: none; width: 100%; max-width: 1100px; margin: 0 auto; padding: 20px 16px; flex-direction: column; align-items: center; }
         .active { display: flex !important; }
 
-        /* ───── LOBBY ───── */
+        /* LOBBY */
         .lobby-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; gap: 16px; }
-
-        .lobby-hero {
-            font-size: 3rem;
-            animation: spin 12s linear infinite;
-            margin-bottom: 4px;
-        }
+        .lobby-hero { font-size: 3rem; animation: spin 12s linear infinite; margin-bottom: 4px; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .lobby-card {
-            background: var(--panel);
-            padding: 28px 24px;
-            border-radius: 20px;
-            border: 1px solid var(--border2);
-            text-align: center;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03) inset;
-            position: relative;
-            overflow: hidden;
-        }
-        .lobby-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
-
+        .lobby-card { background: var(--panel); padding: 28px 24px; border-radius: 20px; border: 1px solid var(--border2); text-align: center; max-width: 380px; width: 100%; box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03) inset; position: relative; overflow: hidden; }
+        .lobby-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
         .lobby-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 6px; }
         .lobby-subtitle { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 22px; line-height: 1.5; }
-
         .divider { display: flex; align-items: center; gap: 12px; color: var(--border2); font-size: 0.75rem; font-weight: 700; margin: 4px 0; }
         .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-        .code-display {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            color: var(--gold2);
-            margin: 12px 0;
-            font-family: monospace;
-            background: rgba(0,0,0,0.4);
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px dashed var(--border2);
-            direction: ltr;
-            position: relative;
-        }
-
-        .waiting-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(59,130,246,0.1);
-            border: 1px solid rgba(59,130,246,0.2);
-            color: var(--accent2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 14px;
-            background: rgba(0,0,0,0.3);
-            border: 2px solid var(--border2);
-            color: white;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.6rem;
-            letter-spacing: 6px;
-            margin: 10px 0 6px;
-            outline: none;
-            transition: 0.2s;
-            direction: ltr;
-            font-family: monospace;
-        }
+        .code-display { font-size: 2.8rem; font-weight: 900; letter-spacing: 8px; color: var(--gold2); margin: 12px 0; font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 12px; border: 1px dashed var(--border2); direction: ltr; position: relative; }
+        .waiting-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--accent2); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-top: 8px; }
+        input[type="number"] { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 2px solid var(--border2); color: white; border-radius: 12px; text-align: center; font-size: 1.6rem; letter-spacing: 6px; margin: 10px 0 6px; outline: none; transition: 0.2s; direction: ltr; font-family: monospace; }
         input[type="number"]:focus { border-color: var(--accent); background: rgba(59,130,246,0.05); }
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-        /* ───── BUTTONS ───── */
-        .btn {
-            width: 100%; padding: 13px; border-radius: 11px; border: none;
-            font-weight: 800; font-size: 0.95rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 9px;
-            transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
-            margin-bottom: 8px; letter-spacing: 0.2px;
-        }
+        /* BUTTONS */
+        .btn { width: 100%; padding: 13px; border-radius: 11px; border: none; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s; margin-bottom: 8px; letter-spacing: 0.2px; }
         .btn:last-child { margin-bottom: 0; }
         .btn:active:not(:disabled) { transform: scale(0.97); }
         .btn:disabled { opacity: 0.55; cursor: not-allowed; }
@@ -200,274 +71,102 @@
         .btn-danger { background: transparent; border: 1px solid rgba(239,68,68,0.3); color: var(--danger); }
         .btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.08); }
 
-        /* ───── PLAYER COUNT SELECTOR ───── */
+        /* PLAYER COUNT SELECTOR */
         .player-count-wrap { width: 100%; max-width: 380px; }
         .player-count-label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; font-weight: 600; }
         .player-count-row { display: flex; gap: 8px; }
-        .count-btn {
-            flex: 1; padding: 10px 6px; border-radius: 10px;
-            border: 2px solid var(--border2); background: var(--panel);
-            color: var(--text-dim); font-weight: 800; font-size: 0.9rem;
-            cursor: pointer; transition: 0.18s; font-family: var(--font);
-        }
+        .count-btn { flex: 1; padding: 10px 6px; border-radius: 10px; border: 2px solid var(--border2); background: var(--panel); color: var(--text-dim); font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.18s; font-family: var(--font); }
         .count-btn:hover { border-color: var(--text-dim); color: var(--text); }
         .count-btn.active { border-color: var(--gold); background: rgba(245,158,11,0.08); color: var(--gold); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ───── GRID ───── */
+        /* GRID */
         .grid-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .grid-header h2 { font-size: 1.1rem; font-weight: 900; }
         .grid-header p { font-size: 0.78rem; color: var(--text-dim); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; width: 100%; padding-bottom: 145px; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-            gap: 10px;
-            width: 100%;
-            padding-bottom: 145px;
-        }
-
-        .card {
-            position: relative;
-            background: var(--panel);
-            border: 1.5px solid var(--border);
-            border-radius: 13px;
-            overflow: hidden;
-            aspect-ratio: 0.7;
-            cursor: pointer;
-            transition: transform 0.18s ease, border-color 0.18s, box-shadow 0.18s;
-        }
+        .card { position: relative; background: var(--panel); border: 1.5px solid var(--border); border-radius: 13px; overflow: hidden; aspect-ratio: 0.7; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s, box-shadow 0.18s; }
         .card:hover { transform: translateY(-3px); border-color: var(--border2); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-
         .card.my-card { border: 2px solid var(--gold); box-shadow: 0 0 18px var(--gold-glow); }
-        .card.my-card::before {
-            content: 'أنت';
-            position: absolute; top: 5px; left: 5px;
-            background: var(--gold); color: #000;
-            font-size: 0.58rem; font-weight: 900;
-            padding: 2px 6px; border-radius: 4px; z-index: 10;
-        }
+        .card.my-card::before { content: 'أنت'; position: absolute; top: 5px; left: 5px; background: var(--gold); color: #000; font-size: 0.58rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; z-index: 10; }
         .card.selected { border: 2.5px solid var(--success); transform: scale(0.97); }
         .card.eliminated { opacity: 0.3; filter: grayscale(1) brightness(0.6); pointer-events: none; }
-        .card.eliminated::after {
-            content: '\f00d';
-            font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem; color: var(--danger);
-            z-index: 20; pointer-events: none;
-            text-shadow: 0 0 20px rgba(0,0,0,0.9);
-        }
+        .card.eliminated::after { content: '\f00d'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; color: var(--danger); z-index: 20; pointer-events: none; text-shadow: 0 0 20px rgba(0,0,0,0.9); }
         .card.eliminated { pointer-events: auto; }
 
-        .card-rating {
-            position: absolute; top: 5px; right: 7px;
-            font-size: 1.05rem; font-weight: 900;
-            z-index: 2;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
-        }
+        .card-rating { position: absolute; top: 5px; right: 7px; font-size: 1.05rem; font-weight: 900; z-index: 2; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); }
         .r-top { color: var(--gold2); }
         .r-high { color: #e2e8f0; }
         .r-mid { color: #94a3b8; }
 
-        .card-img {
-            width: 100%; height: 73%;
-            object-fit: cover; object-position: top;
-            background: #1e293b;
-            mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
-            transition: transform 0.25s;
-        }
+        .card-img { width: 100%; height: 73%; object-fit: cover; object-position: top; background: #1e293b; mask-image: linear-gradient(to bottom, black 78%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%); transition: transform 0.25s; }
         .card:hover .card-img { transform: scale(1.04); }
-
-        .card-info {
-            position: absolute; bottom: 0;
-            width: 100%; height: 27%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 3px 4px 5px;
-            background: linear-gradient(to top, var(--panel) 60%, transparent);
-        }
+        .card-info { position: absolute; bottom: 0; width: 100%; height: 27%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3px 4px 5px; background: linear-gradient(to top, var(--panel) 60%, transparent); }
         .name { font-size: 0.7rem; font-weight: 800; text-align: center; line-height: 1.15; }
         .team { font-size: 0.58rem; color: var(--text-dim); margin-top: 1px; }
 
-        /* ───── HUD ───── */
-        .hud {
-            position: fixed; bottom: 0; right: 0; width: 100%;
-            background: rgba(8, 13, 24, 0.97);
-            backdrop-filter: blur(14px);
-            border-top: 1px solid var(--border2);
-            padding: 12px 16px 16px;
-            display: flex; flex-direction: column; gap: 10px;
-            z-index: 200;
-            box-shadow: 0 -12px 40px rgba(0,0,0,0.6);
-            transition: border-color 0.3s;
-        }
+        /* HUD */
+        .hud { position: fixed; bottom: 0; right: 0; width: 100%; background: rgba(8, 13, 24, 0.97); backdrop-filter: blur(14px); border-top: 1px solid var(--border2); padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 10px; z-index: 200; box-shadow: 0 -12px 40px rgba(0,0,0,0.6); transition: border-color 0.3s; }
         .hud.my-turn { border-top: 2px solid var(--gold); }
-
         .hud-top { display: flex; justify-content: space-between; align-items: center; }
-
-        .turn-indicator {
-            font-size: 0.85rem; font-weight: 700;
-            color: var(--text-dim);
-            display: flex; align-items: center; gap: 8px;
-            transition: color 0.3s;
-        }
+        .turn-indicator { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
         .turn-indicator.active { color: var(--gold); }
-        .dot {
-            width: 9px; height: 9px;
-            background: currentColor; border-radius: 50%;
-            box-shadow: 0 0 8px currentColor;
-        }
-
-        .timer-box {
-            font-family: monospace; font-size: 1.3rem; font-weight: 800;
-            color: var(--text); background: var(--panel2);
-            padding: 3px 12px; border-radius: 8px;
-            transition: color 0.3s, background 0.3s;
-            direction: ltr; border: 1px solid var(--border2);
-            min-width: 56px; text-align: center;
-        }
+        .dot { width: 9px; height: 9px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+        .timer-box { font-family: monospace; font-size: 1.3rem; font-weight: 800; color: var(--text); background: var(--panel2); padding: 3px 12px; border-radius: 8px; transition: color 0.3s, background 0.3s; direction: ltr; border: 1px solid var(--border2); min-width: 56px; text-align: center; }
         .timer-box.urgent { color: var(--danger); background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); animation: timerPulse 0.5s ease-in-out infinite alternate; }
         @keyframes timerPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
-
         .hud-buttons { display: flex; gap: 8px; }
         .hud-buttons .btn { flex: 1; margin: 0; padding: 11px 6px; font-size: 0.85rem; }
 
-        /* ───── FILTER BAR ───── */
-        .filter-bar {
-            display: flex; gap: 6px; flex-wrap: wrap;
-            padding: 4px 0 14px; width: 100%;
-        }
-        .filter-chip {
-            padding: 5px 12px; border-radius: 20px;
-            font-size: 0.73rem; font-weight: 700;
-            border: 1px solid var(--border2);
-            background: var(--panel); color: var(--text-dim);
-            cursor: pointer; transition: 0.15s; white-space: nowrap;
-        }
+        /* FILTER BAR */
+        .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px 0 14px; width: 100%; }
+        .filter-chip { padding: 5px 12px; border-radius: 20px; font-size: 0.73rem; font-weight: 700; border: 1px solid var(--border2); background: var(--panel); color: var(--text-dim); cursor: pointer; transition: 0.15s; white-space: nowrap; }
         .filter-chip.active { background: rgba(59,130,246,0.15); border-color: var(--accent); color: var(--accent2); }
 
-        /* ───── MODALS ───── */
-        .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            display: none; justify-content: center; align-items: center;
-            padding: 20px;
-        }
-
-        .modal-box {
-            background: var(--panel);
-            border: 1px solid var(--border2);
-            border-radius: 22px; padding: 24px;
-            width: 100%; max-width: 480px;
-            text-align: center;
-            animation: popIn 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 30px 70px rgba(0,0,0,0.9);
-            position: relative; overflow: hidden;
-            max-height: 90vh; overflow-y: auto;
-        }
-        .modal-box::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
+        /* MODALS */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: var(--panel); border: 1px solid var(--border2); border-radius: 22px; padding: 24px; width: 100%; max-width: 480px; text-align: center; animation: popIn 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 30px 70px rgba(0,0,0,0.9); position: relative; overflow: hidden; max-height: 90vh; overflow-y: auto; }
+        .modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
         @keyframes popIn { from { transform: scale(0.85) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-
         .modal-title { font-size: 1.15rem; font-weight: 900; margin-bottom: 6px; }
         .modal-sub { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4; }
-
-        .setting-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 11px 14px; background: rgba(0,0,0,0.25); border-radius: 10px;
-            margin-bottom: 8px; border: 1px solid var(--border);
-        }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; background: rgba(0,0,0,0.25); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border); }
         .setting-row label { font-size: 0.85rem; font-weight: 600; }
-        select {
-            padding: 7px 10px; border-radius: 8px;
-            background: var(--panel2); color: white;
-            border: 1px solid var(--border2); outline: none;
-            font-family: 'Cairo'; font-size: 0.8rem;
-        }
+        select { padding: 7px 10px; border-radius: 8px; background: var(--panel2); color: white; border: 1px solid var(--border2); outline: none; font-family: 'Cairo'; font-size: 0.8rem; }
 
-        /* Guess grid */
-        .guess-search {
-            width: 100%; padding: 10px 14px;
-            background: rgba(0,0,0,0.3); border: 1.5px solid var(--border2);
-            color: white; border-radius: 10px; margin-bottom: 10px;
-            outline: none; font-family: var(--font); font-size: 0.9rem;
-            transition: 0.2s; text-align: right;
-        }
+        /* GUESS GRID */
+        .guess-search { width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1.5px solid var(--border2); color: white; border-radius: 10px; margin-bottom: 10px; outline: none; font-family: var(--font); font-size: 0.9rem; transition: 0.2s; text-align: right; }
         .guess-search:focus { border-color: var(--accent); }
-
-        .guess-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 7px; max-height: 48vh; overflow-y: auto;
-            padding-left: 4px;
-        }
+        .guess-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 7px; max-height: 48vh; overflow-y: auto; padding-left: 4px; }
         .guess-grid::-webkit-scrollbar { width: 5px; }
         .guess-grid::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
         .guess-grid::-webkit-scrollbar-track { background: transparent; }
-
-        .guess-item {
-            background: var(--panel2); padding: 8px 5px;
-            border-radius: 9px; cursor: pointer;
-            border: 1.5px solid transparent; transition: 0.18s;
-            text-align: center;
-        }
+        .guess-item { background: var(--panel2); padding: 8px 5px; border-radius: 9px; cursor: pointer; border: 1.5px solid transparent; transition: 0.18s; text-align: center; }
         .guess-item:hover { border-color: var(--gold); transform: translateY(-2px); background: rgba(245,158,11,0.06); }
         .guess-item img { width: 38px; height: 38px; border-radius: 50%; }
         .guess-item div { font-size: 0.6rem; font-weight: 700; margin-top: 5px; line-height: 1.2; color: var(--text-dim); }
         .guess-item:hover div { color: var(--text); }
 
-        /* Result */
+        /* RESULTS */
         .result-icon-wrap { margin-bottom: 14px; }
-        .result-player-card {
-            background: rgba(0,0,0,0.3); padding: 12px;
-            border-radius: 12px; margin: 14px 0;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            border: 1px solid var(--border);
-        }
+        .result-player-card { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; margin: 14px 0; display: flex; align-items: center; justify-content: center; gap: 12px; border: 1px solid var(--border); }
         .result-player-card img { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--border2); }
 
-        /* Round badge */
-        .round-badge {
-            position: absolute; top: 5px; right: 50%;
-            transform: translateX(50%);
-            font-size: 0.65rem; font-weight: 800;
-            background: var(--panel2); border: 1px solid var(--border2);
-            color: var(--text-dim); padding: 3px 10px; border-radius: 20px;
-        }
-
-        /* ───── TOAST ───── */
+        /* TOAST */
         #toast-container { position: fixed; top: 70px; left: 12px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-        .toast {
-            background: var(--panel2); color: var(--text);
-            padding: 10px 16px; border-radius: 10px;
-            border-right: 3px solid var(--accent);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-            font-weight: 600; font-size: 0.85rem;
-            animation: toastIn 0.25s ease-out forwards, toastOut 0.25s ease-in 2.5s forwards;
-            max-width: 260px;
-        }
+        .toast { background: var(--panel2); color: var(--text); padding: 10px 16px; border-radius: 10px; border-right: 3px solid var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,0.6); font-weight: 600; font-size: 0.85rem; animation: toastIn 0.25s ease-out forwards, toastOut 0.25s ease-in 2.5s forwards; max-width: 260px; }
         .toast.error { border-right-color: var(--danger); }
         .toast.success { border-right-color: var(--success); }
         .toast.gold { border-right-color: var(--gold); }
         @keyframes toastIn { from { transform: translateX(-110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(-30%); } }
 
-        /* ───── WAIT OVERLAY ───── */
-        #wait-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(6px);
-            z-index: 1100;
-            display: none; justify-content: center; align-items: center;
-        }
+        /* WAIT OVERLAY */
+        #wait-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 1100; display: none; justify-content: center; align-items: center; }
         .wait-content { text-align: center; color: var(--gold); }
         .wait-content h3 { margin-top: 16px; font-size: 1.1rem; }
         .wait-content p { font-size: 0.8rem; color: var(--text-dim); margin-top: 6px; }
 
-        /* ───── RESPONSIVE ───── */
         @media (max-width: 480px) {
             .grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 7px; }
             .code-display { font-size: 2.2rem; letter-spacing: 5px; }
@@ -475,7 +174,6 @@
             .toast { width: auto; text-align: center; max-width: none; }
         }
 
-        /* ───── NO SELECT ON SELECT SCREEN ───── */
         #grid-select .card.selected { border-color: var(--success); box-shadow: 0 0 16px rgba(16,185,129,0.4); }
         #grid-select .card:not(.selected) { opacity: 1; }
         #grid-select.has-selection .card:not(.selected) { opacity: 0.4; }
@@ -495,7 +193,7 @@
 
     <div id="toast-container"></div>
 
-    <!-- ═══ LOBBY ═══ -->
+    <!-- LOBBY -->
     <div id="screen-lobby" class="screen active">
         <div class="lobby-wrap">
             <div class="lobby-hero">⚽</div>
@@ -515,7 +213,7 @@
                 <div class="lobby-subtitle">استضف لعبة واعطِ الكود لصديقك، أو انضم بكود موجود.</div>
 
                 <div id="host-ui">
-                    <button class="btn btn-primary" onclick="createGame()">
+                    <button id="btn-host" class="btn btn-primary" onclick="createGame()">
                         <i class="fas fa-server"></i> استضافة لعبة جديدة
                     </button>
                 </div>
@@ -528,24 +226,24 @@
                     </div>
                 </div>
 
-                <div class="divider">أو</div>
+                <div class="divider" id="lobby-divider">أو</div>
 
                 <div id="join-ui">
                     <input type="number" id="join-code" placeholder="1234" maxlength="4" oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
-                    <button class="btn btn-gold" onclick="joinGame()">
+                    <button id="btn-join" class="btn btn-gold" onclick="joinGame()">
                         <i class="fas fa-right-to-bracket"></i> انضمام للعبة
                     </button>
                 </div>
             </div>
 
             <div style="font-size:0.75rem; color:var(--border2); text-align:center; line-height:1.6;">
-                يعمل عبر PeerJS · P2P مباشر<br>
+                اتصال P2P مباشر محمي بـ STUN<br>
                 كلا اللاعبين يجب أن يختاروا نفس عدد اللاعبين
             </div>
         </div>
     </div>
 
-    <!-- ═══ SELECT ═══ -->
+    <!-- SELECT -->
     <div id="screen-select" class="screen">
         <div class="grid-header" style="flex-direction:column; align-items:flex-start; gap:4px;">
             <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
@@ -557,7 +255,7 @@
         <div class="grid" id="grid-select"></div>
     </div>
 
-    <!-- ═══ GAME ═══ -->
+    <!-- GAME -->
     <div id="screen-game" class="screen">
         <div style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
             <div style="font-size:0.75rem; color:var(--text-dim);">
@@ -571,7 +269,7 @@
         <div class="grid" id="grid-game"></div>
     </div>
 
-    <!-- ═══ HUD ═══ -->
+    <!-- HUD -->
     <div id="hud" class="hud" style="display: none;">
         <div class="hud-top">
             <div id="turn-indicator" class="turn-indicator"><div class="dot"></div><span>في الانتظار…</span></div>
@@ -590,7 +288,7 @@
         </div>
     </div>
 
-    <!-- ═══ MODAL: SETTINGS ═══ -->
+    <!-- MODALS -->
     <div id="modal-settings" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-title">⚙️ الإعدادات</div>
@@ -611,25 +309,19 @@
         </div>
     </div>
 
-    <!-- ═══ MODAL: GUESS ═══ -->
     <div id="modal-guess" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-title" style="color:var(--gold);">🎯 تخمين اللاعب</div>
             <div class="modal-sub">تخمين خاطئ = نقطة للخصم. كن متأكداً!</div>
             <input class="guess-search" id="guess-search" type="text" placeholder="ابحث عن لاعب…" oninput="filterGuess(this.value)">
             <div class="guess-grid" id="guess-grid"></div>
-            <button class="btn btn-outline" style="margin-top:12px; width:100%;" onclick="closeModal('modal-guess')">
-                إلغاء
-            </button>
+            <button class="btn btn-outline" style="margin-top:12px; width:100%;" onclick="closeModal('modal-guess')">إلغاء</button>
         </div>
     </div>
 
-    <!-- ═══ MODAL: RESULT ═══ -->
     <div id="modal-result" class="modal-overlay">
         <div class="modal-box">
-            <div class="result-icon-wrap">
-                <i id="res-icon" class="fas fa-trophy fa-3x"></i>
-            </div>
+            <div class="result-icon-wrap"><i id="res-icon" class="fas fa-trophy fa-3x"></i></div>
             <h2 id="res-title">انتهت الجولة</h2>
             <p id="res-msg" style="color:var(--text-dim); margin:8px 0; font-size:0.85rem;"></p>
             <div class="result-player-card">
@@ -648,16 +340,11 @@
                     <span id="res-score-opp" style="color:var(--danger);">0</span>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="nextRound()">
-                <i class="fas fa-rotate-right"></i> الجولة التالية
-            </button>
-            <button class="btn btn-danger" style="margin-top:4px;" onclick="endGame()">
-                <i class="fas fa-door-open"></i> إنهاء اللعبة
-            </button>
+            <button class="btn btn-primary" onclick="nextRound()"><i class="fas fa-rotate-right"></i> الجولة التالية</button>
+            <button class="btn btn-danger" style="margin-top:4px;" onclick="endGame()"><i class="fas fa-door-open"></i> إنهاء اللعبة</button>
         </div>
     </div>
 
-    <!-- ═══ WAIT OVERLAY ═══ -->
     <div id="wait-overlay">
         <div class="wait-content">
             <i class="fas fa-circle-notch fa-spin fa-3x"></i>
@@ -670,8 +357,7 @@
     // ════════════════════════════════════════════
     //  PLAYER DATA
     // ════════════════════════════════════════════
-    const ALL_PLAYERS = [
-        // Top Tier
+    const ALL_PLAYERS =[
         { id:1,  name:"ك. مبابي",         enName:"K. Mbappe",         team:"ريال مدريد",    rating:93, color:"FFFFFF", pos:"FW" },
         { id:2,  name:"إ. هالاند",         enName:"E. Haaland",        team:"مانشستر سيتي",  rating:92, color:"6CABDD", pos:"FW" },
         { id:3,  name:"فينيسيوس جونيور",   enName:"Vinicius Jr",       team:"ريال مدريد",    rating:92, color:"FFFFFF", pos:"FW" },
@@ -704,7 +390,6 @@
         { id:30, name:"أ. جولر",           enName:"A. Guler",          team:"ريال مدريد",    rating:86, color:"FFFFFF", pos:"MF" },
         { id:31, name:"ك. ماينو",          enName:"K. Mainoo",         team:"مانشستر ي.",    rating:86, color:"DA291C", pos:"MF" },
         { id:32, name:"ب. كوبارسي",        enName:"P. Cubarsi",        team:"برشلونة",       rating:86, color:"A50044", pos:"DF" },
-        // Extended pool (available when 48 or All)
         { id:33, name:"ت. ألكسندر-أرنولد",enName:"T. Alexander-Arnold",team:"ليفربول",      rating:87, color:"C8102E", pos:"DF" },
         { id:34, name:"أ. أرنولد",         enName:"A. Arnold",         team:"ريال مدريد",    rating:86, color:"FFFFFF", pos:"DF" },
         { id:35, name:"أ. ديوكوروا",       enName:"A. Diokourou",      team:"لييج",          rating:84, color:"FF0000", pos:"MF" },
@@ -735,19 +420,28 @@
     //  STATE
     // ════════════════════════════════════════════
     const PREFIX = "lgnd26-";
-    let peer = null, conn = null;
-    let isHost = false;
-    let myScore = 0, oppScore = 0;
-    let roundNum = 1;
+    let myScore = 0, oppScore = 0, roundNum = 1;
     let myChar = null, oppCharId = null;
-    let isMyTurn = false;
-    let timerInt = null;
-    let eliminated = new Set();
-    let timerDuration = 60;
-    let amIReady = false, isOppReady = false;
-    let activeFilter = 'all';
-    let playerCount = 20;
-    let activePlayers = [];
+    let isMyTurn = false, timerInt = null, timerDuration = 60;
+    let eliminated = new Set(), amIReady = false, isOppReady = false;
+    let activeFilter = 'all', playerCount = 20, activePlayers =[];
+
+    // WebRTC Network Layer
+    let peer = null, conn = null, isHost = false;
+    let keepAliveInt = null, lastPong = Date.now();
+    
+    // Robust Configuration with Google STUN servers for high success rate bypassing NAT/Firewalls
+    const PEER_CONFIG = {
+        host: '0.peerjs.com', port: 443, secure: true,
+        config: {
+            iceServers:[
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                { urls: 'stun:stun3.l.google.com:19302' }
+            ]
+        }
+    };
 
     function setPlayerCount(n, el) {
         document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
@@ -763,7 +457,7 @@
 
     const getImg = (p) => {
         const bg = p.color;
-        const darkBg = ['FFFFFF','FBBF24','F47373','FDE047'].includes(bg);
+        const darkBg =['FFFFFF','FBBF24','F47373','FDE047'].includes(bg);
         const textColor = darkBg ? '1e293b' : 'f1f5f9';
         return `https://ui-avatars.com/api/?name=${encodeURIComponent(p.enName)}&background=${bg}&color=${textColor}&size=256&font-size=0.32&bold=true`;
     };
@@ -776,176 +470,163 @@
     function showToast(msg, type = 'info') {
         const c = document.getElementById('toast-container');
         const t = document.createElement('div');
-        t.className = `toast ${type}`;
-        t.textContent = msg;
-        c.appendChild(t);
-        setTimeout(() => t.remove(), 3200);
+        t.className = `toast ${type}`; t.textContent = msg;
+        c.appendChild(t); setTimeout(() => t.remove(), 3200);
     }
 
     function showSettings() { document.getElementById('modal-settings').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function switchScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    function setWait(show, msg = 'الرجاء الانتظار') {
-        const el = document.getElementById('wait-overlay');
-        el.style.display = show ? 'flex' : 'none';
-        document.getElementById('wait-msg').textContent = msg;
-    }
+    function switchScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function setWait(show, msg = 'الرجاء الانتظار') { document.getElementById('wait-overlay').style.display = show ? 'flex' : 'none'; document.getElementById('wait-msg').textContent = msg; }
 
     // ════════════════════════════════════════════
-    //  CONNECTION
+    //  NETWORK / CONNECTION
     // ════════════════════════════════════════════
+    function safeSend(data) {
+        if (conn && conn.open) conn.send(data);
+    }
+
+    function startHeartbeat() {
+        clearInterval(keepAliveInt);
+        lastPong = Date.now();
+        keepAliveInt = setInterval(() => {
+            if (conn && conn.open) {
+                conn.send({ type: 'ping' });
+                // If no pong received for 12 seconds, assume disconnected
+                if (Date.now() - lastPong > 12000) handleDisconnect();
+            }
+        }, 3000);
+    }
+
+    function handleDisconnect() {
+        clearInterval(keepAliveInt);
+        showToast("انقطع الاتصال بالخصم! 🔌", "error");
+        setTimeout(() => location.reload(), 3000);
+    }
+
     function createGame() {
-        if (typeof Peer === 'undefined') {
-            showToast("لم يتحمل PeerJS. أوقف مانع الإعلانات.", "error"); return;
-        }
-        const btn = document.querySelector('#host-ui .btn-primary');
-        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> جاري الإنشاء…';
-        btn.disabled = true;
+        if (typeof Peer === 'undefined') return showToast("لم يتحمل PeerJS. أوقف مانع الإعلانات.", "error");
+        
+        const btn = document.getElementById('btn-host');
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> جاري الإنشاء…'; btn.disabled = true;
         if (peer) { peer.destroy(); peer = null; }
 
         const code = Math.floor(1000 + Math.random() * 9000);
         const fullId = PREFIX + code;
 
         try {
-            peer = new Peer(fullId, { host:'0.peerjs.com', port:443, path:'/', secure:true });
-
-            const timeout = setTimeout(() => {
-                showToast("تأخر الاستجابة. حاول مجدداً.", "error");
-                btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة';
-                btn.disabled = false;
-                if (peer) peer.destroy();
-            }, 12000);
+            peer = new Peer(fullId, PEER_CONFIG);
 
             peer.on('open', () => {
-                clearTimeout(timeout);
                 isHost = true;
                 document.getElementById('host-ui').style.display = 'none';
+                document.getElementById('lobby-divider').style.display = 'none';
+                document.getElementById('join-ui').style.display = 'none';
                 document.getElementById('host-code-ui').style.display = 'block';
                 document.getElementById('my-code').textContent = code;
                 timerDuration = parseInt(document.getElementById('setting-timer').value);
             });
 
             peer.on('connection', c => {
-                if (conn) { c.close(); return; }
+                if (conn) { c.close(); return; } // Prevent third wheels
                 conn = c;
-                setupConn();
-                conn.on('open', () => {
-                    showToast("اتصل الخصم! 🎮", "success");
-                    setTimeout(() => conn.send({ type:'settings', duration:timerDuration, playerCount }), 400);
-                    startSelectionPhase();
-                });
+                setupConnEvents();
             });
 
+            peer.on('disconnected', () => { peer.reconnect(); }); // Auto reconnect to signaling server
+
             peer.on('error', err => {
-                clearTimeout(timeout);
-                if (err.type === 'unavailable-id') { setTimeout(createGame, 1200); return; }
+                if (err.type === 'unavailable-id') { 
+                    // Collision! Just try again silently
+                    setTimeout(createGame, 500); return; 
+                }
                 showToast("خطأ: " + (err.type || 'غير معروف'), "error");
-                btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة';
-                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة'; btn.disabled = false;
             });
 
         } catch(e) {
             showToast("متصفحك منع الاتصال.", "error");
-            btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة';
-            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-server"></i> استضافة لعبة جديدة'; btn.disabled = false;
         }
     }
 
     function joinGame() {
-        if (typeof Peer === 'undefined') { showToast("لم يتحمل PeerJS.", "error"); return; }
+        if (typeof Peer === 'undefined') return showToast("لم يتحمل PeerJS.", "error");
         const code = document.getElementById('join-code').value.trim();
         if (code.length !== 4) return showToast("الكود من 4 أرقام", "error");
 
-        const btn = document.querySelector('#join-ui .btn-gold');
-        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> جاري الانضمام…';
-        btn.disabled = true;
+        const btn = document.getElementById('btn-join');
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> جاري الانضمام…'; btn.disabled = true;
         if (peer) { peer.destroy(); peer = null; }
 
         try {
-            peer = new Peer({ host:'0.peerjs.com', port:443, path:'/', secure:true });
-
-            const timeout = setTimeout(() => {
-                showToast("فشل الاتصال. تأكد من الكود.", "error");
-                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة';
-                btn.disabled = false;
-                if (peer) peer.destroy();
-            }, 12000);
+            peer = new Peer(PEER_CONFIG);
 
             peer.on('open', () => {
-                conn = peer.connect(PREFIX + code);
-                setupConn();
-                conn.on('open', () => {
-                    clearTimeout(timeout);
-                    showToast("تم الاتصال! ⚡", "success");
-                    startSelectionPhase();
-                });
+                // Connect with reliable: true to ensure game state doesn't drop packets
+                conn = peer.connect(PREFIX + code, { reliable: true });
+                setupConnEvents();
+                
                 conn.on('error', () => {
-                    clearTimeout(timeout);
                     showToast("تعذر الاتصال بالمضيف.", "error");
-                    btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة';
-                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
                 });
             });
 
+            peer.on('disconnected', () => { peer.reconnect(); });
+
             peer.on('error', err => {
-                clearTimeout(timeout);
                 showToast(err.type === 'peer-unavailable' ? "الكود خاطئ أو المضيف غادر." : "خطأ في الاتصال.", "error");
-                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة';
-                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
             });
 
         } catch(e) {
             showToast("خطأ في المتصفح.", "error");
-            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة';
-            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-right-to-bracket"></i> انضمام للعبة'; btn.disabled = false;
         }
     }
 
-    function setupConn() {
-        conn.on('data', handleData);
-        conn.on('close', () => {
-            showToast("انقطع الاتصال! 🔌", "error");
-            setTimeout(() => location.reload(), 2500);
+    function setupConnEvents() {
+        conn.on('open', () => {
+            showToast(isHost ? "اتصل الخصم! 🎮" : "تم الاتصال! ⚡", "success");
+            startHeartbeat();
+            
+            if (isHost) {
+                setTimeout(() => safeSend({ type:'settings', duration:timerDuration, playerCount }), 400);
+            }
+            startSelectionPhase();
         });
+
+        conn.on('data', data => {
+            // Heartbeat check
+            if (data.type === 'ping') { safeSend({ type: 'pong' }); return; }
+            if (data.type === 'pong') { lastPong = Date.now(); return; }
+            
+            // Game logic routing
+            handleGameData(data);
+        });
+
+        conn.on('close', handleDisconnect);
     }
 
     // ════════════════════════════════════════════
     //  DATA HANDLER
     // ════════════════════════════════════════════
-    function handleData(data) {
+    function handleGameData(data) {
         switch(data.type) {
             case 'settings':
                 timerDuration = data.duration;
-                // Sync player count from host
                 if (data.playerCount !== undefined) {
                     playerCount = data.playerCount;
-                    // update UI button
                     document.querySelectorAll('.count-btn').forEach(b => {
                         b.classList.toggle('active', parseInt(b.dataset.count) === playerCount || (playerCount === 0 && b.dataset.count === '0'));
                     });
                 }
                 break;
-            case 'select':
-                oppCharId = data.id;
-                checkStart();
-                break;
-            case 'pass':
-                startMyTurn();
-                break;
-            case 'result':
-                // data.isCorrect = whether the SENDER was correct
-                // If sender won, I lost
-                endRound(!data.isCorrect);
-                break;
-            case 'ready':
-                isOppReady = true;
-                checkBothReady();
-                break;
+            case 'select': oppCharId = data.id; checkStart(); break;
+            case 'pass': startMyTurn(); break;
+            case 'result': endRound(!data.isCorrect); break; // If sender won, I lost
+            case 'ready': isOppReady = true; checkBothReady(); break;
         }
     }
 
@@ -956,8 +637,7 @@
         setWait(false);
         activePlayers = getActivePlayers();
         eliminated.clear();
-        myChar = null;
-        oppCharId = null;
+        myChar = null; oppCharId = null;
         clearInterval(timerInt);
 
         document.getElementById('main-header').style.display = 'flex';
@@ -986,57 +666,42 @@
         card.innerHTML = `
             <div class="card-rating ${ratingClass(p.rating)}">${p.rating}</div>
             <img class="card-img" src="${getImg(p)}" alt="${p.name}" loading="lazy">
-            <div class="card-info">
-                <div class="name">${p.name}</div>
-                <div class="team">${p.team}</div>
-            </div>`;
+            <div class="card-info"><div class="name">${p.name}</div><div class="team">${p.team}</div></div>`;
         return card;
     }
 
     function selectChar(p, cardEl) {
         if (myChar) return;
         myChar = p;
-        const grid = document.getElementById('grid-select');
-        grid.classList.add('has-selection');
+        document.getElementById('grid-select').classList.add('has-selection');
         cardEl.classList.add('selected');
-        conn.send({ type: 'select', id: p.id });
+        safeSend({ type: 'select', id: p.id });
         checkStart();
     }
 
     function checkStart() {
         if (myChar && oppCharId !== null) {
-            setWait(false);
-            setTimeout(startGame, 600);
+            setWait(false); setTimeout(startGame, 600);
         } else if (myChar && oppCharId === null) {
             setWait(true, 'في انتظار اختيار الخصم…');
         }
     }
 
     function startGame() {
-        setWait(false);
-        eliminated.clear();
-        activeFilter = 'all';
+        setWait(false); eliminated.clear(); activeFilter = 'all';
         switchScreen('screen-game');
-        renderGameGrid();
-        buildFilterBar();
+        renderGameGrid(); buildFilterBar();
         document.getElementById('hud').style.display = 'flex';
         updateElimCounter();
 
         const isOddRound = (roundNum % 2 !== 0);
-        const myTurnFirst = (isHost && isOddRound) || (!isHost && !isOddRound);
-        if (myTurnFirst) startMyTurn(); else startOppTurn();
+        if ((isHost && isOddRound) || (!isHost && !isOddRound)) startMyTurn(); else startOppTurn();
     }
 
     function renderGameGrid() {
         const grid = document.getElementById('grid-game');
         grid.innerHTML = '';
-        let toShow = activePlayers;
-        if (activeFilter !== 'all') {
-            toShow = toShow.filter(p => {
-                if (['GK','DF','MF','FW'].includes(activeFilter)) return p.pos === activeFilter;
-                return p.team === activeFilter;
-            });
-        }
+        let toShow = activeFilter === 'all' ? activePlayers : activePlayers.filter(p => ['GK','DF','MF','FW'].includes(activeFilter) ? p.pos === activeFilter : p.team === activeFilter);
         toShow.forEach(p => {
             const card = makeCard(p, true);
             if (p.id === myChar?.id) card.classList.add('my-card');
@@ -1047,155 +712,104 @@
     }
 
     function buildFilterBar() {
-        const bar = document.getElementById('filter-bar');
-        bar.innerHTML = '';
-        const positions = [...new Set(activePlayers.map(p => p.pos))];
-        const teams = [...new Set(activePlayers.map(p => p.team))].slice(0, 8);
-
+        const bar = document.getElementById('filter-bar'); bar.innerHTML = '';
         const addChip = (label, val) => {
             const chip = document.createElement('div');
             chip.className = 'filter-chip' + (val === activeFilter ? ' active' : '');
             chip.textContent = label;
-            chip.onclick = () => {
-                activeFilter = val;
-                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                renderGameGrid();
-            };
+            chip.onclick = () => { activeFilter = val; document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); renderGameGrid(); };
             bar.appendChild(chip);
         };
-
         addChip('الكل', 'all');
-        const posLabels = { GK:'حارس', DF:'دفاع', MF:'وسط', FW:'هجوم' };
-        positions.forEach(pos => addChip(posLabels[pos] || pos, pos));
+        const posLabels = { GK:'حارس', DF:'دفاع', MF:'وسط', FW:'هجوم' };[...new Set(activePlayers.map(p => p.pos))].forEach(pos => addChip(posLabels[pos] || pos, pos));
     }
 
     function toggleEliminate(id) {
-        if (!isMyTurn) { showToast("ليس دورك!", "error"); return; }
-        if (!timerInt) { showToast("انقر 'اسأل' أولاً لبدء الدور", "error"); return; }
-        if (myChar && id === myChar.id) { showToast("لا يمكنك استبعاد بطاقتك!", "error"); return; }
+        if (!isMyTurn) return showToast("ليس دورك!", "error");
+        if (!timerInt) return showToast("انقر 'اسأل' أولاً لبدء الدور", "error");
+        if (myChar && id === myChar.id) return showToast("لا يمكنك استبعاد بطاقتك!", "error");
 
         const card = document.getElementById(`card-${id}`);
         if (!card) return;
-
-        if (eliminated.has(id)) {
-            eliminated.delete(id);
-            card.classList.remove('eliminated');
-        } else {
-            eliminated.add(id);
-            card.classList.add('eliminated');
-        }
+        if (eliminated.has(id)) { eliminated.delete(id); card.classList.remove('eliminated'); }
+        else { eliminated.add(id); card.classList.add('eliminated'); }
         updateElimCounter();
     }
 
-    function updateElimCounter() {
-        document.getElementById('elim-count').textContent = eliminated.size;
-    }
+    function updateElimCounter() { document.getElementById('elim-count').textContent = eliminated.size; }
 
     // ════════════════════════════════════════════
     //  TURN MANAGEMENT
     // ════════════════════════════════════════════
     function startMyTurn() {
-        isMyTurn = true;
-        clearInterval(timerInt);
+        isMyTurn = true; clearInterval(timerInt);
         const ind = document.getElementById('turn-indicator');
-        ind.innerHTML = `<div class="dot"></div> <span>دورك الآن!</span>`;
-        ind.classList.add('active');
+        ind.innerHTML = `<div class="dot"></div> <span>دورك الآن!</span>`; ind.classList.add('active');
         document.getElementById('hud').classList.add('my-turn');
-        document.getElementById('btn-ask').style.display = '';
-        document.getElementById('btn-guess').style.display = '';
-        document.getElementById('btn-pass').style.display = 'none';
-        const timer = document.getElementById('timer');
-        timer.style.display = 'none';
-        timer.className = 'timer-box';
+        document.getElementById('btn-ask').style.display = ''; document.getElementById('btn-guess').style.display = ''; document.getElementById('btn-pass').style.display = 'none';
+        const timer = document.getElementById('timer'); timer.style.display = 'none'; timer.className = 'timer-box';
         showToast("دورك! 🎤", "gold");
     }
 
     function startOppTurn() {
-        isMyTurn = false;
-        clearInterval(timerInt);
+        isMyTurn = false; clearInterval(timerInt);
         const ind = document.getElementById('turn-indicator');
-        ind.innerHTML = `<div class="dot" style="opacity:0.3"></div> <span>دور الخصم…</span>`;
-        ind.classList.remove('active');
+        ind.innerHTML = `<div class="dot" style="opacity:0.3"></div> <span>دور الخصم…</span>`; ind.classList.remove('active');
         document.getElementById('hud').classList.remove('my-turn');
-        document.getElementById('btn-ask').style.display = 'none';
-        document.getElementById('btn-guess').style.display = 'none';
-        document.getElementById('btn-pass').style.display = 'none';
+        document.getElementById('btn-ask').style.display = 'none'; document.getElementById('btn-guess').style.display = 'none'; document.getElementById('btn-pass').style.display = 'none';
         document.getElementById('timer').style.display = 'none';
     }
 
     function startAskTimer() {
-        document.getElementById('btn-ask').style.display = 'none';
-        document.getElementById('btn-guess').style.display = 'none';
-        document.getElementById('btn-pass').style.display = '';
-        const timerEl = document.getElementById('timer');
-        timerEl.style.display = '';
-        timerEl.className = 'timer-box';
-        let t = timerDuration;
-        timerEl.textContent = t;
+        document.getElementById('btn-ask').style.display = 'none'; document.getElementById('btn-guess').style.display = 'none'; document.getElementById('btn-pass').style.display = '';
+        const timerEl = document.getElementById('timer'); timerEl.style.display = ''; timerEl.className = 'timer-box';
+        let t = timerDuration; timerEl.textContent = t;
         clearInterval(timerInt);
         timerInt = setInterval(() => {
-            t--;
-            timerEl.textContent = t;
+            t--; timerEl.textContent = t;
             if (t <= 10) timerEl.classList.add('urgent');
             if (t <= 0) { clearInterval(timerInt); passTurn(); }
         }, 1000);
     }
 
     function passTurn() {
-        clearInterval(timerInt);
-        conn.send({ type: 'pass' });
-        startOppTurn();
+        clearInterval(timerInt); safeSend({ type: 'pass' }); startOppTurn();
     }
 
     // ════════════════════════════════════════════
-    //  GUESS
+    //  GUESS & RESULTS
     // ════════════════════════════════════════════
     function showGuessModal() {
-        document.getElementById('guess-search').value = '';
-        renderGuessGrid(activePlayers);
+        document.getElementById('guess-search').value = ''; renderGuessGrid(activePlayers);
         document.getElementById('modal-guess').style.display = 'flex';
         setTimeout(() => document.getElementById('guess-search').focus(), 100);
     }
 
     function renderGuessGrid(list) {
-        const grid = document.getElementById('guess-grid');
-        grid.innerHTML = '';
+        const grid = document.getElementById('guess-grid'); grid.innerHTML = '';
         list.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'guess-item';
+            const div = document.createElement('div'); div.className = 'guess-item';
             div.innerHTML = `<img src="${getImg(p)}" alt="${p.name}"><div>${p.name}</div>`;
-            div.onclick = () => makeGuess(p.id);
-            grid.appendChild(div);
+            div.onclick = () => makeGuess(p.id); grid.appendChild(div);
         });
     }
 
-    function filterGuess(q) {
-        const filtered = activePlayers.filter(p =>
-            p.name.includes(q) || p.enName.toLowerCase().includes(q.toLowerCase()) || p.team.includes(q)
-        );
-        renderGuessGrid(filtered);
-    }
+    function filterGuess(q) { renderGuessGrid(activePlayers.filter(p => p.name.includes(q) || p.enName.toLowerCase().includes(q.toLowerCase()) || p.team.includes(q))); }
 
     function makeGuess(id) {
-        closeModal('modal-guess');
-        clearInterval(timerInt);
+        closeModal('modal-guess'); clearInterval(timerInt);
         const isCorrect = (id === oppCharId);
-        conn.send({ type: 'result', isCorrect });
+        safeSend({ type: 'result', isCorrect });
         endRound(isCorrect);
     }
 
-    // ════════════════════════════════════════════
-    //  ROUND END
-    // ════════════════════════════════════════════
     function endRound(iWon) {
         clearInterval(timerInt);
         if (iWon) myScore++; else oppScore++;
-        document.getElementById('score-me').textContent = myScore;
-        document.getElementById('score-opp').textContent = oppScore;
+        document.getElementById('score-me').textContent = myScore; document.getElementById('score-opp').textContent = oppScore;
 
         const oppP = activePlayers.find(p => p.id === oppCharId) || ALL_PLAYERS.find(p => p.id === oppCharId);
-        if (!oppP) { showToast("انتهت الجولة", iWon ? "success" : "error"); return; }
+        if (!oppP) return showToast("انتهت الجولة", iWon ? "success" : "error");
 
         document.getElementById('res-img').src = getImg(oppP);
         document.getElementById('res-name').textContent = oppP.name;
@@ -1203,37 +817,24 @@
         document.getElementById('res-score-me').textContent = myScore;
         document.getElementById('res-score-opp').textContent = oppScore;
 
-        const title = document.getElementById('res-title');
-        const msg = document.getElementById('res-msg');
-        const icon = document.getElementById('res-icon');
-
+        const title = document.getElementById('res-title'), msg = document.getElementById('res-msg'), icon = document.getElementById('res-icon');
         if (iWon) {
             title.textContent = "فزت! 🏆"; title.style.color = "var(--success)";
-            icon.className = "fas fa-check-circle fa-3x"; icon.style.color = "var(--success)";
-            msg.textContent = "تخمين صحيح!";
+            icon.className = "fas fa-check-circle fa-3x"; icon.style.color = "var(--success)"; msg.textContent = "تخمين صحيح!";
         } else {
             title.textContent = "خسرت 😔"; title.style.color = "var(--danger)";
-            icon.className = "fas fa-times-circle fa-3x"; icon.style.color = "var(--danger)";
-            msg.textContent = "الخصم خمّن صحيح.";
+            icon.className = "fas fa-times-circle fa-3x"; icon.style.color = "var(--danger)"; msg.textContent = "الخصم خمّن صحيح.";
         }
-
         document.getElementById('modal-result').style.display = 'flex';
     }
 
     function nextRound() {
-        closeModal('modal-result');
-        amIReady = true;
-        conn.send({ type: 'ready' });
-        setWait(true, 'في انتظار الخصم للجولة التالية…');
-        checkBothReady();
+        closeModal('modal-result'); amIReady = true; safeSend({ type: 'ready' });
+        setWait(true, 'في انتظار الخصم للجولة التالية…'); checkBothReady();
     }
 
     function checkBothReady() {
-        if (amIReady && isOppReady) {
-            amIReady = false; isOppReady = false;
-            roundNum++;
-            startSelectionPhase();
-        }
+        if (amIReady && isOppReady) { amIReady = false; isOppReady = false; roundNum++; startSelectionPhase(); }
     }
 
     function endGame() { location.reload(); }
