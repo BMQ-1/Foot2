@@ -3,1008 +3,1030 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>أساطير ٢٦</title>
+<title>أساطير كرة القدم 2026 — النسخة الفاخرة</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
 :root {
-  --bg:        #05080f;
-  --panel:     #0f1825;
-  --panel2:    #172035;
-  --panel3:    #1e2d48;
-  --gold:      #f0b429;
-  --gold2:     #ffd166;
-  --gold-dim:  rgba(240,180,41,0.13);
-  --gold-glow: rgba(240,180,41,0.35);
-  --blue:      #3b82f6;
-  --blue2:     #60a5fa;
-  --blue-dim:  rgba(59,130,246,0.10);
-  --green:     #10b981;
-  --green-dim: rgba(16,185,129,0.10);
-  --red:       #ef4444;
-  --red-dim:   rgba(239,68,68,0.10);
-  --text:      #eef2f8;
-  --text-dim:  #6b84a8;
-  --text-muted:#3d5270;
-  --border:    #1a2d46;
-  --border2:   #263d5e;
-  --font:      'Cairo', sans-serif;
-  --mono:      'IBM Plex Mono', monospace;
-  --r:         14px;
-  --r-sm:      8px;
+  --bg: #0A0D14;
+  --panel: #121620;
+  --panel-light: #1A202D;
+  --border: #232B3E;
+  --border-hl: #3A4764;
+  --gold: #E6B953;
+  --gold-light: #F9D471;
+  --gold-glow: rgba(230, 185, 83, 0.25);
+  --blue: #3B82F6;
+  --blue-glow: rgba(59, 130, 246, 0.25);
+  --red: #EF4444;
+  --green: #10B981;
+  --text: #F8FAFC;
+  --text-dim: #94A3B8;
+  --text-muted: #64748B;
+  --font: 'Cairo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius-lg: 16px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;}
-/* Fix for iOS Safari inputs */
-input, select, textarea { user-select: auto; }
-html{scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;background-image:radial-gradient(ellipse 140% 55% at 50% -5%,rgba(59,130,246,.055) 0%,transparent 55%),radial-gradient(ellipse 70% 40% at 85% 105%,rgba(240,180,41,.035) 0%,transparent 55%);}
-::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(230, 185, 83, 0.03), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03), transparent 25%);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hl); border-radius: 10px; }
 
 /* HEADER */
-#header{position:sticky;top:0;z-index:300;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(5,8,15,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.logo{font-size:1.25rem;font-weight:900;color:var(--gold);display:flex;align-items:center;gap:9px;text-shadow:0 0 28px var(--gold-glow);}
-.logo-ball{font-size:1.1rem;animation:spin 14s linear infinite;display:inline-block;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.logo-sub{font-size:.6rem;color:var(--text-dim);font-weight:600;display:block;line-height:1;margin-top:1px;}
-.score-pill{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--border2);padding:5px 14px;border-radius:99px;font-size:.77rem;font-weight:800;}
-.snum{font-family:var(--mono);font-size:.93rem;color:var(--gold2);}
-.ssep{color:var(--border2);}
-.hbtns{display:flex;gap:4px;}
-.ibtn{width:36px;height:36px;border-radius:var(--r-sm);background:none;border:none;color:var(--text-dim);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
-.ibtn:hover{background:var(--panel2);color:var(--text);}
+#header {
+  position: sticky; top: 0; z-index: 200;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+.logo {
+  font-size: 1.4rem; font-weight: 900;
+  background: linear-gradient(to left, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: flex; align-items: center; gap: 8px;
+}
+.logo i { color: var(--gold); -webkit-text-fill-color: initial; }
+
+.header-btns { display: flex; gap: 8px; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  background: var(--panel); border: 1px solid var(--border);
+  color: var(--text-dim); font-size: 1.1rem; cursor: pointer;
+  transition: 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.icon-btn:hover { background: var(--panel-light); color: var(--gold); border-color: var(--gold); }
 
 /* SCREENS */
-.screen{display:none;flex-direction:column;align-items:center;width:100%;max-width:1100px;margin:0 auto;padding:20px 14px;}
-.screen.active{display:flex;}
+.screen { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+.screen.active { display: flex; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* LOBBY */
-#screen-lobby{gap:18px;padding-top:28px;}
-.lhero{text-align:center;}
-.bigball{font-size:4.5rem;display:block;animation:float 3.2s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(240,180,41,.4));}
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-11px) rotate(7deg);}}
-.lname{font-size:2.5rem;font-weight:900;color:var(--gold);margin-top:6px;text-shadow:0 0 40px var(--gold-glow);line-height:1;}
-.ltag{color:var(--text-dim);font-size:.8rem;margin-top:5px;}
-.lcard{width:100%;max-width:390px;background:linear-gradient(155deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--border2);border-radius:20px;padding:24px 22px;position:relative;overflow:hidden;}
-.lcard::before{content:'';position:absolute;top:0;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.lct{font-size:1rem;font-weight:900;margin-bottom:3px;}
-.lcs{font-size:.76rem;color:var(--text-dim);margin-bottom:18px;}
-.clabel{font-size:.71rem;color:var(--text-dim);font-weight:700;margin-bottom:7px;}
-.crow{display:flex;gap:6px;margin-bottom:18px;}
-.cnt{flex:1;padding:8px 4px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:rgba(0,0,0,.3);color:var(--text-dim);font-weight:800;font-size:.87rem;cursor:pointer;transition:.2s;font-family:var(--font);}
-.cnt:hover{border-color:var(--border2);color:var(--text);}
-.cnt.on{border-color:var(--gold);background:var(--gold-dim);color:var(--gold);box-shadow:0 0 12px var(--gold-glow);}
-.ordiv{display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:.67rem;font-weight:800;margin:10px 0;}
-.ordiv::before,.ordiv::after{content:'';flex:1;height:1px;background:var(--border);}
-.cwrap{position:relative;margin:10px 0;cursor:pointer;}
-.cbox{font-family:var(--mono);font-size:2.4rem;font-weight:700;letter-spacing:10px;color:var(--gold2);background:rgba(0,0,0,.4);padding:12px 8px;border-radius:var(--r);border:1.5px dashed var(--border2);text-align:center;direction:ltr;transition:.2s;}
-.cbox:hover{border-color:var(--gold);background:var(--gold-dim);}
-.ctip{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:.6rem;padding:2px 9px;border-radius:99px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;}
-.cwrap:hover .ctip{opacity:1;top:-17px;}
-.wbadge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid rgba(59,130,246,.22);color:var(--blue2);padding:7px 14px;border-radius:99px;font-size:.74rem;font-weight:700;margin-top:10px;}
-.cinput{width:100%;padding:13px;background:rgba(0,0,0,.35);border:1.5px solid var(--border);color:var(--text);border-radius:var(--r);text-align:center;font-size:1.5rem;font-family:var(--mono);letter-spacing:8px;outline:none;transition:.2s;margin:9px 0 5px;}
-.cinput:focus{border-color:var(--blue);background:var(--blue-dim);}
+.hero-section { text-align: center; margin-bottom: 30px; }
+.hero-icon { font-size: 4rem; color: var(--gold); filter: drop-shadow(0 0 20px var(--gold-glow)); margin-bottom: 10px; }
+.hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
+.hero-sub { color: var(--text-dim); font-size: 1rem; }
+
+.lobby-box {
+  width: 100%; max-width: 420px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 30px;
+  box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.lobby-box::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.lobby-label { font-size: 0.85rem; color: var(--text-dim); font-weight: 700; margin-bottom: 10px; display: block; }
+.count-row { display: flex; gap: 8px; margin-bottom: 24px; }
+.cnt-btn {
+  flex: 1; padding: 10px 0; border-radius: var(--radius-sm);
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+  color: var(--text-dim); font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.2s;
+}
+.cnt-btn:hover { border-color: var(--border-hl); color: var(--text); }
+.cnt-btn.on { background: rgba(230, 185, 83, 0.1); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+
+.divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.code-display {
+  font-family: var(--font-mono); font-size: 2.8rem; font-weight: 700;
+  letter-spacing: 12px; color: var(--gold-light);
+  background: rgba(0,0,0,0.4); padding: 16px; border-radius: var(--radius);
+  border: 1px dashed var(--gold); text-align: center; direction: ltr; margin: 15px 0;
+}
+.code-input {
+  width: 100%; padding: 16px; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border); color: var(--text);
+  border-radius: var(--radius); text-align: center; font-size: 1.8rem;
+  font-family: var(--font-mono); letter-spacing: 10px; outline: none; transition: 0.2s; margin-bottom: 15px;
+}
+.code-input:focus { border-color: var(--blue); box-shadow: 0 0 15px var(--blue-glow); }
 
 /* BUTTONS */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 14px;border-radius:var(--r);border:none;font-family:var(--font);font-weight:800;font-size:.87rem;cursor:pointer;transition:transform .1s,box-shadow .2s,opacity .2s;}
-.btn+.btn{margin-top:7px;}
-.btn:active:not(:disabled){transform:scale(.97);}
-.btn:disabled{opacity:.45;cursor:not-allowed;}
-.btn-primary{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;box-shadow:0 4px 18px rgba(59,130,246,.28);}
-.btn-primary:hover:not(:disabled){box-shadow:0 4px 26px rgba(59,130,246,.48);}
-.btn-gold{background:linear-gradient(135deg,#fbbf24,#d97706);color:#0f172a;box-shadow:0 4px 18px rgba(251,191,36,.28);}
-.btn-gold:hover:not(:disabled){box-shadow:0 4px 26px rgba(251,191,36,.48);}
-.btn-red{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;box-shadow:0 4px 18px rgba(239,68,68,.28);}
-.btn-red:hover:not(:disabled){box-shadow:0 4px 26px rgba(239,68,68,.48);}
-.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--text-dim);}
-.btn-outline:hover:not(:disabled){background:rgba(255,255,255,.04);color:var(--text);border-color:var(--text-dim);}
-.btn-ghost{background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text-dim);}
-.btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--border2);}
-.btn-danger{background:transparent;border:1.5px solid rgba(239,68,68,.3);color:var(--red);}
-.btn-danger:hover:not(:disabled){background:var(--red-dim);}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 14px 20px; border-radius: var(--radius-sm);
+  border: none; font-family: var(--font); font-weight: 800; font-size: 1rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 15px var(--blue-glow); }
+.btn-primary:hover:not(:disabled) { background: #2563EB; }
+.btn-gold { background: linear-gradient(135deg, var(--gold), #D4AF37); color: #111; box-shadow: 0 4px 15px var(--gold-glow); }
+.btn-gold:hover:not(:disabled) { filter: brightness(1.1); }
+.btn-outline { background: transparent; border: 1px solid var(--border-hl); color: var(--text); }
+.btn-outline:hover:not(:disabled) { background: var(--panel-light); border-color: var(--text-dim); }
+.btn-danger { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--red); }
+.btn-danger:hover:not(:disabled) { background: rgba(239, 68, 68, 0.2); }
 
-/* SELECT */
-#screen-select{padding-top:18px;}
-.shdr{width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
-.shdr h2{font-size:1.2rem;font-weight:900;}
-.shdr p{font-size:.74rem;color:var(--text-dim);margin-top:3px;}
-.rbadge{font-family:var(--mono);font-size:.67rem;font-weight:700;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(240,180,41,.22);padding:4px 11px;border-radius:99px;white-space:nowrap;flex-shrink:0;}
+/* GAME HEADER BAR (Clutter Free) */
+.game-header-bar {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 12px 16px; margin-bottom: 16px; gap: 16px; box-shadow: var(--shadow);
+}
+.my-secret-card { display: flex; align-items: center; gap: 14px; }
+.mp-img { width: 54px; height: 54px; border-radius: 10px; border: 2px solid var(--gold); object-fit: cover; object-position: top; background: var(--panel-light); }
+.mp-info { display: flex; flex-direction: column; gap: 2px; }
+.mp-label { font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+.mp-name { font-size: 1.1rem; font-weight: 900; line-height: 1; }
+.mp-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.mp-tag { font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
+.mp-tag.rating { color: var(--gold-light); }
+.mp-tag.pos { color: var(--text); }
+.mp-tag.team { color: var(--text-dim); }
 
-/* CARD GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px;width:100%;}
-.grid.pb{padding-bottom:172px;}
+.match-stats { display: flex; gap: 12px; }
+.stat-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; text-align: center; min-width: 70px; }
+.stat-box.active { border-color: var(--border-hl); background: var(--panel-light); }
+.stat-lbl { font-size: 0.65rem; color: var(--text-dim); font-weight: 800; margin-bottom: 2px; }
+.stat-val { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; }
+.stat-val.me { color: var(--blue); }
+.stat-val.opp { color: var(--red); }
 
-/* PLAYER CARD */
-.card{position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;background:var(--panel2);border:1.5px solid var(--border);aspect-ratio:2/3;transition:transform .2s,border-color .2s,box-shadow .2s;}
-.card:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:0 8px 24px rgba(0,0,0,.55);}
-.card.mine{border-color:var(--gold);box-shadow:0 0 16px var(--gold-glow);}
-.card.selected{border-color:var(--green);box-shadow:0 0 18px rgba(16,185,129,.38);transform:scale(.97);}
-.card.dead{opacity:.25;}
-.card.dead .ci{filter:grayscale(1);}
-.ci{position:absolute;inset:0;width:100%;height:78%;object-fit:cover;object-position:top center;z-index:1;}
-.cg{position:absolute;bottom:0;left:0;right:0;height:65%;background:linear-gradient(to top,rgba(5,8,15,.97) 35%,transparent);z-index:2;}
-.cr{position:absolute;top:6px;left:7px;z-index:5;font-family:var(--mono);font-size:.7rem;font-weight:700;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);padding:2px 6px;border-radius:5px;border:1px solid rgba(255,255,255,.07);}
-.cp{position:absolute;top:6px;right:7px;z-index:5;font-size:.58rem;font-weight:900;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);padding:2px 6px;border-radius:5px;color:var(--text-dim);border:1px solid rgba(255,255,255,.06);}
-.r-top{color:var(--gold2);}.r-high{color:#e2e8f0;}.r-mid{color:#6b84a8;}
-.cb{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:0 7px 8px;}
-.cn{font-size:.7rem;font-weight:900;line-height:1.15;color:var(--text);}
-.ct{font-size:.56rem;color:var(--text-dim);margin-top:2px;}
+/* FILTER BAR */
+.filter-bar {
+  display: flex; gap: 8px; overflow-x: auto; width: 100%; padding-bottom: 12px; scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.chip {
+  flex-shrink: 0; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+  border: 1px solid var(--border); background: var(--panel); color: var(--text-dim);
+  cursor: pointer; transition: 0.2s;
+}
+.chip:hover { border-color: var(--border-hl); color: var(--text); }
+.chip.on { background: var(--blue-glow); border-color: var(--blue); color: #fff; }
 
-/* GAME SCREEN */
-#screen-game{padding-top:14px;}
+/* GRID & CARDS (Deluxe Design) */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 14px; width: 100%; padding-bottom: 180px; }
 
-/* My Player Banner */
-.mybanner{width:100%;background:linear-gradient(100deg,rgba(240,180,41,.06) 0%,rgba(15,24,37,.9) 60%);border:1px solid rgba(240,180,41,.2);border-radius:var(--r);padding:10px 13px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 1px 0 rgba(240,180,41,.07);}
-.bimg{width:46px;height:46px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;object-position:top;box-shadow:0 0 14px var(--gold-glow);flex-shrink:0;background:var(--panel2);}
-.binfo{flex:1;min-width:0;}
-.blabel{font-size:.58rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.bname{font-size:.93rem;font-weight:900;color:var(--gold);line-height:1.1;}
-.bpills{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
-.bp{font-size:.6rem;font-weight:800;padding:2px 9px;border-radius:99px;border:1px solid;}
-.bp-team{color:var(--text-dim);border-color:var(--border2);background:rgba(255,255,255,.04);}
-.bp-rating{color:var(--gold2);border-color:rgba(240,180,41,.3);background:var(--gold-dim);}
-.bp-pos{color:var(--blue2);border-color:rgba(59,130,246,.3);background:var(--blue-dim);}
+.card {
+  background: linear-gradient(160deg, #1A202D 0%, #121620 100%);
+  border: 1px solid var(--border-hl);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 2/3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.card:hover { transform: translateY(-4px); border-color: var(--gold-light); box-shadow: 0 8px 20px rgba(230, 185, 83, 0.15); }
+.card.selected { border-color: var(--green); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); transform: scale(0.96); }
+.card.mine { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
 
-/* Stats bar */
-.sbar{width:100%;display:flex;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;}
-.scell{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 6px;border-left:1px solid var(--border);}
-.scell:last-child{border-left:none;}
-.scell:first-child{border-left:none;}
-.slabel{font-size:.57rem;color:var(--text-muted);font-weight:700;margin-bottom:2px;white-space:nowrap;}
-.sval{font-family:var(--mono);font-size:.93rem;font-weight:700;}
-.sv-me{color:var(--blue2);}.sv-opp{color:var(--red);}.sv-left{color:var(--text);}
+.c-top { position: absolute; top: 8px; left: 8px; z-index: 5; text-align: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border-radius: 6px; padding: 4px 6px; border: 1px solid rgba(255,255,255,0.1); }
+.c-rat { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
+.c-pos { font-size: 0.65rem; font-weight: 800; color: var(--text); margin-top: 2px; }
 
-/* Filter bar */
-.fbar{display:flex;gap:6px;overflow-x:auto;padding:0 2px 10px;width:100%;scrollbar-width:none;}
-.fbar::-webkit-scrollbar{display:none;}
-.chip{flex-shrink:0;padding:4px 13px;border-radius:99px;font-size:.69rem;font-weight:700;border:1px solid var(--border);background:var(--panel);color:var(--text-dim);cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:4px;}
-.chip:hover{border-color:var(--border2);color:var(--text);}
-.chip.on{background:var(--blue-dim);border-color:var(--blue);color:var(--blue2);}
+.c-img-wrap { position: absolute; inset: 0; height: 75%; }
+.c-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0.9; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
 
-/* HUD */
-#hud{position:fixed;bottom:0;right:0;left:0;z-index:400;background:rgba(5,8,15,.97);backdrop-filter:blur(18px);border-top:1px solid var(--border);padding:11px 14px 20px;display:none;flex-direction:column;gap:10px;box-shadow:0 -6px 32px rgba(0,0,0,.7);transition:border-top-color .25s;}
-#hud.myturn{border-top:2px solid var(--gold);}
-#hud.oppturn{border-top:2px solid var(--panel3);}
-.hudtop{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.twrap{display:flex;align-items:center;gap:9px;flex:1;min-width:0;}
-.tdot{width:9px;height:9px;border-radius:50%;background:var(--border2);transition:.3s;flex-shrink:0;}
-.twrap.active .tdot{background:var(--gold);box-shadow:0 0 8px var(--gold);}
-.ttexts{display:flex;flex-direction:column;line-height:1.2;min-width:0;}
-.tmain{font-size:.9rem;font-weight:900;}
-.tsub{font-size:.64rem;color:var(--text-dim);font-weight:600;margin-top:2px;}
-.timer{font-family:var(--mono);font-size:1.35rem;font-weight:700;background:var(--panel2);border:1px solid var(--border);padding:3px 12px;border-radius:var(--r-sm);color:var(--text);min-width:54px;text-align:center;transition:.3s;flex-shrink:0;}
-.timer.urgent{color:var(--red);background:var(--red-dim);border-color:rgba(239,68,68,.35);animation:tick .5s ease-in-out infinite alternate;}
-@keyframes tick{from{transform:scale(1)}to{transform:scale(1.06)}}
-.hactions{display:flex;gap:8px;}
-.hactions .btn{flex:1;margin:0;padding:12px 8px;}
-.oppturn-status{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:11px;font-size:.81rem;font-weight:700;color:var(--text-dim);}
-.oppturn-status i{color:var(--blue2);font-size:.95rem;}
+.c-bot { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: linear-gradient(to top, rgba(10,13,20,1) 40%, transparent); text-align: center; z-index: 5; }
+.c-name { font-size: 0.8rem; font-weight: 900; color: var(--text); line-height: 1.1; }
+.c-team { font-size: 0.6rem; color: var(--text-dim); margin-top: 3px; }
+
+/* Dead Card Overlay */
+.card.dead { opacity: 0.4; filter: grayscale(100%); transform: scale(0.95); pointer-events: auto; }
+.card.dead:hover { transform: scale(0.95); border-color: var(--red); }
+.card.dead::after {
+  content: '\f00d'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+  position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+  font-size: 3.5rem; color: rgba(239, 68, 68, 0.9); z-index: 10; text-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+/* HUD (Turn Actions) */
+#hud {
+  position: fixed; bottom: 0; right: 0; left: 0; z-index: 300;
+  background: rgba(18, 22, 32, 0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border); padding: 16px 20px 24px;
+  display: none; flex-direction: column; gap: 12px; box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+  transition: border-color 0.3s;
+}
+#hud.myturn { border-top: 2px solid var(--gold); }
+.hud-header { display: flex; align-items: center; justify-content: space-between; }
+.turn-status { display: flex; align-items: center; gap: 12px; }
+.turn-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--text-muted); transition: 0.3s; }
+.turn-dot.glow { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+.turn-text h3 { font-size: 1.1rem; font-weight: 900; line-height: 1.2; }
+.turn-text p { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; }
+.timer { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 4px 16px; border-radius: var(--radius-sm); min-width: 64px; text-align: center; }
+.timer.urgent { color: var(--red); border-color: rgba(239, 68, 68, 0.4); animation: pulse 0.5s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+.hud-actions { display: flex; gap: 10px; }
+.hud-actions .btn { flex: 1; padding: 12px; font-size: 0.9rem; }
 
 /* MODALS */
-.overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:flex-end;padding:0;}
-.overlay.active{display:flex;}
-.modal{background:linear-gradient(155deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--border2);border-radius:22px 22px 0 0;padding:24px 20px 30px;width:100%;max-width:500px;animation:slideUp .28s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto;position:relative;}
-.modal::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:36px;height:3px;background:var(--border2);border-radius:99px;}
-@media(min-width:580px){.overlay{align-items:center;padding:20px;}.modal{border-radius:22px;max-height:90vh;}.modal::before{display:none;}}
-@keyframes slideUp{from{transform:translateY(55px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mtitle{font-size:1.1rem;font-weight:900;margin:6px 0 4px;}
-.msub{font-size:.79rem;color:var(--text-dim);line-height:1.55;margin-bottom:15px;}
-.howlist{list-style:none;background:rgba(0,0,0,.22);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:15px;}
-.howlist li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:.81rem;line-height:1.5;}
-.howlist li:last-child{border-bottom:none;padding-bottom:0;}
-.howlist li:first-child{padding-top:0;}
-.hico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.74rem;flex-shrink:0;margin-top:1px;}
-.sin{width:100%;padding:10px 13px;background:rgba(0,0,0,.28);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);outline:none;font-family:var(--font);font-size:.84rem;transition:.2s;margin-bottom:11px;text-align:right;}
-.sin:focus{border-color:var(--blue);background:var(--blue-dim);}
-.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px;max-height:44vh;overflow-y:auto;padding:2px;}
-.gitem{background:var(--panel3);border:1px solid var(--border);border-radius:9px;cursor:pointer;transition:.2s;text-align:center;padding:7px 4px;}
-.gitem:hover{border-color:var(--gold);transform:translateY(-2px);background:var(--gold-dim);}
-.gitem img{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);object-fit:cover;object-position:top;}
-.gitem div{font-size:.58rem;font-weight:700;color:var(--text-dim);margin-top:5px;line-height:1.2;}
-.gitem:hover div{color:var(--text);}
-#confirm-ui{display:none;flex-direction:column;align-items:center;}
-.confwrap{background:rgba(0,0,0,.38);border:2px solid var(--gold);border-radius:14px;padding:18px 22px;margin:12px 0 18px;box-shadow:0 0 30px var(--gold-glow);text-align:center;width:100%;}
-.confwrap img{width:76px;height:76px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;object-position:top;margin-bottom:10px;}
-.confwrap h3{font-size:1.15rem;font-weight:900;}
-.confwrap small{font-size:.76rem;color:var(--text-dim);}
-.confbtns{display:flex;gap:8px;width:100%;}
-.gwarn{background:var(--red-dim);border:1px solid rgba(239,68,68,.3);border-radius:var(--r-sm);padding:9px 13px;font-size:.77rem;font-weight:700;color:#fca5a5;display:flex;align-items:center;gap:8px;margin-bottom:13px;}
-.resplayer{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin:12px 0;}
-.resplayer img{width:54px;height:54px;border-radius:50%;border:2px solid var(--border2);object-fit:cover;object-position:top;flex-shrink:0;}
-.scoreboard{background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:14px;text-align:center;}
-.scnums{font-family:var(--mono);font-size:1.9rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:14px;}
-.setrow{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:9px;}
-.setrow label{font-size:.84rem;font-weight:700;}
-.setrow select{background:var(--panel3);border:1px solid var(--border2);color:var(--text);padding:6px 11px;border-radius:var(--r-sm);outline:none;font-family:var(--font);cursor:pointer;}
+.overlay {
+  position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  display: none; justify-content: center; align-items: center; padding: 20px;
+}
+.overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+.modal {
+  background: var(--panel); border: 1px solid var(--border-hl); border-radius: var(--radius-lg);
+  padding: 30px 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative;
+}
+.modal-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; text-align: center; }
+.modal-sub { font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-bottom: 24px; line-height: 1.5; }
 
-/* TOAST */
-#toasts{position:fixed;top:66px;left:14px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none;max-width:290px;}
-.toast{background:var(--panel3);color:var(--text);padding:10px 15px;border-radius:10px;border-right:3px solid var(--blue);box-shadow:0 6px 24px rgba(0,0,0,.6);font-weight:700;font-size:.79rem;animation:tIn .28s cubic-bezier(.22,1,.36,1) forwards,tOut .28s ease-in 3s forwards;}
-.toast.err{border-right-color:var(--red);}.toast.ok{border-right-color:var(--green);}.toast.gold{border-right-color:var(--gold);}
-@keyframes tIn{from{transform:translateX(-110%);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes tOut{from{opacity:1}to{opacity:0;transform:translateX(-20%)}}
+/* GUESS MODAL */
+.search-input { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm); outline: none; font-family: var(--font); margin-bottom: 16px; }
+.search-input:focus { border-color: var(--gold); }
+.guess-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; max-height: 40vh; overflow-y: auto; padding-right: 5px; }
+.g-item { background: var(--panel-light); border: 1px solid var(--border); border-radius: 8px; text-align: center; padding: 10px 5px; cursor: pointer; transition: 0.2s; }
+.g-item:hover { border-color: var(--gold); background: rgba(230, 185, 83, 0.1); transform: translateY(-2px); }
+.g-item img { width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-hl); object-fit: cover; margin-bottom: 6px; }
+.g-item div { font-size: 0.65rem; font-weight: 800; color: var(--text); line-height: 1.2; }
 
-/* WAIT */
-#wait{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);display:none;flex-direction:column;justify-content:center;align-items:center;gap:13px;}
-.wspinner{font-size:2.3rem;color:var(--gold);animation:spin 1s linear infinite;}
-#wait h3{font-size:1.05rem;font-weight:900;color:var(--gold);}
-#wait p{font-size:.77rem;color:var(--text-dim);}
+/* CONFIRM GUESS */
+.confirm-box { background: rgba(0,0,0,0.4); border: 2px solid var(--gold); border-radius: var(--radius); padding: 24px; text-align: center; margin-bottom: 24px; }
+.confirm-box img { width: 90px; height: 90px; border-radius: 12px; border: 2px solid var(--gold); object-fit: cover; margin-bottom: 12px; }
+.confirm-box h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 4px; }
+.confirm-box p { font-size: 0.85rem; color: var(--text-dim); }
 
-/* TURN ACTION INFO BOX */
-.turn-phase-hint{background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.15);border-radius:var(--r-sm);padding:7px 12px;font-size:.75rem;color:var(--gold2);font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:8px;}
-.turn-phase-hint.blue{background:var(--blue-dim);border-color:rgba(59,130,246,.2);color:var(--blue2);}
+/* RESULT MODAL */
+.res-card { display: flex; align-items: center; gap: 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin: 20px 0; text-align: right; }
+.res-card img { width: 70px; height: 70px; border-radius: 10px; border: 2px solid var(--border-hl); object-fit: cover; }
+.res-score { display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 2.5rem; font-family: var(--font-mono); font-weight: 900; background: rgba(0,0,0,0.3); padding: 20px; border-radius: var(--radius); margin-bottom: 24px; border: 1px solid var(--border); }
 
-@media(max-width:480px){.grid{grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;}#toasts{left:8px;right:8px;max-width:none;align-items:center;}.toast{text-align:center;}}
+/* TOASTS */
+#toasts { position: fixed; top: 80px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--panel-light); color: var(--text); padding: 12px 20px; border-radius: var(--radius-sm); border-right: 4px solid var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-weight: 700; font-size: 0.9rem; animation: tIn 0.3s ease forwards, tOut 0.3s ease 3s forwards; }
+.toast.err { border-right-color: var(--red); }
+.toast.ok { border-right-color: var(--green); }
+.toast.gold { border-right-color: var(--gold); }
+@keyframes tIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes tOut { from { opacity: 1; } to { opacity: 0; transform: translateX(-20px); } }
+
+/* WAITING OVERLAY */
+#wait { position: fixed; inset: 0; z-index: 1100; background: rgba(10, 13, 20, 0.9); backdrop-filter: blur(12px); display: none; flex-direction: column; justify-content: center; align-items: center; gap: 16px; }
+.wait-spinner { font-size: 3rem; color: var(--gold); animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#wait h3 { font-size: 1.3rem; font-weight: 900; color: var(--text); }
+#wait p { font-size: 0.9rem; color: var(--text-dim); }
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 10px; }
+  .game-header-bar { flex-direction: column; align-items: flex-start; }
+  .match-stats { width: 100%; justify-content: space-between; }
+  .stat-box { flex: 1; }
+  #toasts { left: 16px; right: 16px; align-items: center; }
+  .toast { text-align: center; width: 100%; }
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header id="header">
-  <div class="logo">
-    <span class="logo-ball">⚽</span>
-    <div>أساطير ٢٦<span class="logo-sub">لعبة تخمين النجوم</span></div>
-  </div>
-  <div class="score-pill" id="score-pill" style="display:none;">
-    <span>أنت <span class="snum" id="sc-me">0</span></span>
-    <span class="ssep">|</span>
-    <span>خصمك <span class="snum" id="sc-opp">0</span></span>
-  </div>
-  <div class="hbtns">
-    <button class="ibtn" onclick="openModal('m-howto')"><i class="fas fa-question-circle"></i></button>
-    <button class="ibtn" onclick="openModal('m-settings')"><i class="fas fa-cog"></i></button>
+  <div class="logo"><i class="fas fa-crown"></i> أساطير كرة القدم 2026</div>
+  <div class="header-btns">
+    <button class="icon-btn" onclick="openModal('m-howto')"><i class="fas fa-question"></i></button>
   </div>
 </header>
 
 <div id="toasts"></div>
 
-<!-- LOBBY -->
+<!-- ═══════════ LOBBY ═══════════ -->
 <div id="screen-lobby" class="screen active">
-  <div class="lhero">
-    <span class="bigball">⚽</span>
-    <div class="lname">أساطير ٢٦</div>
-    <div class="ltag">العب مع صديقك — خمّن اللاعب قبله</div>
+  <div class="hero-section">
+    <i class="fas fa-trophy hero-icon"></i>
+    <h1 class="hero-title">النسخة الفاخرة</h1>
+    <p class="hero-sub">استضف صديقك، اختر أسطورتك، واكشف السر!</p>
   </div>
-  <div class="lcard">
-    <div class="lct">ابدأ المباراة</div>
-    <div class="lcs">استضف أو انضم لجلسة موجودة</div>
-    <div class="clabel">عدد اللاعبين في اللعبة:</div>
-    <div class="crow">
-      <button class="cnt on" data-n="20" onclick="setCount(20,this)">20</button>
-      <button class="cnt" data-n="32" onclick="setCount(32,this)">32</button>
-      <button class="cnt" data-n="48" onclick="setCount(48,this)">48</button>
-      <button class="cnt" data-n="0" onclick="setCount(0,this)">الكل</button>
-    </div>
+
+  <div class="lobby-box">
+    <!-- Host Section -->
     <div id="host-idle">
-      <button id="btn-host" class="btn btn-primary" onclick="hostGame()"><i class="fas fa-server"></i> استضافة لعبة جديدة</button>
-    </div>
-    <div id="host-waiting" style="display:none;text-align:center;">
-      <div style="font-size:.71rem;color:var(--text-dim);margin-bottom:5px;">أرسل هذا الكود لصديقك:</div>
-      <div class="cwrap" onclick="copyCode()">
-        <div class="ctip">اضغط للنسخ</div>
-        <div class="cbox" id="my-code">----</div>
+      <span class="lobby-label"><i class="fas fa-users"></i> عدد اللاعبين في الجولة (للمضيف):</span>
+      <div class="count-row">
+        <button class="cnt-btn on" onclick="setCount(20, this)">20</button>
+        <button class="cnt-btn" onclick="setCount(32, this)">32</button>
+        <button class="cnt-btn" onclick="setCount(48, this)">48</button>
       </div>
-      <div class="wbadge"><i class="fas fa-circle-notch fa-spin"></i> في انتظار الخصم…</div>
+      <button id="btn-host" class="btn btn-primary" onclick="hostGame()">
+        <i class="fas fa-server"></i> استضافة لعبة جديدة
+      </button>
     </div>
-    <div class="ordiv" id="or-line">أو</div>
+
+    <!-- Host Waiting -->
+    <div id="host-waiting" style="display:none; text-align:center;">
+      <span class="lobby-label" style="color:var(--green);">تم إنشاء الغرفة! أرسل الكود لصديقك:</span>
+      <div class="code-display" id="my-code">----</div>
+      <p style="font-size:0.8rem; color:var(--text-dim);"><i class="fas fa-circle-notch fa-spin"></i> في انتظار انضمام الخصم...</p>
+    </div>
+
+    <div class="divider" id="or-line">أو انضم للعبة</div>
+
+    <!-- Join Section -->
     <div id="join-idle">
-      <input type="text" pattern="\d*" class="cinput" id="join-input" placeholder="1234" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,4)">
-      <button id="btn-join" class="btn btn-gold" onclick="joinGame()"><i class="fas fa-right-to-bracket"></i> انضمام للعبة</button>
+      <input type="number" class="code-input" id="join-input" placeholder="أدخل الكود" oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
+      <button id="btn-join" class="btn btn-gold" onclick="joinGame()">
+        <i class="fas fa-right-to-bracket"></i> انضمام
+      </button>
+      <p style="font-size:0.7rem; color:var(--text-muted); text-align:center; margin-top:10px;">(إعدادات الغرفة يحددها المضيف)</p>
     </div>
   </div>
-  <button class="btn btn-ghost" style="max-width:390px;" onclick="openModal('m-howto')"><i class="fas fa-book-open"></i> طريقة اللعب</button>
 </div>
 
-<!-- SELECT -->
+<!-- ═══════════ SELECT SCREEN ═══════════ -->
 <div id="screen-select" class="screen">
-  <div class="shdr">
-    <div><h2>اختر بطاقتك السرية</h2><p id="sel-hint">خصمك سيحاول تخمينها — اختر بذكاء!</p></div>
-    <div style="text-align:left;">
-      <div class="rbadge" id="round-badge">الجولة ١</div>
-      <div style="font-size:.64rem;color:var(--text-dim);margin-top:4px;" id="sel-count"></div>
-    </div>
+  <div style="text-align:center; margin-bottom:24px;">
+    <h2 style="font-size:1.6rem; font-weight:900; color:var(--gold);">اختر أسطورتك السرية</h2>
+    <p style="font-size:0.9rem; color:var(--text-dim); margin-top:4px;">هذا هو اللاعب الذي سيحاول خصمك تخمينه. اختر بذكاء!</p>
   </div>
   <div class="grid" id="grid-sel"></div>
 </div>
 
-<!-- GAME -->
+<!-- ═══════════ GAME SCREEN ═══════════ -->
 <div id="screen-game" class="screen">
-  <!-- My Player Banner -->
-  <div class="mybanner">
-    <img class="bimg" id="banner-img" src="" alt="">
-    <div class="binfo">
-      <div class="blabel">بطاقتك السرية</div>
-      <div class="bname" id="banner-name">—</div>
-      <div class="bpills">
-        <span class="bp bp-team" id="banner-team">—</span>
-        <span class="bp bp-rating" id="banner-rating">—</span>
-        <span class="bp bp-pos" id="banner-pos">—</span>
+  <!-- Top Stats Bar -->
+  <div class="game-header-bar">
+    <div class="my-secret-card" id="my-secret-ui">
+      <!-- Injected via JS -->
+    </div>
+    <div class="match-stats">
+      <div class="stat-box">
+        <div class="stat-lbl">استبعادك</div>
+        <div class="stat-val me" id="elim-me">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-lbl">استبعاد الخصم</div>
+        <div class="stat-val opp" id="elim-opp">0</div>
+      </div>
+      <div class="stat-box active">
+        <div class="stat-lbl">المتبقي</div>
+        <div class="stat-val" id="elim-left">0</div>
       </div>
     </div>
   </div>
-  <!-- Stats -->
-  <div class="sbar">
-    <div class="scell"><div class="slabel">استبعدت</div><div class="sval sv-me" id="elim-me">0</div></div>
-    <div class="scell"><div class="slabel">الخصم استبعد</div><div class="sval sv-opp" id="elim-opp">0</div></div>
-    <div class="scell"><div class="slabel">متبقّي</div><div class="sval sv-left" id="elim-left">—</div></div>
-  </div>
-  <div class="fbar" id="filter-bar"></div>
-  <div class="grid pb" id="grid-game"></div>
+
+  <!-- Filters -->
+  <div class="filter-bar" id="filter-bar"></div>
+  
+  <!-- Cards Grid -->
+  <div class="grid" id="grid-game"></div>
 </div>
 
-<!-- HUD -->
+<!-- ═══════════ HUD (BOTTOM BAR) ═══════════ -->
 <div id="hud">
-  <div class="hudtop">
-    <div class="twrap" id="turn-wrap">
-      <div class="tdot"></div>
-      <div class="ttexts">
-        <div class="tmain" id="turn-main">في الانتظار…</div>
-        <div class="tsub" id="turn-sub">الرجاء الانتظار</div>
+  <div class="hud-header">
+    <div class="turn-status">
+      <div class="turn-dot" id="turn-dot"></div>
+      <div class="turn-text">
+        <h3 id="turn-title">في الانتظار...</h3>
+        <p id="turn-sub">يرجى الانتظار</p>
       </div>
     </div>
     <div class="timer" id="timer" style="display:none;">60</div>
   </div>
-  <!-- My turn actions — swapped dynamically -->
-  <div id="hud-my-turn" style="display:none;"></div>
-  <!-- Opp turn — read only -->
-  <div id="hud-opp-turn" style="display:none;">
-    <div class="oppturn-status">
-      <i class="fas fa-comment-dots"></i>
-      <span>دور الخصم — أجب على سؤاله بـ <b>نعم</b> أو <b>لا</b></span>
+
+  <!-- Actions UI (Only visible when it's your turn and choosing) -->
+  <div id="hud-actions" class="hud-actions" style="display:none;">
+    <button class="btn btn-outline" onclick="chooseAction('ask')"><i class="fas fa-question-circle"></i> سؤال واستبعاد</button>
+    <button class="btn btn-danger" onclick="chooseAction('guess')"><i class="fas fa-bullseye"></i> تخمين نهائي</button>
+  </div>
+
+  <!-- Asking UI (Only visible when you selected 'Ask') -->
+  <div id="hud-asking" class="hud-actions" style="display:none;">
+    <div style="flex:1; font-size:0.85rem; color:var(--text-dim); display:flex; align-items:center;">
+      <i class="fas fa-hand-pointer" style="margin-left:8px; color:var(--gold);"></i> انقر لاستبعاد البطاقات، ثم أنهِ دورك.
     </div>
+    <button class="btn btn-gold" style="flex:none; width:auto; padding:12px 24px;" onclick="passTurn()"><i class="fas fa-check"></i> إنهاء الدور</button>
   </div>
 </div>
 
-<!-- MODALS -->
+<!-- ═══════════ MODALS ═══════════ -->
 
-<!-- Ask question modal -->
-<div id="m-ask" class="overlay">
-  <div class="modal" style="text-align:center;">
-    <div class="mtitle" style="color:var(--blue2);">🎤 اسأل سؤالك</div>
-    <div class="msub">اسأل خصمك سؤالاً تكون إجابته <b>نعم</b> أو <b>لا</b>.<br>بعد ما تسمع الإجابة، استبعد البطاقات ثم أنهِ الدور.</div>
-    <div style="background:var(--blue-dim);border:1px solid rgba(59,130,246,.25);border-radius:var(--r-sm);padding:9px 12px;font-size:.77rem;color:var(--blue2);margin-bottom:15px;text-align:right;">
-      <i class="fas fa-lightbulb" style="margin-left:6px;"></i>
-      أمثلة: هل لاعبك مهاجم؟ هل يلعب في الدوري الإسباني؟ هل تقييمه فوق 89؟
-    </div>
-    <button class="btn btn-primary" onclick="confirmAsk()"><i class="fas fa-check"></i> فهمت — بدأت أسأل</button>
-    <button class="btn btn-outline" style="margin-top:7px;" onclick="closeModal('m-ask')">تراجع</button>
-  </div>
-</div>
-
-<!-- How to play -->
+<!-- How To Play -->
 <div id="m-howto" class="overlay">
   <div class="modal">
-    <div class="mtitle" style="color:var(--gold);">📖 طريقة اللعب</div>
-    <div class="msub">الهدف: خمّن لاعب الخصم قبل أن يخمن لاعبك!</div>
-    <ul class="howlist">
-      <li>
-        <div class="hico" style="background:rgba(59,130,246,.15);color:var(--blue2);"><i class="fas fa-microphone"></i></div>
-        <div><b>التواصل:</b> تحتاج اتصال صوتي مع خصمك (Discord, واتساب…) أو تلعب معه وجهاً لوجه.</div>
-      </li>
-      <li>
-        <div class="hico" style="background:var(--green-dim);color:var(--green);"><i class="fas fa-user-secret"></i></div>
-        <div><b>الاختيار:</b> في بداية كل جولة، كل لاعب يختار شخصية سرية من القائمة. الخصم لن يراها.</div>
-      </li>
-      <li>
-        <div class="hico" style="background:var(--gold-dim);color:var(--gold);"><i class="fas fa-dice-two"></i></div>
-        <div><b>دورك — اختر:</b> في كل دور اختر بين خيارين فقط: <b>"اسأل سؤالاً"</b> (نعم/لا ثم استبعد) أو <b>"خمّن اللاعب"</b> مباشرة.</div>
-      </li>
-      <li>
-        <div class="hico" style="background:var(--red-dim);color:var(--red);"><i class="fas fa-eye-slash"></i></div>
-        <div><b>الاستبعاد:</b> بعد الإجابة، انقر البطاقات اللي تستبعدها (تصبح باهتة). انقر مجدداً للتراجع.</div>
-      </li>
-      <li>
-        <div class="hico" style="background:rgba(240,180,41,.15);color:var(--gold2);"><i class="fas fa-trophy"></i></div>
-        <div><b>الفوز:</b> تخمين صحيح = فوز. <span style="color:var(--red);font-weight:800;">تخمين خاطئ = خسارة فورية!</span></div>
-      </li>
-    </ul>
-    <button class="btn btn-primary" onclick="closeModal('m-howto')">فهمت، لنلعب! ⚽</button>
-  </div>
-</div>
-
-<!-- Settings -->
-<div id="m-settings" class="overlay">
-  <div class="modal">
-    <div class="mtitle">⚙️ الإعدادات</div>
-    <div style="margin-top:14px;">
-      <div class="setrow">
-        <label>مدة الدور (ثواني)</label>
-        <select id="st-timer">
-          <option value="30">30 ث</option>
-          <option value="60" selected>60 ث</option>
-          <option value="90">90 ث</option>
-          <option value="120">120 ث</option>
-          <option value="0">بلا حد</option>
-        </select>
-      </div>
+    <div class="modal-title" style="color:var(--gold);"><i class="fas fa-book-open"></i> قوانين اللعبة</div>
+    <div class="modal-sub">تواصل صوتياً مع خصمك (Discord/WhatsApp) وابدأ التحدي!</div>
+    
+    <div style="font-size:0.85rem; line-height:1.6; color:var(--text-dim); margin-bottom:20px;">
+      <p style="margin-bottom:10px;"><b style="color:var(--text);">1. الاختيار:</b> في بداية الجولة، يختار كل لاعب شخصية سرية.</p>
+      <p style="margin-bottom:10px;"><b style="color:var(--text);">2. دورك:</b> عندما يحين دورك، يجب أن تختار بين الإجراءين:</p>
+      <ul style="list-style:none; padding-right:15px; margin-bottom:10px;">
+        <li style="margin-bottom:6px;"><i class="fas fa-question-circle" style="color:var(--blue);"></i> <b>سؤال واستبعاد:</b> اسأل الخصم سؤالاً إجابته (نعم/لا). بناءً على الإجابة، استبعد اللاعبين غير المطابقين، ثم أنهِ دورك.</li>
+        <li><i class="fas fa-bullseye" style="color:var(--red);"></i> <b>تخمين نهائي:</b> إذا عرفت شخصية الخصم، استخدم دورك للتخمين.</li>
+      </ul>
+      <p><b style="color:var(--red);">تحذير هام:</b> إذا قمت بتخمين خاطئ، ستخسر الجولة فوراً!</p>
     </div>
-    <button class="btn btn-primary" style="margin-top:11px;" onclick="closeModal('m-settings')"><i class="fas fa-check"></i> حفظ وإغلاق</button>
+    <button class="btn btn-primary" onclick="closeModal('m-howto')">فهمت، لنلعب!</button>
   </div>
 </div>
 
-<!-- Guess modal -->
+<!-- Guess Modal -->
 <div id="m-guess" class="overlay">
   <div class="modal">
+    <!-- Pick UI -->
     <div id="guess-pick-ui">
-      <div class="mtitle" style="color:var(--gold);">🎯 خمّن اللاعب</div>
-      <div class="gwarn"><i class="fas fa-triangle-exclamation"></i> تخمين خاطئ = خسارة فورية! تأكد قبل ما تختار.</div>
-      <input class="sin" id="guess-search" type="text" placeholder="ابحث بالاسم أو الفريق أو الدوري…" oninput="filterGuess(this.value)">
-      <div class="ggrid" id="guess-grid"></div>
+      <div class="modal-title" style="color:var(--gold);">🎯 تخمين اللاعب</div>
+      <div class="modal-sub">اختر اللاعب الذي يخبئه خصمك. <b style="color:var(--red);">تخمين خاطئ = خسارة!</b></div>
+      <input type="text" class="search-input" id="guess-search" placeholder="ابحث بالاسم أو الفريق..." oninput="filterGuess(this.value)">
+      <div class="guess-grid" id="guess-grid"></div>
+      <button class="btn btn-outline" style="margin-top:16px;" onclick="cancelGuessPick()">إلغاء والعودة</button>
     </div>
-    <div id="confirm-ui">
-      <div class="mtitle" style="color:var(--red);">⚠️ تأكيد نهائي</div>
-      <div class="confwrap">
-        <img id="conf-img" src="" alt="">
-        <h3 id="conf-name">—</h3>
-        <small id="conf-team">—</small>
+    <!-- Confirm UI -->
+    <div id="confirm-ui" style="display:none; flex-direction:column; align-items:center;">
+      <div class="modal-title" style="color:var(--red);">⚠️ تأكيد التخمين</div>
+      <div class="confirm-box">
+        <img id="conf-img" src="">
+        <h3 id="conf-name">--</h3>
+        <p id="conf-team">--</p>
       </div>
-      <p style="font-size:.87rem;margin-bottom:14px;font-weight:700;">هل أنت متأكد 100%؟</p>
-      <div class="confbtns">
-        <button class="btn btn-red" style="flex:2;" id="conf-yes">نعم، خمّنت!</button>
-        <button class="btn btn-outline" style="flex:1;" onclick="cancelConfirm()">تراجع</button>
+      <p style="font-size:0.9rem; font-weight:800; margin-bottom:16px;">هل أنت متأكد بنسبة 100%؟ لا يمكن التراجع!</p>
+      <div style="display:flex; gap:10px; width:100%;">
+        <button class="btn btn-danger" style="flex:2;" onclick="commitGuess()">نعم، احسم الجولة!</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="backToGuessPick()">تراجع</button>
       </div>
     </div>
-    <button id="close-guess-btn" class="btn btn-ghost" style="margin-top:12px;" onclick="closeModal('m-guess')">إلغاء</button>
   </div>
 </div>
 
-<!-- Result -->
+<!-- Result Modal -->
 <div id="m-result" class="overlay">
   <div class="modal" style="text-align:center;">
-    <div style="font-size:3.2rem;margin-bottom:6px;" id="res-emoji">🏆</div>
-    <div class="mtitle" id="res-title" style="font-size:1.4rem;"></div>
-    <div class="msub" id="res-msg"></div>
-    <div class="resplayer">
-      <img id="res-img" src="" alt="">
-      <div style="text-align:right;">
-        <div style="font-size:.64rem;color:var(--text-dim);font-weight:700;margin-bottom:3px;">لاعب الخصم كان:</div>
-        <div id="res-name" style="font-weight:900;font-size:1rem;line-height:1.2;"></div>
-        <div id="res-team" style="font-size:.74rem;color:var(--gold);margin-top:2px;"></div>
+    <div id="res-icon" style="font-size:4rem; margin-bottom:10px;">🏆</div>
+    <div class="modal-title" id="res-title" style="font-size:1.8rem;">انتهت الجولة</div>
+    <div class="modal-sub" id="res-msg" style="font-size:1rem; font-weight:700;">--</div>
+    
+    <div class="res-card">
+      <img id="res-img" src="">
+      <div>
+        <div style="font-size:0.75rem; color:var(--text-dim); font-weight:800; margin-bottom:4px;">شخصية الخصم كانت:</div>
+        <div id="res-name" style="font-weight:900; font-size:1.2rem; color:var(--gold-light);">--</div>
+        <div id="res-team" style="font-size:0.8rem; color:var(--text);">--</div>
       </div>
     </div>
-    <div class="scoreboard">
-      <div style="font-size:.71rem;color:var(--text-dim);font-weight:700;margin-bottom:7px;">النتيجة الإجمالية</div>
-      <div class="scnums">
-        <span id="res-sc-me" style="color:var(--green);">0</span>
-        <span style="color:var(--border2);font-size:1.3rem;">—</span>
+    
+    <div style="font-size:0.8rem; color:var(--text-dim); font-weight:800; margin-bottom:8px;">النتيجة الإجمالية</div>
+    <div class="res-score">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <span style="font-size:0.7rem; color:var(--text-dim);">أنت</span>
+        <span id="res-sc-me" style="color:var(--blue);">0</span>
+      </div>
+      <span style="color:var(--border-hl); font-weight:400;">:</span>
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <span style="font-size:0.7rem; color:var(--text-dim);">الخصم</span>
         <span id="res-sc-opp" style="color:var(--red);">0</span>
       </div>
     </div>
+    
     <button class="btn btn-primary" onclick="nextRound()"><i class="fas fa-rotate-right"></i> الجولة التالية</button>
-    <button class="btn btn-danger" style="margin-top:6px;" onclick="endGame()"><i class="fas fa-door-open"></i> إنهاء اللعبة</button>
+    <button class="btn btn-outline" style="margin-top:10px;" onclick="location.reload()"><i class="fas fa-door-open"></i> خروج</button>
   </div>
 </div>
 
-<!-- Wait -->
+<!-- Wait Overlay -->
 <div id="wait">
-  <i class="fas fa-circle-notch wspinner"></i>
-  <h3 id="wait-title">في الانتظار…</h3>
+  <i class="fas fa-circle-notch wait-spinner"></i>
+  <h3 id="wait-title">في الانتظار...</h3>
   <p id="wait-msg">الرجاء الانتظار</p>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════
-//  DATA
-// ══════════════════════════════════════════════════
-const ALL_PLAYERS=[
-  {id:1,  name:"ك. مبابي",         en:"K. Mbappe",           team:"ريال مدريد",   league:"لاليغا",       nat:"فرنسا",     rating:93,pos:"FW"},
-  {id:2,  name:"إ. هالاند",         en:"E. Haaland",          team:"مانشستر سيتي", league:"البريميرليغ",   nat:"النرويج",   rating:92,pos:"FW"},
-  {id:3,  name:"فينيسيوس جونيور",   en:"Vinicius Jr",         team:"ريال مدريد",   league:"لاليغا",       nat:"البرازيل",  rating:92,pos:"FW"},
-  {id:4,  name:"ج. بيلينجهام",     en:"J. Bellingham",       team:"ريال مدريد",   league:"لاليغا",       nat:"انجلترا",   rating:92,pos:"MF"},
-  {id:5,  name:"ل. يامال",          en:"L. Yamal",            team:"برشلونة",      league:"لاليغا",       nat:"اسبانيا",   rating:91,pos:"FW"},
-  {id:6,  name:"رودري",             en:"Rodri",               team:"مانشستر سيتي", league:"البريميرليغ",   nat:"اسبانيا",   rating:91,pos:"MF"},
-  {id:7,  name:"ف. فيرتز",          en:"F. Wirtz",            team:"بايرن ميونخ",  league:"بوندسليغا",    nat:"المانيا",   rating:90,pos:"MF"},
-  {id:8,  name:"ج. موسيالا",        en:"J. Musiala",          team:"بايرن ميونخ",  league:"بوندسليغا",    nat:"المانيا",   rating:90,pos:"MF"},
-  {id:9,  name:"ب. فودين",          en:"P. Foden",            team:"مانشستر سيتي", league:"البريميرليغ",   nat:"انجلترا",   rating:90,pos:"MF"},
-  {id:10, name:"ب. ساكا",           en:"B. Saka",             team:"أرسنال",       league:"البريميرليغ",   nat:"انجلترا",   rating:90,pos:"FW"},
-  {id:11, name:"ك. بالمر",          en:"C. Palmer",           team:"تشيلسي",       league:"البريميرليغ",   nat:"انجلترا",   rating:89,pos:"MF"},
-  {id:12, name:"هـ. كين",           en:"H. Kane",             team:"بايرن ميونخ",  league:"بوندسليغا",    nat:"انجلترا",   rating:89,pos:"FW"},
-  {id:13, name:"و. ساليبا",         en:"W. Saliba",           team:"أرسنال",       league:"البريميرليغ",   nat:"فرنسا",     rating:89,pos:"DF"},
-  {id:14, name:"ل. ميسي",           en:"L. Messi",            team:"إنتر ميامي",   league:"MLS",          nat:"الأرجنتين", rating:88,pos:"FW"},
-  {id:15, name:"م. صلاح",           en:"M. Salah",            team:"ليفربول",      league:"البريميرليغ",   nat:"مصر",       rating:88,pos:"FW"},
-  {id:16, name:"ك. رونالدو",        en:"C. Ronaldo",          team:"النصر",        league:"دوري روشن",    nat:"البرتغال",  rating:87,pos:"FW"},
-  {id:17, name:"ك. دي بروين",       en:"K. De Bruyne",        team:"مانشستر سيتي", league:"البريميرليغ",   nat:"بلجيكا",    rating:87,pos:"MF"},
-  {id:18, name:"ن. ويليامز",        en:"N. Williams",         team:"برشلونة",      league:"لاليغا",       nat:"اسبانيا",   rating:88,pos:"DF"},
-  {id:19, name:"بيدري",             en:"Pedri",               team:"برشلونة",      league:"لاليغا",       nat:"اسبانيا",   rating:88,pos:"MF"},
-  {id:20, name:"إ. كامافينجا",      en:"E. Camavinga",        team:"ريال مدريد",   league:"لاليغا",       nat:"فرنسا",     rating:88,pos:"MF"},
-  {id:21, name:"أ. تشواميني",       en:"A. Tchouameni",       team:"ريال مدريد",   league:"لاليغا",       nat:"فرنسا",     rating:87,pos:"MF"},
-  {id:22, name:"د. رايس",           en:"D. Rice",             team:"أرسنال",       league:"البريميرليغ",   nat:"انجلترا",   rating:88,pos:"MF"},
-  {id:23, name:"ج. دوناروما",       en:"G. Donnarumma",       team:"باريس س.ج",    league:"ليغ 1",        nat:"ايطاليا",   rating:88,pos:"GK"},
-  {id:24, name:"ت. كورتوا",         en:"T. Courtois",         team:"ريال مدريد",   league:"لاليغا",       nat:"بلجيكا",    rating:88,pos:"GK"},
-  {id:25, name:"تش. سيمونز",        en:"X. Simons",           team:"باريس س.ج",    league:"ليغ 1",        nat:"هولندا",    rating:87,pos:"MF"},
-  {id:26, name:"ر. لياو",           en:"R. Leao",             team:"إي سي ميلان",  league:"سيريا",        nat:"البرتغال",  rating:87,pos:"FW"},
-  {id:27, name:"ل. مارتينيز",       en:"L. Martinez",         team:"إنتر ميلان",   league:"سيريا",        nat:"الأرجنتين", rating:88,pos:"FW"},
-  {id:28, name:"ر. أراوخو",         en:"R. Araujo",           team:"برشلونة",      league:"لاليغا",       nat:"الأوروغواي",rating:87,pos:"DF"},
-  {id:29, name:"إندريك",            en:"Endrick",             team:"ريال مدريد",   league:"لاليغا",       nat:"البرازيل",  rating:86,pos:"FW"},
-  {id:30, name:"أ. جولر",           en:"A. Guler",            team:"ريال مدريد",   league:"لاليغا",       nat:"تركيا",     rating:86,pos:"MF"},
-  {id:31, name:"ك. ماينو",          en:"K. Mainoo",           team:"مانشستر ي.",   league:"البريميرليغ",   nat:"انجلترا",   rating:86,pos:"MF"},
-  {id:32, name:"ب. كوبارسي",        en:"P. Cubarsi",          team:"برشلونة",      league:"لاليغا",       nat:"اسبانيا",   rating:86,pos:"DF"},
-  {id:33, name:"ت. ألكسندر-أرنولد", en:"T. Alexander-Arnold", team:"ليفربول",      league:"البريميرليغ",   nat:"انجلترا",   rating:87,pos:"DF"},
-  {id:34, name:"أ. أرنولد",         en:"A. Arnold",           team:"ريال مدريد",   league:"لاليغا",       nat:"انجلترا",   rating:86,pos:"DF"},
-  {id:35, name:"ر. غراف",           en:"R. Gravenberch",      team:"ليفربول",      league:"البريميرليغ",   nat:"هولندا",    rating:85,pos:"MF"},
-  {id:36, name:"م. نونيز",          en:"D. Nunez",            team:"ليفربول",      league:"البريميرليغ",   nat:"الأوروغواي",rating:84,pos:"FW"},
-  {id:37, name:"م. كالافيوري",      en:"R. Calafiori",        team:"أرسنال",       league:"البريميرليغ",   nat:"ايطاليا",   rating:86,pos:"DF"},
-  {id:38, name:"ج. غاكبو",          en:"C. Gakpo",            team:"ليفربول",      league:"البريميرليغ",   nat:"هولندا",    rating:86,pos:"FW"},
-  {id:39, name:"أ. دياز",           en:"L. Diaz",             team:"ليفربول",      league:"البريميرليغ",   nat:"كولومبيا",  rating:86,pos:"FW"},
-  {id:40, name:"م. زوبيمندي",       en:"M. Zubimendi",        team:"ريال سوسيداد", league:"لاليغا",       nat:"اسبانيا",   rating:86,pos:"MF"},
-  {id:41, name:"ب. هافيرتز",        en:"K. Havertz",          team:"أرسنال",       league:"البريميرليغ",   nat:"المانيا",   rating:86,pos:"FW"},
-  {id:42, name:"م. دي ليخت",        en:"M. de Ligt",          team:"مانشستر ي.",   league:"البريميرليغ",   nat:"هولندا",    rating:85,pos:"DF"},
-  {id:43, name:"أ. تيليمانز",       en:"Y. Tielemans",        team:"أستون فيلا",   league:"البريميرليغ",   nat:"بلجيكا",    rating:84,pos:"MF"},
-  {id:44, name:"ن. مولينا",         en:"N. Molina",           team:"أتلتيكو",      league:"لاليغا",       nat:"الأرجنتين", rating:84,pos:"DF"},
-  {id:45, name:"ف. ديكو",           en:"F. Deco Jr",          team:"أتلتيكو",      league:"لاليغا",       nat:"البرتغال",  rating:85,pos:"MF"},
-  {id:46, name:"أ. أونانا",         en:"A. Onana",            team:"مانشستر ي.",   league:"البريميرليغ",   nat:"الكاميرون", rating:84,pos:"GK"},
-  {id:47, name:"أ. فلوريان",        en:"A. Florian",          team:"أستون فيلا",   league:"البريميرليغ",   nat:"فرنسا",     rating:83,pos:"MF"},
-  {id:48, name:"ز. أوناحي",         en:"S. Ounahi",           team:"مارسيليا",     league:"ليغ 1",        nat:"المغرب",    rating:83,pos:"MF"},
+// ════════════════════════════════════════════════════
+//  DATA (48 Players)
+// ════════════════════════════════════════════════════
+const ALL_PLAYERS =[
+  {id:1, name:"ك. مبابي", en:"K. Mbappe", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:93, pos:"FW"},
+  {id:2, name:"إ. هالاند", en:"E. Haaland", team:"مانشستر سيتي", league:"البريميرليغ", nat:"النرويج", rating:92, pos:"FW"},
+  {id:3, name:"فينيسيوس جونيور", en:"Vinicius Jr", team:"ريال مدريد", league:"لاليغا", nat:"البرازيل", rating:92, pos:"FW"},
+  {id:4, name:"ج. بيلينجهام", en:"J. Bellingham", team:"ريال مدريد", league:"لاليغا", nat:"انجلترا", rating:92, pos:"MF"},
+  {id:5, name:"ل. يامال", en:"L. Yamal", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:91, pos:"FW"},
+  {id:6, name:"رودري", en:"Rodri", team:"مانشستر سيتي", league:"البريميرليغ", nat:"اسبانيا", rating:91, pos:"MF"},
+  {id:7, name:"ف. فيرتز", en:"F. Wirtz", team:"بايرن ميونخ", league:"بوندسليغا", nat:"المانيا", rating:90, pos:"MF"},
+  {id:8, name:"ج. موسيالا", en:"J. Musiala", team:"بايرن ميونخ", league:"بوندسليغا", nat:"المانيا", rating:90, pos:"MF"},
+  {id:9, name:"ب. فودين", en:"P. Foden", team:"مانشستر سيتي", league:"البريميرليغ", nat:"انجلترا", rating:90, pos:"MF"},
+  {id:10, name:"ب. ساكا", en:"B. Saka", team:"أرسنال", league:"البريميرليغ", nat:"انجلترا", rating:90, pos:"FW"},
+  {id:11, name:"ك. بالمر", en:"C. Palmer", team:"تشيلسي", league:"البريميرليغ", nat:"انجلترا", rating:89, pos:"MF"},
+  {id:12, name:"هـ. كين", en:"H. Kane", team:"بايرن ميونخ", league:"بوندسليغا", nat:"انجلترا", rating:89, pos:"FW"},
+  {id:13, name:"و. ساليبا", en:"W. Saliba", team:"أرسنال", league:"البريميرليغ", nat:"فرنسا", rating:89, pos:"DF"},
+  {id:14, name:"ل. ميسي", en:"L. Messi", team:"إنتر ميامي", league:"MLS", nat:"الأرجنتين", rating:88, pos:"FW"},
+  {id:15, name:"م. صلاح", en:"M. Salah", team:"ليفربول", league:"البريميرليغ", nat:"مصر", rating:88, pos:"FW"},
+  {id:16, name:"ك. رونالدو", en:"C. Ronaldo", team:"النصر", league:"دوري روشن", nat:"البرتغال", rating:87, pos:"FW"},
+  {id:17, name:"ك. دي بروين", en:"K. De Bruyne", team:"مانشستر سيتي", league:"البريميرليغ", nat:"بلجيكا", rating:87, pos:"MF"},
+  {id:18, name:"ن. ويليامز", en:"N. Williams", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:88, pos:"DF"},
+  {id:19, name:"بيدري", en:"Pedri", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:88, pos:"MF"},
+  {id:20, name:"إ. كامافينجا", en:"E. Camavinga", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:88, pos:"MF"},
+  {id:21, name:"أ. تشواميني", en:"A. Tchouameni", team:"ريال مدريد", league:"لاليغا", nat:"فرنسا", rating:87, pos:"MF"},
+  {id:22, name:"د. رايس", en:"D. Rice", team:"أرسنال", league:"البريميرليغ", nat:"انجلترا", rating:88, pos:"MF"},
+  {id:23, name:"ج. دوناروما", en:"G. Donnarumma", team:"باريس س.ج", league:"ليغ 1", nat:"ايطاليا", rating:88, pos:"GK"},
+  {id:24, name:"ت. كورتوا", en:"T. Courtois", team:"ريال مدريد", league:"لاليغا", nat:"بلجيكا", rating:88, pos:"GK"},
+  {id:25, name:"تش. سيمونز", en:"X. Simons", team:"باريس س.ج", league:"ليغ 1", nat:"هولندا", rating:87, pos:"MF"},
+  {id:26, name:"ر. لياو", en:"R. Leao", team:"إي سي ميلان", league:"سيريا", nat:"البرتغال", rating:87, pos:"FW"},
+  {id:27, name:"ل. مارتينيز", en:"L. Martinez", team:"إنتر ميلان", league:"سيريا", nat:"الأرجنتين", rating:88, pos:"FW"},
+  {id:28, name:"ر. أراوخو", en:"R. Araujo", team:"برشلونة", league:"لاليغا", nat:"الأوروغواي", rating:87, pos:"DF"},
+  {id:29, name:"إندريك", en:"Endrick", team:"ريال مدريد", league:"لاليغا", nat:"البرازيل", rating:86, pos:"FW"},
+  {id:30, name:"أ. جولر", en:"A. Guler", team:"ريال مدريد", league:"لاليغا", nat:"تركيا", rating:86, pos:"MF"},
+  {id:31, name:"ك. ماينو", en:"K. Mainoo", team:"مانشستر ي.", league:"البريميرليغ", nat:"انجلترا", rating:86, pos:"MF"},
+  {id:32, name:"ب. كوبارسي", en:"P. Cubarsi", team:"برشلونة", league:"لاليغا", nat:"اسبانيا", rating:86, pos:"DF"},
+  {id:33, name:"ت. ألكسندر-أرنولد", en:"T. Alexander-Arnold", team:"ليفربول", league:"البريميرليغ", nat:"انجلترا", rating:87, pos:"DF"},
+  {id:34, name:"أ. أرنولد", en:"A. Arnold", team:"ريال مدريد", league:"لاليغا", nat:"انجلترا", rating:86, pos:"DF"},
+  {id:35, name:"ر. غراف", en:"R. Gravenberch", team:"ليفربول", league:"البريميرليغ", nat:"هولندا", rating:85, pos:"MF"},
+  {id:36, name:"م. نونيز", en:"D. Nunez", team:"ليفربول", league:"البريميرليغ", nat:"الأوروغواي", rating:84, pos:"FW"},
+  {id:37, name:"م. كالافيوري", en:"R. Calafiori", team:"أرسنال", league:"البريميرليغ", nat:"ايطاليا", rating:86, pos:"DF"},
+  {id:38, name:"ج. غاكبو", en:"C. Gakpo", team:"ليفربول", league:"البريميرليغ", nat:"هولندا", rating:86, pos:"FW"},
+  {id:39, name:"أ. دياز", en:"L. Diaz", team:"ليفربول", league:"البريميرليغ", nat:"كولومبيا", rating:86, pos:"FW"},
+  {id:40, name:"م. زوبيمندي", en:"M. Zubimendi", team:"ريال سوسيداد", league:"لاليغا", nat:"اسبانيا", rating:86, pos:"MF"},
+  {id:41, name:"ب. هافيرتز", en:"K. Havertz", team:"أرسنال", league:"البريميرليغ", nat:"المانيا", rating:86, pos:"FW"},
+  {id:42, name:"م. دي ليخت", en:"M. de Ligt", team:"مانشستر ي.", league:"البريميرليغ", nat:"هولندا", rating:85, pos:"DF"},
+  {id:43, name:"أ. تيليمانز", en:"Y. Tielemans", team:"أستون فيلا", league:"البريميرليغ", nat:"بلجيكا", rating:84, pos:"MF"},
+  {id:44, name:"ن. مولينا", en:"N. Molina", team:"أتلتيكو", league:"لاليغا", nat:"الأرجنتين", rating:84, pos:"DF"},
+  {id:45, name:"ف. ديكو", en:"F. Deco Jr", team:"أتلتيكو", league:"لاليغا", nat:"البرتغال", rating:85, pos:"MF"},
+  {id:46, name:"م. زوما", en:"K. Zouma", team:"وست هام", league:"البريميرليغ", nat:"فرنسا", rating:83, pos:"DF"},
+  {id:47, name:"أ. ماكسيميان", en:"A. Maximiane", team:"بايرن ميونخ", league:"بوندسليغا", nat:"البرتغال", rating:84, pos:"DF"},
+  {id:48, name:"س. خوسيلو", en:"S. Joselu", team:"أتلتيكو", league:"لاليغا", nat:"اسبانيا", rating:83, pos:"FW"}
 ];
 
-const POS_AR={FW:"مهاجم",MF:"وسط",DF:"مدافع",GK:"حارس"};
-const ROUND_AR=["","١","٢","٣","٤","٥","٦","٧","٨","٩","١٠"];
-const TEAM_COLORS={
-  "ريال مدريد":"FFFFFF","مانشستر سيتي":"6CABDD","برشلونة":"A50044",
-  "بايرن ميونخ":"DC052D","أرسنال":"EF0107","ليفربول":"C8102E",
-  "تشيلسي":"034694","باريس س.ج":"004170","إنتر ميامي":"F47373",
-  "النصر":"c8860a","إي سي ميلان":"FB090B","إنتر ميلان":"010E80",
-  "مانشستر ي.":"DA291C","أتلتيكو":"CB3524","ريال سوسيداد":"0067B1",
-  "أستون فيلا":"4B4297","مارسيليا":"2C9AB7",
+const TEAM_COLORS = {
+  "ريال مدريد":"FFFFFF","مانشستر سيتي":"6CABDD","برشلونة":"A50044","بايرن ميونخ":"DC052D",
+  "أرسنال":"EF0107","ليفربول":"C8102E","تشيلسي":"034694","باريس س.ج":"004170",
+  "إنتر ميامي":"F47373","النصر":"FBBF24","إي سي ميلان":"FB090B","إنتر ميلان":"010E80",
+  "مانشستر ي.":"DA291C","أتلتيكو":"CB3524","ريال سوسيداد":"0067B1","وست هام":"7A263A",
+  "أستون فيلا":"95BFE5",
 };
-const getColor=p=>TEAM_COLORS[p.team]||"2d4268";
-const getImg=p=>{
-  const bg=getColor(p);
-  const light=["FFFFFF","FBBF24","F47373","6CABDD","4B4297","95BFE5"].includes(bg);
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(p.en)}&background=${bg}&color=${light?"1e293b":"f1f5f9"}&size=256&font-size=0.30&bold=true`;
-};
-const rCls=r=>r>=90?"r-top":r>=87?"r-high":"r-mid";
 
-// ══════════════════════════════════════════════════
+const getImg = p => {
+  const bg = TEAM_COLORS[p.team] || "3b4a6b";
+  const tc =["FFFFFF","FBBF24","F47373","6CABDD"].includes(bg) ? "111" : "FFF";
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(p.en)}&background=${bg}&color=${tc}&size=256&font-size=0.3&bold=true`;
+};
+
+// ════════════════════════════════════════════════════
 //  STATE
-// ══════════════════════════════════════════════════
-const PFX="lgnd26-";
-let cfg={playerCount:20,timerDuration:60};
-let myScore=0,oppScore=0,round=1;
-let myChar=null,oppCharId=null;
-let isMyTurn=false,timerInt=null;
-let eliminated=new Set(),activeFilter="all",activePlayers=[];
-let iAmReady=false,oppIsReady=false;
-let peer=null,conn=null,iAmHost=false,keepAlive=null,lastPong=Date.now();
+// ════════════════════════════════════════════════════
+const PFX = "dlx26-";
+let cfg = { playerCount: 20, timer: 60 };
+let myScore = 0, oppScore = 0, round = 1;
+let myChar = null, oppCharId = null;
+let isMyTurn = false, turnState = 'idle'; // 'idle', 'choosing', 'asking'
+let timerInt = null;
+let eliminated = new Set();
+let activeFilter = "all";
+let activePlayers =[];
+let iAmReady = false, oppIsReady = false;
 
-function buildActivePlayers(){
-  const s=[...ALL_PLAYERS].sort((a,b)=>b.rating-a.rating);
-  return cfg.playerCount===0?s:s.slice(0,Math.min(cfg.playerCount,s.length));
-}
+// Network
+let peer = null, conn = null, iAmHost = false;
+let keepAlive = null, lastPong = Date.now();
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
 //  UI HELPERS
-// ══════════════════════════════════════════════════
-function toast(msg,type=""){
-  const c=document.getElementById("toasts"),t=document.createElement("div");
-  t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3500);
+// ════════════════════════════════════════════════════
+function toast(msg, type="") {
+  const c = document.getElementById("toasts");
+  const t = document.createElement("div");
+  t.className = `toast ${type}`;
+  t.innerHTML = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3300);
 }
-function openModal(id){document.getElementById(id).classList.add("active");}
-function closeModal(id){document.getElementById(id).classList.remove("active");}
-function switchScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
-function showWait(show,title="في الانتظار…",msg="الرجاء الانتظار"){
-  document.getElementById("wait").style.display=show?"flex":"none";
-  document.getElementById("wait-title").textContent=title;
-  document.getElementById("wait-msg").textContent=msg;
+function openModal(id) { document.getElementById(id).classList.add("active"); }
+function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+function switchScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
-function setMyTurnButtons(){
-  document.getElementById("hud-my-turn").innerHTML=`
-    <div class="hactions">
-      <button class="btn btn-primary" onclick="doAskQuestion()"><i class="fas fa-microphone"></i> اسأل سؤالاً</button>
-      <button class="btn btn-red" onclick="openGuessModal()"><i class="fas fa-bullseye"></i> خمّن اللاعب</button>
-    </div>`;
-}
-function setEndTurnButton(){
-  document.getElementById("hud-my-turn").innerHTML=`
-    <div class="hactions">
-      <button class="btn btn-outline" onclick="endMyTurn()"><i class="fas fa-forward-step"></i> استبعد واختم الدور</button>
-    </div>`;
-  document.getElementById("turn-sub").textContent="استبعد البطاقات المناسبة ثم أنهِ الدور";
+function showWait(show, title="في الانتظار...", msg="الرجاء الانتظار") {
+  const w = document.getElementById("wait");
+  w.style.display = show ? "flex" : "none";
+  document.getElementById("wait-title").textContent = title;
+  document.getElementById("wait-msg").textContent = msg;
 }
 
-// ══════════════════════════════════════════════════
-//  LOBBY
-// ══════════════════════════════════════════════════
-function setCount(n,el){document.querySelectorAll(".cnt").forEach(b=>b.classList.remove("on"));el.classList.add("on");cfg.playerCount=n;}
-function copyCode(){const c=document.getElementById("my-code").textContent;if(c==="----")return;navigator.clipboard.writeText(c).then(()=>toast("تم نسخ الكود! ✅","ok"));}
-function resetHost(){
-  const b=document.getElementById("btn-host");
-  b.innerHTML='<i class="fas fa-server"></i> استضافة لعبة جديدة';b.disabled=false;
-  document.getElementById("host-idle").style.display="";document.getElementById("host-waiting").style.display="none";
-  document.getElementById("or-line").style.display="";document.getElementById("join-idle").style.display="";
-}
-function resetJoin(){const b=document.getElementById("btn-join");b.innerHTML='<i class="fas fa-right-to-bracket"></i> انضمام للعبة';b.disabled=false;}
-
-// ══════════════════════════════════════════════════
-//  NETWORK (FIXED & IMPROVED)
-// ══════════════════════════════════════════════════
-function safeSend(d){if(conn&&conn.open)conn.send(d);}
-function startHeartbeat(){
-  clearInterval(keepAlive);lastPong=Date.now();
-  keepAlive=setInterval(()=>{
-    if(conn&&conn.open){
-      safeSend({type:"ping"});
-      if(Date.now()-lastPong>15000)onDC();
-    }
-  },4000);
+// ════════════════════════════════════════════════════
+//  LOBBY & NETWORK
+// ════════════════════════════════════════════════════
+function setCount(n, el) {
+  document.querySelectorAll(".cnt-btn").forEach(b => b.classList.remove("on"));
+  el.classList.add("on");
+  cfg.playerCount = n;
 }
 
-function onDC(){
-  clearInterval(keepAlive);
-  if(!document.getElementById("m-result").classList.contains("active")) {
-    toast("انقطع الاتصال بالخصم 🔌","err");
-    setTimeout(()=>location.reload(),3000);
+function safeSend(data) { if (conn && conn.open) conn.send(data); }
+function startHeartbeat() {
+  clearInterval(keepAlive); lastPong = Date.now();
+  keepAlive = setInterval(() => {
+    if (conn && conn.open) { safeSend({ type:"ping" }); if (Date.now() - lastPong > 14000) onDisconnect(); }
+  }, 4000);
+}
+function onDisconnect() {
+  clearInterval(keepAlive); toast("انقطع الاتصال بالخصم 🔌", "err");
+  setTimeout(() => location.reload(), 3000);
+}
+
+const PEER_CFG = { config: { iceServers:[ {urls:"stun:stun.l.google.com:19302"} ] } };
+
+function hostGame() {
+  if (typeof Peer === "undefined") return toast("تعذّر تحميل الشبكة.", "err");
+  document.getElementById("btn-host").disabled = true;
+  if (peer) peer.destroy();
+  
+  const code = Math.floor(1000 + Math.random() * 9000);
+  peer = new Peer(PFX + code, PEER_CFG);
+  
+  peer.on("open", () => {
+    iAmHost = true;
+    document.getElementById("host-idle").style.display = "none";
+    document.getElementById("or-line").style.display = "none";
+    document.getElementById("join-idle").style.display = "none";
+    document.getElementById("host-waiting").style.display = "block";
+    document.getElementById("my-code").textContent = code;
+  });
+  
+  peer.on("connection", c => {
+    if (conn && conn.open) { c.close(); return; }
+    conn = c; setupConn();
+  });
+  peer.on("error", () => { toast("خطأ في الاتصال. حاول مجدداً.", "err"); location.reload(); });
+}
+
+function joinGame() {
+  const code = document.getElementById("join-input").value.trim();
+  if (code.length !== 4) return toast("الكود مكون من 4 أرقام", "err");
+  document.getElementById("btn-join").disabled = true;
+  if (peer) peer.destroy();
+  iAmHost = false;
+  
+  peer = new Peer(PFX + "j-" + Math.floor(Math.random() * 900000), PEER_CFG);
+  peer.on("open", () => {
+    conn = peer.connect(PFX + code);
+    conn.on("open", setupConn);
+    conn.on("error", () => { toast("فشل الاتصال.", "err"); location.reload(); });
+  });
+  peer.on("error", () => { toast("الكود خاطئ أو المضيف غير موجود.", "err"); location.reload(); });
+}
+
+function setupConn() {
+  toast(iAmHost ? "انضم الخصم بنجاح! 🎮" : "تم الاتصال بالغرفة! ⚡", "ok");
+  startHeartbeat();
+  
+  if (iAmHost) {
+    // Host prepares the EXACT player list to sync
+    setTimeout(() => {
+      const sorted = [...ALL_PLAYERS].sort((a, b) => b.rating - a.rating || a.id - b.id);
+      const sliced = sorted.slice(0, cfg.playerCount);
+      const activeIds = sliced.map(p => p.id);
+      
+      safeSend({ type: "settings", activeIds: activeIds });
+      beginSelectionPhase(activeIds);
+    }, 500);
   }
-}
-
-// Helper to reliably attach listeners without race conditions
-function attachConnListeners(c) {
-  c.on("data", d => {
-    lastPong = Date.now(); // Any received message resets the disconnect timer
-    if(d.type==="ping"){safeSend({type:"pong"});return;}
-    if(d.type==="pong"){return;}
+  
+  conn.on("data", d => {
+    if (d.type === "ping") { safeSend({ type:"pong" }); return; }
+    if (d.type === "pong") { lastPong = Date.now(); return; }
     handleData(d);
   });
-  c.on("close", onDC);
-  c.on("error", onDC);
+  conn.on("close", onDisconnect);
 }
 
-function hostGame(){
-  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS. تأكد من اتصالك بالإنترنت.","err");
-  const btn=document.getElementById("btn-host");
-  btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> جاري الإنشاء…';btn.disabled=true;
-  if(peer){peer.destroy();peer=null;}
-  cfg.timerDuration=parseInt(document.getElementById("st-timer").value)||60;
-  const code=Math.floor(1000+Math.random()*9000);
-  
-  try{
-    // Added fallback STUN servers to bypass NAT/firewalls better
-    peer=new Peer(PFX+code,{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
-    const TO=setTimeout(()=>{toast("تعذّر الاتصال بخادم اللعب.","err");resetHost();if(peer)peer.destroy();},15000);
-    
-    peer.on("open",()=>{
-      clearTimeout(TO);iAmHost=true;
-      document.getElementById("host-idle").style.display="none";
-      document.getElementById("or-line").style.display="none";
-      document.getElementById("join-idle").style.display="none";
-      document.getElementById("host-waiting").style.display="block";
-      document.getElementById("my-code").textContent=code;
-    });
-    
-    peer.on("connection",c=>{
-      if(conn&&conn.open){c.close();return;}
-      conn=c;
-      attachConnListeners(conn);
-      // Wait for data channel to fully open before sending settings
-      conn.on("open", () => {
-        setupConn();
-      });
-    });
-    
-    peer.on("disconnected",()=>{if(peer&&!peer.destroyed)peer.reconnect();});
-    peer.on("error",e=>{
-      clearTimeout(TO);
-      if(e.type==="unavailable-id"){setTimeout(hostGame,600);return;}
-      toast("خطأ: "+(e.type||"غير معروف"),"err");
-      resetHost();
-    });
-  }catch(e){toast("خطأ في المتصفح.","err");resetHost();}
-}
-
-function joinGame(){
-  if(typeof Peer==="undefined")return toast("تعذّر تحميل PeerJS. تأكد من اتصالك بالإنترنت.","err");
-  const code=document.getElementById("join-input").value.trim();
-  if(code.length!==4)return toast("الكود من 4 أرقام","err");
-  const btn=document.getElementById("btn-join");
-  btn.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> جاري الانضمام…';btn.disabled=true;
-  if(peer){peer.destroy();peer=null;}
-  iAmHost=false;
-  
-  try{
-    peer=new Peer(PFX+"j-"+Math.floor(Math.random()*900000),{config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:stun.cloudflare.com:3478"}]}});
-    const TO=setTimeout(()=>{toast("فشل الاتصال. تأكد من الكود أو جودة الإنترنت.","err");resetJoin();if(peer)peer.destroy();},15000);
-    
-    peer.on("open",()=>{
-      conn=peer.connect(PFX+code, { reliable: true });
-      attachConnListeners(conn);
-      conn.on("open",()=>{
-        clearTimeout(TO);
-        setupConn();
-      });
-      conn.on("error",()=>{clearTimeout(TO);toast("انقطع الاتصال.","err");resetJoin();});
-    });
-    
-    peer.on("disconnected",()=>{if(peer&&!peer.destroyed)peer.reconnect();});
-    peer.on("error",e=>{
-      clearTimeout(TO);
-      toast(e.type==="peer-unavailable"?"الكود خاطئ أو المضيف غادر.":"خطأ في الاتصال.","err");
-      resetJoin();
-    });
-  }catch(e){toast("خطأ في المتصفح.","err");resetJoin();}
-}
-
-function setupConn(){
-  toast(iAmHost?"اتصل الخصم! 🎮":"تم الاتصال! ⚡","ok");
-  startHeartbeat();
-  if(iAmHost){
-    setTimeout(()=>{
-      safeSend({type:"settings",playerCount:cfg.playerCount,timerDuration:cfg.timerDuration});
-      beginSelectionPhase();
-    },400);
-  }
-}
-
-// ══════════════════════════════════════════════════
-//  DATA HANDLER
-// ══════════════════════════════════════════════════
-function handleData(d){
-  switch(d.type){
-    case"settings":
-      cfg.playerCount=d.playerCount;cfg.timerDuration=d.timerDuration;
-      document.querySelectorAll(".cnt").forEach(b=>{
-        const n=parseInt(b.dataset.n);
-        b.classList.toggle("on",n===cfg.playerCount||(cfg.playerCount===0&&n===0));
-      });
-      beginSelectionPhase();
+function handleData(d) {
+  switch (d.type) {
+    case "settings":
+      beginSelectionPhase(d.activeIds);
       break;
-    case"selected":
-      oppCharId=d.id;checkBothSelected();
+    case "selected":
+      oppCharId = d.id; checkBothSelected();
       break;
-    case"pass":
+    case "pass":
       startMyTurn();
       break;
-    case"result":
-      endRound(!d.correct);
+    case "elim_update":
+      document.getElementById("elim-opp").textContent = d.count;
       break;
-    case"elim_update":
-      document.getElementById("elim-opp").textContent=d.count;
+    case "game_over":
+      const iWon = (d.winner === (iAmHost ? 'host' : 'guest'));
+      endRound(iWon, d.correct, d.guesser === (iAmHost ? 'host' : 'guest'));
       break;
-    case"ready":
-      oppIsReady=true;checkBothReady();
+    case "ready":
+      oppIsReady = true; checkBothReady();
       break;
   }
 }
 
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
 //  SELECTION PHASE
-// ══════════════════════════════════════════════════
-function beginSelectionPhase(){
+// ════════════════════════════════════════════════════
+function beginSelectionPhase(ids) {
   showWait(false);
-  activePlayers=buildActivePlayers();
-  eliminated.clear();myChar=null;oppCharId=null;
-  iAmReady=false;oppIsReady=false;activeFilter="all";
-  clearInterval(timerInt);
-  document.getElementById("score-pill").style.display="flex";
-  document.getElementById("hud").style.display="none";
-  document.getElementById("round-badge").textContent="الجولة "+(ROUND_AR[round]||round);
-  document.getElementById("sel-count").textContent=activePlayers.length+" لاعب متاح";
+  activePlayers = ALL_PLAYERS.filter(p => ids.includes(p.id)).sort((a,b) => b.rating - a.rating || a.id - b.id);
+  eliminated.clear(); myChar = null; oppCharId = null; iAmReady = false; oppIsReady = false; activeFilter = "all";
+  
   switchScreen("screen-select");
   renderSelectGrid();
 }
 
-function renderSelectGrid(){
-  const g=document.getElementById("grid-sel");g.innerHTML="";
-  activePlayers.forEach(p=>{const c=makeCard(p,false);c.onclick=()=>selectChar(p,c);g.appendChild(c);});
+function renderSelectGrid() {
+  const grid = document.getElementById("grid-sel");
+  grid.innerHTML = "";
+  activePlayers.forEach(p => {
+    const c = makeCard(p, false);
+    c.onclick = () => {
+      if (myChar) return;
+      myChar = p; c.classList.add("selected");
+      safeSend({ type:"selected", id:p.id });
+      checkBothSelected();
+    };
+    grid.appendChild(c);
+  });
 }
 
-function makeCard(p,isGame){
-  const c=document.createElement("div");c.className="card";
-  if(isGame)c.id="c-"+p.id;
-  c.innerHTML=`<img class="ci" src="${getImg(p)}" alt="${p.name}" loading="lazy"><div class="cg"></div><div class="cr ${rCls(p.rating)}">${p.rating}</div><div class="cp">${p.pos}</div><div class="cb"><div class="cn">${p.name}</div><div class="ct">${p.team}</div></div>`;
+function makeCard(p, isGame) {
+  const c = document.createElement("div");
+  c.className = "card";
+  if (isGame) c.id = "c-" + p.id;
+  c.innerHTML = `
+    <div class="c-top">
+      <div class="c-rat">${p.rating}</div>
+      <div class="c-pos">${p.pos}</div>
+    </div>
+    <div class="c-img-wrap"><img src="${getImg(p)}" loading="lazy"></div>
+    <div class="c-bot">
+      <div class="c-name">${p.name}</div>
+      <div class="c-team">${p.team}</div>
+    </div>`;
   return c;
 }
 
-function selectChar(p,el){
-  if(myChar)return;
-  myChar=p;el.classList.add("selected");
-  safeSend({type:"selected",id:p.id});checkBothSelected();
-}
-function checkBothSelected(){
-  if(myChar&&oppCharId!==null){showWait(false);setTimeout(startGame,500);}
-  else if(myChar){showWait(true,"في انتظار اختيار الخصم…","اختر خصمك شخصيته السرية");}
-}
-
-// ══════════════════════════════════════════════════
-//  GAME
-// ══════════════════════════════════════════════════
-function startGame(){
-  showWait(false);eliminated.clear();activeFilter="all";
-  document.getElementById("banner-img").src=getImg(myChar);
-  document.getElementById("banner-name").textContent=myChar.name;
-  document.getElementById("banner-team").textContent=myChar.team;
-  document.getElementById("banner-rating").textContent="تقييم "+myChar.rating;
-  document.getElementById("banner-pos").textContent=POS_AR[myChar.pos]||myChar.pos;
-  document.getElementById("elim-me").textContent="0";
-  document.getElementById("elim-opp").textContent="0";
-  document.getElementById("elim-left").textContent=activePlayers.length;
-  document.getElementById("sc-me").textContent=myScore;
-  document.getElementById("sc-opp").textContent=oppScore;
-  switchScreen("screen-game");
-  buildFilterBar();renderGameGrid();
-  document.getElementById("hud").style.display="flex";
-  const goFirst=(iAmHost&&round%2!==0)||(!iAmHost&&round%2===0);
-  if(goFirst)startMyTurn();else startOppTurn();
-}
-
-function renderGameGrid(){
-  const g=document.getElementById("grid-game");g.innerHTML="";
-  let list=activePlayers;
-  if(activeFilter!=="all"){
-    if(["GK","DF","MF","FW"].includes(activeFilter))list=list.filter(p=>p.pos===activeFilter);
-    else list=list.filter(p=>p.team===activeFilter||p.league===activeFilter||p.nat===activeFilter);
+function checkBothSelected() {
+  if (myChar && oppCharId !== null) {
+    showWait(false); setTimeout(startGame, 500);
+  } else if (myChar && oppCharId === null) {
+    showWait(true, "انتظار الخصم...", "الخصم يختار لاعبه السري");
   }
-  list.forEach(p=>{
-    const c=makeCard(p,true);
-    if(p.id===myChar?.id)c.classList.add("mine");
-    if(eliminated.has(p.id))c.classList.add("dead");
-    c.onclick=()=>toggleElim(p.id);
-    g.appendChild(c);
+}
+
+// ════════════════════════════════════════════════════
+//  GAME START
+// ════════════════════════════════════════════════════
+function startGame() {
+  showWait(false);
+  eliminated.clear(); activeFilter = "all";
+  
+  // Update My Player UI
+  document.getElementById("my-secret-ui").innerHTML = `
+    <img src="${getImg(myChar)}" class="mp-img">
+    <div class="mp-info">
+      <div class="mp-label">بطاقتك السرية</div>
+      <div class="mp-name">${myChar.name}</div>
+      <div class="mp-meta">
+        <span class="mp-tag rating"><i class="fas fa-star"></i> ${myChar.rating}</span>
+        <span class="mp-tag pos">${myChar.pos}</span>
+        <span class="mp-tag team">${myChar.team}</span>
+      </div>
+    </div>`;
+  
+  updateElimCounters();
+  switchScreen("screen-game");
+  buildFilterBar(); renderGameGrid();
+  document.getElementById("hud").style.display = "flex";
+  
+  // Alternating turns
+  const oddRound = (round % 2 !== 0);
+  if ((iAmHost && oddRound) || (!iAmHost && !oddRound)) startMyTurn();
+  else startOppTurn();
+}
+
+function buildFilterBar() {
+  const bar = document.getElementById("filter-bar"); bar.innerHTML = "";
+  const add = (lbl, val) => {
+    const ch = document.createElement("div");
+    ch.className = "chip" + (val===activeFilter ? " on" : "");
+    ch.textContent = lbl;
+    ch.onclick = () => { activeFilter=val; document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); ch.classList.add("on"); renderGameGrid(); };
+    bar.appendChild(ch);
+  };
+  add("الكل", "all");["FW","MF","DF","GK"].forEach(pos => { const L={FW:"مهاجمين",MF:"وسط",DF:"مدافعين",GK:"حراس"}; if(activePlayers.some(p=>p.pos===pos)) add(L[pos], pos); });
+  [...new Set(activePlayers.map(p=>p.team))].slice(0,6).forEach(t => add(t, t));
+}
+
+function renderGameGrid() {
+  const grid = document.getElementById("grid-game"); grid.innerHTML = "";
+  const list = activeFilter === "all" ? activePlayers : activePlayers.filter(p => [p.pos, p.team, p.league].includes(activeFilter));
+  
+  list.forEach(p => {
+    const c = makeCard(p, true);
+    if (p.id === myChar.id) c.classList.add("mine");
+    if (eliminated.has(p.id)) c.classList.add("dead");
+    c.onclick = () => toggleElim(p.id);
+    grid.appendChild(c);
   });
 }
 
-function buildFilterBar(){
-  const bar=document.getElementById("filter-bar");bar.innerHTML="";
-  const add=(label,val,icon="")=>{
-    const ch=document.createElement("div");
-    ch.className="chip"+(val===activeFilter?" on":"");
-    ch.innerHTML=icon?`<i class="${icon}"></i> ${label}`:label;
-    ch.onclick=()=>{activeFilter=val;document.querySelectorAll("#filter-bar .chip").forEach(c=>c.classList.remove("on"));ch.classList.add("on");renderGameGrid();};
-    bar.appendChild(ch);
-  };
-  add("الكل","all","fas fa-users");
-  const posL={FW:"مهاجمين",MF:"وسط",DF:"مدافعين",GK:"حراس"};
-  ["FW","MF","DF","GK"].forEach(pos=>{if(activePlayers.some(p=>p.pos===pos))add(posL[pos],pos);});[...new Set(activePlayers.map(p=>p.team))].slice(0,8).forEach(t=>add(t,t));
-  [...new Set(activePlayers.map(p=>p.league))].slice(0,5).forEach(l=>add(l,l));
-}
-
-function toggleElim(id){
-  const c=document.getElementById("c-"+id);if(!c)return;
-  if(eliminated.has(id)){eliminated.delete(id);c.classList.remove("dead");}
-  else{eliminated.add(id);c.classList.add("dead");}
+function toggleElim(id) {
+  if (!isMyTurn) return toast("ليس دورك! انتظر الخصم.", "err");
+  if (turnState !== 'asking') return toast("اختر (سؤال واستبعاد) أولاً من القائمة السفلية!", "err");
+  
+  const c = document.getElementById("c-" + id);
+  if (!c) return;
+  
+  if (eliminated.has(id)) { eliminated.delete(id); c.classList.remove("dead"); }
+  else { eliminated.add(id); c.classList.add("dead"); }
+  
   updateElimCounters();
-}
-function updateElimCounters(){
-  const n=eliminated.size;
-  document.getElementById("elim-me").textContent=n;
-  document.getElementById("elim-left").textContent=activePlayers.length-n;
-  safeSend({type:"elim_update",count:n});
+  safeSend({ type:"elim_update", count: eliminated.size });
 }
 
-// ══════════════════════════════════════════════════
-//  TURNS
-// ══════════════════════════════════════════════════
-function startMyTurn(){
-  isMyTurn=true;clearInterval(timerInt);
-  document.getElementById("turn-wrap").classList.add("active");
-  const hud=document.getElementById("hud");hud.classList.add("myturn");hud.classList.remove("oppturn");
-  document.getElementById("turn-main").textContent="دورك الآن!";
-  document.getElementById("turn-main").style.color="";
-  document.getElementById("turn-sub").textContent="اسأل سؤالاً أو خمّن اللاعب";
-  document.getElementById("hud-opp-turn").style.display="none";
-  document.getElementById("hud-my-turn").style.display="block";
-  setMyTurnButtons();
-  const dur=cfg.timerDuration;
-  if(dur>0){
-    const te=document.getElementById("timer");te.style.display="";te.className="timer";
-    let t=dur;te.textContent=t;
-    timerInt=setInterval(()=>{
-      t--;te.textContent=t;
-      if(t<=10)te.classList.add("urgent");
-      if(t<=0){clearInterval(timerInt);document.getElementById("turn-main").textContent="انتهى الوقت!";document.getElementById("turn-main").style.color="var(--red)";toast("انتهى وقتك!","err");}
-    },1000);
-  }else{document.getElementById("timer").style.display="none";}
-  toast("حان دورك! 🎤","gold");
+function updateElimCounters() {
+  const cnt = eliminated.size;
+  document.getElementById("elim-me").textContent = cnt;
+  document.getElementById("elim-left").textContent = activePlayers.length - cnt;
 }
 
-function startOppTurn(){
-  isMyTurn=false;clearInterval(timerInt);
-  document.getElementById("turn-wrap").classList.remove("active");
-  const hud=document.getElementById("hud");hud.classList.remove("myturn");hud.classList.add("oppturn");
-  document.getElementById("turn-main").textContent="دور الخصم";
-  document.getElementById("turn-main").style.color="var(--text-dim)";
-  document.getElementById("turn-sub").textContent="انتظر سؤاله وأجب بنعم أو لا";
-  document.getElementById("timer").style.display="none";
-  document.getElementById("hud-my-turn").style.display="none";
-  document.getElementById("hud-opp-turn").style.display="block";
+// ════════════════════════════════════════════════════
+//  TURN MANAGEMENT
+// ════════════════════════════════════════════════════
+function startMyTurn() {
+  isMyTurn = true; turnState = 'choosing'; clearInterval(timerInt);
+  
+  document.getElementById("hud").classList.add("myturn");
+  document.getElementById("turn-dot").classList.add("glow");
+  document.getElementById("turn-title").textContent = "دورك الآن!";
+  document.getElementById("turn-title").style.color = "var(--gold)";
+  document.getElementById("turn-sub").textContent = "ماذا ستفعل في هذا الدور؟";
+  
+  document.getElementById("hud-actions").style.display = "flex";
+  document.getElementById("hud-asking").style.display = "none";
+  startTimer();
 }
 
-// Ask question flow
-function doAskQuestion(){if(!isMyTurn)return;openModal("m-ask");}
-function confirmAsk(){closeModal("m-ask");setEndTurnButton();toast("اسأل سؤالك الآن 🎤","gold");}
-function endMyTurn(){
-  if(!isMyTurn)return;
-  clearInterval(timerInt);
-  setMyTurnButtons(); // restore for next turn
-  safeSend({type:"pass"});
+function startOppTurn() {
+  isMyTurn = false; turnState = 'idle'; clearInterval(timerInt);
+  
+  document.getElementById("hud").classList.remove("myturn");
+  document.getElementById("turn-dot").classList.remove("glow");
+  document.getElementById("turn-title").textContent = "دور الخصم";
+  document.getElementById("turn-title").style.color = "var(--text)";
+  document.getElementById("turn-sub").textContent = "أجب على أسئلته بـ (نعم/لا)";
+  
+  document.getElementById("hud-actions").style.display = "none";
+  document.getElementById("hud-asking").style.display = "none";
+  document.getElementById("timer").style.display = "none";
+}
+
+function chooseAction(act) {
+  if (act === 'ask') {
+    turnState = 'asking';
+    document.getElementById("hud-actions").style.display = "none";
+    document.getElementById("hud-asking").style.display = "flex";
+    document.getElementById("turn-sub").textContent = "اسأل الخصم واستبعد البطاقات";
+  } else if (act === 'guess') {
+    openGuessModal();
+  }
+}
+
+function passTurn() {
+  if (!isMyTurn) return;
+  safeSend({ type:"pass" });
   startOppTurn();
 }
 
-// ══════════════════════════════════════════════════
-//  GUESS
-// ══════════════════════════════════════════════════
-let pendingGuess=null;
-function openGuessModal(){
-  if(!isMyTurn)return;
-  document.getElementById("guess-search").value="";
-  document.getElementById("guess-pick-ui").style.display="";
-  document.getElementById("confirm-ui").style.display="none";
-  document.getElementById("close-guess-btn").style.display="";
-  renderGuessGrid(activePlayers);
-  openModal("m-guess");
-  setTimeout(()=>document.getElementById("guess-search").focus(),120);
-}
-function renderGuessGrid(list){
-  const g=document.getElementById("guess-grid");g.innerHTML="";
-  list.forEach(p=>{
-    const d=document.createElement("div");d.className="gitem";
-    d.innerHTML=`<img src="${getImg(p)}" alt="${p.name}"><div>${p.name}</div>`;
-    d.onclick=()=>showConfirm(p);g.appendChild(d);
-  });
-}
-function filterGuess(q){
-  const v=q.toLowerCase();
-  renderGuessGrid(activePlayers.filter(p=>p.name.includes(q)||p.en.toLowerCase().includes(v)||p.team.includes(q)||p.league.includes(q)||p.nat.includes(q)));
-}
-function showConfirm(p){
-  pendingGuess=p;
-  document.getElementById("conf-img").src=getImg(p);
-  document.getElementById("conf-name").textContent=p.name;
-  document.getElementById("conf-team").textContent=`${p.team} · ${p.league} · ${POS_AR[p.pos]||p.pos} · ${p.rating}`;
-  document.getElementById("guess-pick-ui").style.display="none";
-  document.getElementById("confirm-ui").style.display="flex";
-  document.getElementById("close-guess-btn").style.display="none";
-  document.getElementById("conf-yes").onclick=()=>commitGuess();
-}
-function cancelConfirm(){
-  pendingGuess=null;
-  document.getElementById("confirm-ui").style.display="none";
-  document.getElementById("guess-pick-ui").style.display="";
-  document.getElementById("close-guess-btn").style.display="";
-}
-function commitGuess(){
-  if(!pendingGuess)return;
-  closeModal("m-guess");clearInterval(timerInt);
-  const correct=(pendingGuess.id===oppCharId);
-  safeSend({type:"result",correct});
-  endRound(correct);
+function startTimer() {
+  if (cfg.timer <= 0) { document.getElementById("timer").style.display = "none"; return; }
+  const timerEl = document.getElementById("timer");
+  timerEl.style.display = "block"; timerEl.className = "timer";
+  let t = cfg.timer; timerEl.textContent = t;
+  
+  timerInt = setInterval(() => {
+    t--; timerEl.textContent = t;
+    if (t <= 10) timerEl.classList.add("urgent");
+    if (t <= 0) {
+      clearInterval(timerInt); toast("انتهى وقتك!", "err");
+      closeModal("m-guess"); passTurn();
+    }
+  }, 1000);
 }
 
-// ══════════════════════════════════════════════════
-//  ROUND END
-// ══════════════════════════════════════════════════
-function endRound(iWon){
+// ════════════════════════════════════════════════════
+//  GUESSING LOGIC
+// ════════════════════════════════════════════════════
+let pendingGuess = null;
+
+function openGuessModal() {
+  document.getElementById("guess-search").value = "";
+  document.getElementById("guess-pick-ui").style.display = "block";
+  document.getElementById("confirm-ui").style.display = "none";
+  renderGuessGrid(activePlayers);
+  openModal("m-guess");
+}
+
+function renderGuessGrid(list) {
+  const g = document.getElementById("guess-grid"); g.innerHTML = "";
+  list.forEach(p => {
+    const d = document.createElement("div"); d.className = "g-item";
+    d.innerHTML = `<img src="${getImg(p)}"><div>${p.name}</div>`;
+    d.onclick = () => {
+      pendingGuess = p;
+      document.getElementById("conf-img").src = getImg(p);
+      document.getElementById("conf-name").textContent = p.name;
+      document.getElementById("conf-team").textContent = p.team;
+      document.getElementById("guess-pick-ui").style.display = "none";
+      document.getElementById("confirm-ui").style.display = "flex";
+    };
+    g.appendChild(d);
+  });
+}
+
+function filterGuess(q) {
+  const v = q.toLowerCase();
+  renderGuessGrid(activePlayers.filter(p => p.name.includes(q) || p.en.toLowerCase().includes(v) || p.team.includes(q)));
+}
+
+function cancelGuessPick() { closeModal('m-guess'); }
+function backToGuessPick() { pendingGuess = null; document.getElementById("confirm-ui").style.display = "none"; document.getElementById("guess-pick-ui").style.display = "block"; }
+
+function commitGuess() {
+  if (!pendingGuess) return;
+  closeModal("m-guess"); clearInterval(timerInt);
+  
+  const iAmCorrect = (pendingGuess.id === oppCharId);
+  const myRole = iAmHost ? 'host' : 'guest';
+  const winner = iAmCorrect ? myRole : (iAmHost ? 'guest' : 'host');
+  
+  safeSend({ type: "game_over", winner: winner, guesser: myRole, correct: iAmCorrect });
+  endRound(iAmCorrect, iAmCorrect, true);
+}
+
+// ════════════════════════════════════════════════════
+//  GAME OVER / RESULTS
+// ════════════════════════════════════════════════════
+function endRound(iWon, wasCorrectGuess, iGuessed) {
   clearInterval(timerInt);
-  setMyTurnButtons(); // always restore HUD state
-  if(iWon)myScore++;else oppScore++;
-  document.getElementById("sc-me").textContent=myScore;
-  document.getElementById("sc-opp").textContent=oppScore;
-  const opp=activePlayers.find(p=>p.id===oppCharId)||ALL_PLAYERS.find(p=>p.id===oppCharId);
-  if(!opp){toast("انتهت الجولة",iWon?"ok":"err");return;}
-  document.getElementById("res-img").src=getImg(opp);
-  document.getElementById("res-name").textContent=opp.name;
-  document.getElementById("res-team").textContent=`${opp.team} · ${opp.league} · ${POS_AR[opp.pos]||opp.pos} · تقييم ${opp.rating}`;
-  document.getElementById("res-sc-me").textContent=myScore;
-  document.getElementById("res-sc-opp").textContent=oppScore;
-  if(iWon){
-    document.getElementById("res-emoji").textContent="🏆";
-    document.getElementById("res-title").textContent="فزت في هذه الجولة!";
-    document.getElementById("res-title").style.color="var(--green)";
-    document.getElementById("res-msg").textContent="تخمين صحيح ومثالي! 🎯";
-  }else{
-    document.getElementById("res-emoji").textContent="😔";
-    document.getElementById("res-title").textContent="خسرت هذه الجولة";
-    document.getElementById("res-title").style.color="var(--red)";
-    document.getElementById("res-msg").textContent="الخصم خمّن صحيح، أو كان تخمينك خاطئاً.";
+  if (iWon) myScore++; else oppScore++;
+  
+  const opp = activePlayers.find(p => p.id === oppCharId);
+  document.getElementById("res-img").src = getImg(opp);
+  document.getElementById("res-name").textContent = opp.name;
+  document.getElementById("res-team").textContent = `${opp.team} • تقييم ${opp.rating}`;
+  document.getElementById("res-sc-me").textContent = myScore;
+  document.getElementById("res-sc-opp").textContent = oppScore;
+  
+  const title = document.getElementById("res-title");
+  const msg = document.getElementById("res-msg");
+  const icon = document.getElementById("res-icon");
+  
+  if (iWon) {
+    icon.textContent = "🏆"; title.textContent = "انتصرت!"; title.style.color = "var(--green)";
+    msg.textContent = iGuessed ? "تخمين صحيح وحاسم!" : "الخصم أخطأ في التخمين وأهداك الفوز!";
+  } else {
+    icon.textContent = "💀"; title.textContent = "خسرت!"; title.style.color = "var(--red)";
+    msg.textContent = iGuessed ? "لقد تسرعت! تخمينك كان خاطئاً." : "الخصم كشف شخصيتك ببراعة!";
   }
+  
   openModal("m-result");
 }
 
-function nextRound(){
-  closeModal("m-result");iAmReady=true;safeSend({type:"ready"});
-  showWait(true,"في انتظار الخصم…","ينتظر موافقة الخصم على الجولة التالية");
+function nextRound() {
+  closeModal("m-result");
+  iAmReady = true; safeSend({ type:"ready" });
+  showWait(true, "الجولة القادمة", "في انتظار موافقة الخصم...");
   checkBothReady();
 }
-function checkBothReady(){if(iAmReady&&oppIsReady){iAmReady=false;oppIsReady=false;round++;beginSelectionPhase();}}
-function endGame(){location.reload();}
+
+function checkBothReady() {
+  if (iAmReady && oppIsReady) {
+    round++;
+    if (iAmHost) {
+      const sorted = [...ALL_PLAYERS].sort((a, b) => b.rating - a.rating || a.id - b.id);
+      const sliced = sorted.slice(0, cfg.playerCount);
+      const activeIds = sliced.map(p => p.id);
+      safeSend({ type: "settings", activeIds: activeIds });
+      beginSelectionPhase(activeIds);
+    }
+  }
+}
 </script>
 </body>
 </html>
