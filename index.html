@@ -1,930 +1,1524 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>أساطير كرة القدم 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.2/peerjs.min.js"></script>
-    <style>
-        :root {
-            --gold: #d4af37;
-            --gold-light: #f1d592;
-            --bg: #05070a;
-            --surface: #0f1218;
-            --surface-light: #1a1f26;
-            --accent: #3b82f6;
-            --danger: #ef4444;
-            --success: #10b981;
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-            --border: #262c36;
-            --font-main: 'Cairo', sans-serif;
-            --font-head: 'Bebas Neue', sans-serif;
-            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
-            --glass: rgba(15,18,24,0.95);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: var(--font-main);
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            min-height: 100vh;
-            -webkit-user-select: none;
-            user-select: none;
-            background-image:
-                radial-gradient(circle at top right, rgba(59,130,246,0.05), transparent),
-                radial-gradient(circle at bottom left, rgba(212,175,55,0.05), transparent);
-        }
-        input { -webkit-user-select: auto; user-select: auto; }
-        #master-loader {
-            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.4s;
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        header {
-            height: 70px; background: var(--glass); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 1.5rem; color: var(--gold); display: flex; align-items: center; gap: 8px; }
-        .logo i { animation: spin 8s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .screen { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; min-height: calc(100vh - 70px); }
-        .screen.active { display: flex; flex-direction: column; }
-        .lobby-container {
-            max-width: 450px; margin: 40px auto; width: 100%;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 24px; padding: 30px; box-shadow: var(--shadow-lg);
-        }
-        .config-box { background: var(--surface-light); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
-        .config-label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px; display: block; }
-        .btn-group { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
-        .btn-check {
-            background: var(--bg); border: 1px solid var(--border); color: var(--text-dim);
-            padding: 10px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s;
-            font-family: var(--font-main);
-        }
-        .btn-check.active { background: var(--gold); color: var(--bg); border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
-        .input-code {
-            width: 100%; background: var(--bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 15px; color: var(--text); font-size: 1.2rem;
-            text-align: center; font-family: var(--font-head); letter-spacing: 5px; margin-bottom: 15px;
-            outline: none; transition: 0.3s;
-        }
-        .input-code:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,0.2); }
-        .btn {
-            width: 100%; padding: 14px 20px; border-radius: 14px; border: none;
-            font-family: var(--font-main); font-weight: 800; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        .btn-primary { background: linear-gradient(135deg, var(--gold), #b38f2d); color: var(--bg); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { background: var(--surface-light); border-color: var(--text-dim); }
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-            gap: 12px; width: 100%; padding-bottom: 120px;
-        }
-        @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill,minmax(130px,1fr)); gap: 15px; } }
-        .card {
-            aspect-ratio: 2/3; background: var(--surface-light); border-radius: 12px;
-            position: relative; overflow: hidden; cursor: pointer;
-            border: 2px solid var(--border); transition: 0.3s;
-        }
-        .card img { width: 100%; height: 75%; object-fit: cover; transition: 0.5s; }
-        .card-info {
-            position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
-            background: linear-gradient(to top, var(--surface) 80%, transparent);
-            padding: 5px 8px; display: flex; flex-direction: column; justify-content: flex-end;
-        }
-        .card-name { font-size: 0.75rem; font-weight: 800; line-height: 1.2; }
-        .card-meta { font-size: 0.6rem; color: var(--text-dim); }
-        .card-rating {
-            position: absolute; top: 5px; right: 5px; background: var(--gold);
-            color: var(--bg); font-weight: 900; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; z-index: 2;
-        }
-        /* Eliminated State Enhancement */
-        .card.eliminated::after {
-            content: '\f00d'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            font-size: 3.5rem; color: rgba(239, 68, 68, 0.9); text-shadow: 0 4px 10px rgba(0,0,0,0.6); z-index: 10;
-        }
-        .card.eliminated img { filter: grayscale(1); opacity: 0.3; }
-        .card.eliminated .card-info { opacity: 0.5; }
-        
-        .card.my-secret-card { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); cursor: default; }
-        .card.selected-anim { animation: pulse-select 0.3s ease-out; }
-        @keyframes pulse-select { 0%{transform:scale(1)} 50%{transform:scale(0.93)} 100%{transform:scale(1)} }
-        
-        #game-hud {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: var(--glass); backdrop-filter: blur(15px);
-            border-top: 1px solid var(--border); 
-            padding: 15px 20px calc(15px + env(safe-area-inset-bottom, 0));
-            display: none; z-index: 500;
-        }
-        .hud-content { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .turn-indicator { display: flex; align-items: center; justify-content: space-between; }
-        .status-badge {
-            background: var(--surface-light); padding: 6px 15px; border-radius: 99px;
-            font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px;
-        }
-        .status-badge.active { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
-        .secret-info-bar {
-            background: var(--surface); border: 1px solid var(--border);
-            padding: 10px 15px; border-radius: 16px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 15px;
-        }
-        .secret-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); }
-        .secret-details { flex: 1; }
-        .secret-details h4 { font-size: 0.9rem; color: var(--gold); }
-        .secret-details p { font-size: 0.7rem; color: var(--text-dim); }
-        .choice-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-            z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px;
-        }
-        .choice-card {
-            background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
-            padding: 30px; width: 100%; max-width: 400px; text-align: center;
-        }
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.87);
-            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
-        }
-        .modal-content {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 24px; width: 100%; max-width: 500px; padding: 25px;
-            max-height: 85vh; overflow-y: auto;
-        }
-        #toast-container { position: fixed; top: 85px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; }
-        .toast {
-            background: var(--surface); color: var(--text); padding: 12px 25px;
-            border-radius: 12px; border-bottom: 3px solid var(--gold);
-            margin-bottom: 10px; box-shadow: var(--shadow-lg); font-weight: 700;
-            animation: slideDown 0.3s ease-out; white-space: nowrap;
-        }
-        @keyframes slideDown { from{transform:translateY(-20px);opacity:0} to{transform:translateY(0);opacity:1} }
-        .guess-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 15px; }
-        .guess-item {
-            background: var(--surface-light); padding: 10px; border-radius: 10px;
-            text-align: center; cursor: pointer; border: 1px solid transparent; transition: 0.2s;
-        }
-        .guess-item:hover { border-color: var(--gold); background: var(--bg); }
-        .guess-item img { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 5px; }
-        .guess-item div { font-size: 0.65rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .join-divider { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin: 15px 0; }
-        .result-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 3000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px;
-            text-align: center;
-        }
-        .result-overlay.show { display: flex; }
-        .result-icon { font-size: 5rem; margin-bottom: 20px; }
-        .result-title { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
-        .result-sub { color: var(--text-dim); margin-bottom: 30px; line-height: 1.6; }
-        .connecting-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--text-dim); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        
-        #confirm-selection-bar {
-            display: none; position: fixed; bottom: 0; left: 0; right: 0; 
-            padding: 15px 20px calc(15px + env(safe-area-inset-bottom, 0)); 
-            background: var(--glass); z-index: 100; border-top: 1px solid var(--border);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>كرة المعرفة - لعبة تخمين الأساطير</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.2/peerjs.min.js"></script>
+<style>
+:root {
+  --gold: #f0c040;
+  --gold-dark: #c89a20;
+  --gold-glow: rgba(240,192,64,0.25);
+  --bg: #060810;
+  --surface: #0e1018;
+  --surface2: #161b24;
+  --surface3: #1e2530;
+  --accent: #3b82f6;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --text: #f1f5f9;
+  --text-dim: #64748b;
+  --text-mid: #94a3b8;
+  --border: #1e2530;
+  --border2: #252d3a;
+  --font: 'Cairo', sans-serif;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea { -webkit-user-select: auto; user-select: auto; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+/* ── Loader ── */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+#loader.hidden { opacity: 0; visibility: hidden; }
+.loader-ball {
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--gold) 40%, var(--gold-dark));
+  border-radius: 50%;
+  animation: loaderBounce 0.7s ease-in-out infinite alternate;
+  box-shadow: 0 0 30px var(--gold-glow);
+}
+@keyframes loaderBounce {
+  from { transform: translateY(-15px) rotate(-20deg); }
+  to   { transform: translateY(15px) rotate(20deg); }
+}
+#loader p { color: var(--text-dim); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; }
+
+/* ── Header ── */
+header {
+  height: 60px;
+  padding: 0 20px;
+  padding-top: env(safe-area-inset-top);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(6,8,16,0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-ball {
+  width: 32px; height: 32px;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--gold) 45%, var(--gold-dark));
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--gold-glow);
+  flex-shrink: 0;
+  position: relative;
+}
+.logo-ball::after {
+  content: '';
+  position: absolute; inset: 4px;
+  background: repeating-conic-gradient(rgba(0,0,0,0.3) 0% 25%, transparent 0% 50%);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.logo-text { font-size: 1.05rem; font-weight: 900; color: var(--gold); letter-spacing: -0.5px; }
+.logo-text span { color: var(--text-mid); font-weight: 400; font-size: 0.7rem; display: block; line-height: 1; }
+
+#conn-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 99px;
+  font-size: 0.75rem; font-weight: 700;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  transition: all 0.3s;
+}
+#conn-pill.online { background: rgba(34,197,94,0.1); border-color: var(--success); color: var(--success); }
+#conn-pill .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: currentColor;
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ── Screens ── */
+.screen { display: none; min-height: calc(100dvh - 60px); }
+.screen.active { display: block; }
+
+/* ── MAIN MENU ── */
+#screen-menu {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(240,192,64,0.12), transparent),
+    radial-gradient(ellipse 60% 60% at -10% 80%, rgba(59,130,246,0.07), transparent),
+    var(--bg);
+  display: flex; flex-direction: column;
+}
+
+.menu-hero {
+  text-align: center;
+  padding: 40px 20px 30px;
+  position: relative;
+}
+
+.hero-stadium {
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3Cellipse cx='200' cy='180' rx='180' ry='60' fill='none' stroke='rgba(240,192,64,0.06)' stroke-width='1'/%3E%3Cellipse cx='200' cy='180' rx='140' ry='46' fill='none' stroke='rgba(240,192,64,0.05)' stroke-width='1'/%3E%3Cellipse cx='200' cy='180' rx='100' ry='32' fill='none' stroke='rgba(240,192,64,0.04)' stroke-width='1'/%3E%3Cline x1='200' y1='120' x2='200' y2='200' stroke='rgba(240,192,64,0.04)' stroke-width='1'/%3E%3C/svg%3E") center bottom/100% auto no-repeat;
+  pointer-events: none;
+}
+
+.hero-ball-wrap {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 5%, var(--gold) 40%, #a07010);
+  box-shadow: 0 0 0 12px rgba(240,192,64,0.06), 0 0 0 24px rgba(240,192,64,0.03), 0 20px 60px rgba(240,192,64,0.3);
+  margin-bottom: 22px;
+  position: relative;
+  animation: floatBall 3s ease-in-out infinite;
+}
+@keyframes floatBall {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(5deg); }
+}
+.hero-ball-wrap::before {
+  content: '';
+  position: absolute; inset: 8px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(0,0,0,0.25) 0deg 30deg, transparent 30deg 60deg);
+  mix-blend-mode: multiply;
+}
+
+.hero-title {
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.hero-title .ar { color: var(--text); }
+.hero-title .en {
+  display: block;
+  font-size: clamp(0.8rem, 3vw, 1rem);
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.hero-desc {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* How to play strip */
+.howto-strip {
+  display: flex;
+  gap: 0;
+  margin: 0 16px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.howto-step {
+  flex: 1;
+  padding: 16px 10px;
+  text-align: center;
+  position: relative;
+}
+.howto-step + .howto-step::before {
+  content: '';
+  position: absolute; right: 0; top: 20%; bottom: 20%;
+  width: 1px; background: var(--border2);
+}
+.howto-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+.howto-label { font-size: 0.65rem; font-weight: 700; color: var(--text-mid); line-height: 1.4; }
+
+/* Config section */
+.config-section {
+  margin: 0 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.config-row {
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.config-row + .config-row { border-top: 1px solid var(--border); }
+.config-row-label { font-size: 0.8rem; font-weight: 700; color: var(--text-mid); white-space: nowrap; }
+.chip-row { display: flex; gap: 6px; }
+.chip {
+  padding: 6px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 800;
+  background: var(--surface2); border: 1px solid var(--border2); color: var(--text-dim);
+  cursor: pointer; transition: all 0.2s;
+  font-family: var(--font);
+}
+.chip.active {
+  background: var(--gold); color: #000; border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(240,192,64,0.3);
+}
+
+/* Action buttons */
+.menu-actions { padding: 0 16px 40px; display: flex; flex-direction: column; gap: 12px; }
+
+.btn-hero {
+  width: 100%; padding: 18px 20px; border-radius: var(--r-lg); border: none;
+  font-family: var(--font); font-weight: 900; font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+}
+.btn-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  pointer-events: none;
+}
+.btn-hero:active { transform: scale(0.97); }
+.btn-primary-hero {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #000;
+  box-shadow: 0 4px 24px rgba(240,192,64,0.35), 0 0 0 1px rgba(240,192,64,0.2);
+}
+.btn-primary-hero:hover { box-shadow: 0 6px 32px rgba(240,192,64,0.5); transform: translateY(-1px); }
+.btn-outline-hero {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--text);
+}
+.btn-outline-hero:hover { background: var(--surface2); border-color: var(--text-dim); }
+.btn-hero:disabled { opacity: 0.4; pointer-events: none; }
+.btn-icon { font-size: 1.2rem; }
+
+/* Code display */
+.code-display {
+  background: var(--bg);
+  border: 2px dashed var(--gold);
+  border-radius: var(--r-md);
+  padding: 20px;
+  text-align: center;
+  margin: 20px 16px;
+}
+.code-value {
+  font-size: 3rem; font-weight: 900; color: var(--gold);
+  letter-spacing: 10px; display: block; margin-bottom: 8px;
+}
+.code-hint { font-size: 0.75rem; color: var(--text-dim); }
+
+/* Join form */
+.join-form { padding: 16px; }
+.input-field {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  padding: 16px 20px;
+  color: var(--text);
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: var(--font);
+  font-weight: 900;
+  letter-spacing: 8px;
+  outline: none;
+  transition: all 0.25s;
+  margin-bottom: 12px;
+  -webkit-appearance: none;
+}
+.input-field::placeholder { color: var(--border2); letter-spacing: 2px; font-size: 1rem; }
+.input-field:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
+
+/* Waiting state */
+.waiting-box {
+  margin: 0 16px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  text-align: center;
+}
+.waiting-dots { display: flex; gap: 8px; justify-content: center; margin: 16px 0; }
+.waiting-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+  animation: waitPulse 1.2s ease-in-out infinite;
+}
+.waiting-dot:nth-child(2) { animation-delay: 0.2s; }
+.waiting-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes waitPulse { 0%,100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+
+/* Divider */
+.or-divider {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; margin-bottom: 16px;
+  color: var(--text-dim); font-size: 0.75rem; font-weight: 700;
+}
+.or-divider::before, .or-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border2);
+}
+
+/* ── SELECTION SCREEN ── */
+#screen-select {
+  display: none; flex-direction: column;
+}
+#screen-select.active { display: flex; }
+
+.phase-header {
+  padding: 16px 16px 0;
+}
+.phase-banner {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.phase-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+}
+.phase-icon.blue { background: rgba(59,130,246,0.15); }
+.phase-icon.gold { background: rgba(240,192,64,0.15); }
+.phase-title { font-weight: 800; font-size: 0.9rem; }
+.phase-sub { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+  padding: 14px 14px 120px;
+  flex: 1;
+}
+@media (min-width: 480px) {
+  .players-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}
+
+/* ── Player Cards ── */
+.pcard {
+  aspect-ratio: 2/3;
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+}
+.pcard:active { transform: scale(0.95); }
+.pcard img {
+  width: 100%; height: 72%;
+  object-fit: cover; display: block;
+  transition: filter 0.3s;
+}
+.pcard-body {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 36%;
+  background: linear-gradient(to top, var(--surface) 75%, transparent);
+  padding: 4px 7px 6px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.pcard-name { font-size: 0.65rem; font-weight: 800; line-height: 1.2; }
+.pcard-club { font-size: 0.55rem; color: var(--text-dim); margin-top: 1px; }
+.pcard-rating {
+  position: absolute; top: 5px; right: 5px; z-index: 2;
+  background: var(--gold); color: #000;
+  font-size: 0.65rem; font-weight: 900;
+  padding: 2px 6px; border-radius: 4px;
+}
+.pcard-pos {
+  position: absolute; top: 5px; left: 5px; z-index: 2;
+  background: rgba(0,0,0,0.6); color: var(--text-mid);
+  font-size: 0.55rem; font-weight: 700;
+  padding: 2px 5px; border-radius: 4px;
+}
+
+/* Selection states */
+.pcard.chosen {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2), 0 0 20px rgba(59,130,246,0.15);
+}
+.pcard.chosen .chosen-badge {
+  display: flex;
+}
+
+.chosen-badge {
+  display: none;
+  position: absolute; inset: 0; z-index: 5;
+  background: rgba(59,130,246,0.12);
+  align-items: center; justify-content: center;
+  font-size: 2.5rem;
+}
+
+/* Eliminated state */
+.pcard.elim img { filter: grayscale(1) brightness(0.4); }
+.pcard.elim .pcard-body { opacity: 0.4; }
+.pcard.elim::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 3;
+  background: rgba(239,68,68,0.08);
+}
+.pcard.elim::before {
+  content: '\2715';
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; color: rgba(239,68,68,0.7);
+  font-weight: 900;
+}
+
+/* ── Confirm Bar ── */
+#confirm-bar {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0));
+  background: rgba(6,8,16,0.95);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border2);
+}
+#confirm-bar .inner { max-width: 500px; margin: 0 auto; }
+
+/* ── GAME SCREEN ── */
+#screen-game {
+  display: none; flex-direction: column;
+}
+#screen-game.active { display: flex; }
+
+.game-header {
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.my-player-chip {
+  display: flex; align-items: center; gap: 10px; flex: 1;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--r-md); padding: 8px 12px; min-width: 0;
+}
+.my-player-chip img {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid var(--gold); flex-shrink: 0;
+  object-fit: cover;
+}
+.chip-info { min-width: 0; }
+.chip-info h4 { font-size: 0.8rem; font-weight: 800; color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chip-info p { font-size: 0.65rem; color: var(--text-dim); }
+
+.stats-bar { display: flex; gap: 8px; flex-shrink: 0; }
+.stat-chip {
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--r-sm); padding: 6px 10px; text-align: center; min-width: 50px;
+}
+.stat-chip .val { font-size: 1.1rem; font-weight: 900; display: block; }
+.stat-chip .lbl { font-size: 0.55rem; color: var(--text-dim); display: block; margin-top: 1px; }
+.stat-chip.green .val { color: var(--success); }
+.stat-chip.red .val { color: var(--danger); }
+
+/* ── HUD ── */
+#hud {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  background: rgba(6,8,16,0.96);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border2);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+}
+.hud-inner {
+  max-width: 600px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.hud-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;
+  background: var(--surface2); color: var(--text-dim);
+  border: 1px solid var(--border2);
+  transition: all 0.3s;
+  flex: 1;
+}
+.hud-status.myturn {
+  background: rgba(34,197,94,0.1); color: var(--success);
+  border-color: rgba(34,197,94,0.3);
+}
+.hud-status.oppturn {
+  background: rgba(239,68,68,0.07); color: #f87171;
+  border-color: rgba(239,68,68,0.2);
+}
+#hud-timer {
+  font-size: 1.4rem; font-weight: 900; color: var(--gold);
+  min-width: 40px; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+#hud-timer.danger { color: var(--danger); animation: timerPulse 0.5s ease-in-out infinite; }
+@keyframes timerPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+#btn-end-turn { display: none; }
+
+/* ── Overlays ── */
+.overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.85);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.overlay.open { display: flex; }
+
+.sheet {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-xl);
+  width: 100%; max-width: 420px;
+  padding: 28px;
+  animation: sheetIn 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes sheetIn { from { transform: scale(0.93) translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.sheet-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 6px; }
+.sheet-sub { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 20px; line-height: 1.5; }
+
+.action-list { display: flex; flex-direction: column; gap: 12px; }
+.action-btn {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: var(--r-md); border: none;
+  font-family: var(--font); cursor: pointer; text-align: right;
+  transition: all 0.2s; width: 100%;
+}
+.action-btn:active { transform: scale(0.98); }
+.action-btn.gold-btn {
+  background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.2); color: var(--text);
+}
+.action-btn.gold-btn:hover { background: rgba(240,192,64,0.18); }
+.action-btn.danger-btn {
+  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5;
+}
+.action-icon-wrap {
+  width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+}
+.gold-icon { background: rgba(240,192,64,0.15); }
+.danger-icon { background: rgba(239,68,68,0.12); }
+.action-text h4 { font-size: 0.9rem; font-weight: 800; }
+.action-text p { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
+
+/* Guess modal */
+#modal-guess {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(0,0,0,0.9);
+  display: none; flex-direction: column;
+  padding-top: calc(60px + env(safe-area-inset-top));
+}
+#modal-guess.open { display: flex; }
+.guess-header {
+  padding: 16px 16px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.guess-header h3 { font-size: 1rem; font-weight: 900; margin-bottom: 8px; }
+.guess-search {
+  width: 100%; padding: 12px 16px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--r-md); color: var(--text);
+  font-family: var(--font); font-size: 0.95rem; outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.guess-search:focus { border-color: var(--gold); }
+.guess-grid {
+  flex: 1; overflow-y: auto;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 10px; padding: 14px 14px 100px;
+  align-content: start;
+}
+.guess-item {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 10px 8px;
+  text-align: center; cursor: pointer; transition: all 0.15s;
+}
+.guess-item:hover, .guess-item:active { border-color: var(--gold); background: var(--surface3); }
+.guess-item img { width: 44px; height: 44px; border-radius: 50%; margin-bottom: 6px; }
+.guess-item-name { font-size: 0.62rem; font-weight: 800; line-height: 1.3; }
+.guess-item-club { font-size: 0.55rem; color: var(--text-dim); margin-top: 2px; }
+.guess-footer {
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+  background: var(--surface); border-top: 1px solid var(--border);
+}
+
+/* ── Result Overlay ── */
+#result-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 30px;
+}
+#result-overlay.open { display: flex; }
+.result-bg {
+  position: absolute; inset: 0;
+}
+.result-bg.won { background: radial-gradient(circle at 50% 50%, rgba(240,192,64,0.15), rgba(6,8,16,0.98) 70%); }
+.result-bg.lost { background: radial-gradient(circle at 50% 50%, rgba(239,68,68,0.1), rgba(6,8,16,0.98) 70%); }
+.result-content { position: relative; z-index: 1; max-width: 340px; }
+.result-emoji { font-size: 5rem; display: block; margin-bottom: 16px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.result-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 8px; }
+.result-title.won { color: var(--gold); }
+.result-title.lost { color: var(--danger); }
+.result-msg { font-size: 0.9rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 30px; }
+
+/* ── Confirm Dialog ── */
+#confirm-dialog {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,0.88);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+#confirm-dialog.open { display: flex; }
+.confirm-card {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: var(--r-xl); padding: 28px; width: 100%; max-width: 380px;
+  text-align: center;
+}
+.confirm-player-img {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 3px solid var(--gold); margin-bottom: 16px;
+}
+.confirm-player-name { font-size: 1.2rem; font-weight: 900; color: var(--gold); margin-bottom: 4px; }
+.confirm-player-club { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px; }
+.confirm-warning {
+  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--r-sm); padding: 10px 14px; margin-bottom: 20px;
+  font-size: 0.78rem; color: #fca5a5; line-height: 1.5;
+}
+.confirm-btns { display: flex; gap: 10px; }
+
+/* ── Shared Btn ── */
+.btn {
+  padding: 13px 20px; border-radius: var(--r-md); border: none;
+  font-family: var(--font); font-weight: 800; font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.2s; width: 100%;
+}
+.btn:active { transform: scale(0.97); }
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000; }
+.btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+.btn-outline:hover { background: var(--surface2); }
+.btn-ghost { background: transparent; color: var(--text-dim); }
+.btn:disabled { opacity: 0.4; pointer-events: none; }
+
+/* ── Toast ── */
+#toast-wrap {
+  position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.toast {
+  background: var(--surface); color: var(--text);
+  padding: 10px 20px; border-radius: 99px;
+  font-size: 0.82rem; font-weight: 700; white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  animation: toastIn 0.25s ease-out;
+  border: 1px solid var(--border2);
+}
+.toast.gold { border-bottom: 2px solid var(--gold); }
+.toast.danger { border-bottom: 2px solid var(--danger); }
+.toast.success { border-bottom: 2px solid var(--success); }
+@keyframes toastIn { from { transform: translateY(-12px); opacity: 0; } to { transform: none; opacity: 1; } }
+</style>
 </head>
 <body>
 
-<div id="master-loader">
-    <i class="fas fa-circle-notch fa-spin fa-3x" style="color:var(--gold);margin-bottom:20px;"></i>
-    <h3>جاري تحميل النظام...</h3>
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-ball"></div>
+  <p>FOOTBALL LEGENDS</p>
 </div>
 
+<!-- Toast -->
+<div id="toast-wrap"></div>
+
+<!-- Header -->
 <header>
-    <div class="logo">
-        <i class="fas fa-futbol"></i>
-        <span style="font-family:var(--font-head);letter-spacing:1px;">LEGENDS 2026</span>
+  <div class="logo-mark">
+    <div class="logo-ball"></div>
+    <div class="logo-text">
+      كرة المعرفة
+      <span>FOOTBALL LEGENDS</span>
     </div>
-    <div id="connection-status" class="status-badge">
-        <i class="fas fa-wifi"></i>
-        <span>غير متصل</span>
-    </div>
+  </div>
+  <div id="conn-pill">
+    <div class="dot"></div>
+    <span id="conn-text">غير متصل</span>
+  </div>
 </header>
 
-<div id="toast-container"></div>
+<!-- ══ SCREEN: MENU ══════════════════════════════════════ -->
+<div id="screen-menu" class="screen active">
 
-<!-- Screen: Lobby -->
-<main id="screen-lobby" class="screen active">
-    <div class="lobby-container">
-        <h2 style="text-align:center;margin-bottom:25px;">غرفة العمليات 🏟️</h2>
-
-        <div id="host-section">
-            <div class="config-box">
-                <span class="config-label">عدد أساطير الجولة (عشوائي):</span>
-                <div class="btn-group" id="count-selector">
-                    <button class="btn-check active" data-value="20">20</button>
-                    <button class="btn-check" data-value="32">32</button>
-                    <button class="btn-check" data-value="48">48</button>
-                    <button class="btn-check" data-value="0">الكل</button>
-                </div>
-            </div>
-            <div class="config-box">
-                <span class="config-label">مدة التفكير (ثانية):</span>
-                <div class="btn-group" id="time-selector">
-                    <button class="btn-check active" data-value="30">30</button>
-                    <button class="btn-check" data-value="60">60</button>
-                    <button class="btn-check" data-value="90">90</button>
-                    <button class="btn-check" data-value="0">∞</button>
-                </div>
-            </div>
-            <button id="btn-host" class="btn btn-primary">
-                <i class="fas fa-plus-circle"></i> إنشاء مباراة جديدة
-            </button>
-        </div>
-
-        <div id="waiting-area" style="display:none;text-align:center;">
-            <div class="config-box" style="background:var(--bg);">
-                <span class="config-label">شارك هذا الكود مع صديقك:</span>
-                <div class="input-code" style="margin-bottom:0;font-size:2rem;color:var(--gold); display:flex; align-items:center; justify-content:center; gap:15px;">
-                    <span id="display-code" style="letter-spacing: 8px;">----</span>
-                    <i class="fas fa-copy" id="btn-copy-code" style="cursor:pointer; font-size:1.2rem; color:var(--text-dim);" title="نسخ الكود"></i>
-                </div>
-            </div>
-            <div class="status-badge" style="justify-content:center;margin-top:10px;">
-                <span class="connecting-spinner" style="margin-left:8px;"></span> في انتظار الخصم...
-            </div>
-            <button id="btn-cancel-host" class="btn btn-outline" style="margin-top:15px;">
-                <i class="fas fa-times"></i> إلغاء
-            </button>
-        </div>
-
-        <div class="join-divider">── أو انضم لمباراة ──</div>
-
-        <div id="join-area">
-            <input type="text" class="input-code" id="input-join" placeholder="أدخل كود الخصم" maxlength="4" inputmode="numeric">
-            <button id="btn-join" class="btn btn-outline">
-                <i class="fas fa-sign-in-alt"></i> انضمام للمباراة
-            </button>
-        </div>
+  <!-- Hero -->
+  <div class="menu-hero">
+    <div class="hero-stadium"></div>
+    <div class="hero-ball-wrap"></div>
+    <div class="hero-title">
+      <span class="ar">من أنا؟</span>
+      <span class="en">Who Am I?</span>
     </div>
-</main>
+    <p class="hero-desc">العب ضد صديقك واكتشف لاعبه السري قبل أن يكتشف لاعبك</p>
+  </div>
 
-<!-- Screen: Selection -->
-<main id="screen-select" class="screen">
-    <div class="secret-info-bar" style="border-color:var(--accent);">
-        <i class="fas fa-user-secret fa-2x" style="color:var(--accent);"></i>
-        <div class="secret-details">
-            <h4 id="select-title">اختر لاعباً سرياً</h4>
-            <p id="select-sub">هذا اللاعب هو من سيحاول خصمك تخمينه. اختر بذكاء!</p>
-        </div>
+  <!-- How To Play -->
+  <div class="howto-strip">
+    <div class="howto-step">
+      <span class="howto-icon">🎭</span>
+      <div class="howto-label">اختر لاعبك السري</div>
     </div>
-    <div class="grid" id="grid-selection"></div>
-</main>
+    <div class="howto-step">
+      <span class="howto-icon">❓</span>
+      <div class="howto-label">اطرح أسئلة واستبعد</div>
+    </div>
+    <div class="howto-step">
+      <span class="howto-icon">🎯</span>
+      <div class="howto-label">خمّن وافوز</div>
+    </div>
+  </div>
 
-<div id="confirm-selection-bar">
-    <button id="btn-confirm-selection" class="btn btn-primary" style="max-width: 400px; margin: 0 auto;">
-        <i class="fas fa-check-circle"></i> تأكيد الاختيار
+  <!-- Config -->
+  <div class="config-section">
+    <div class="config-row">
+      <span class="config-row-label">عدد اللاعبين</span>
+      <div class="chip-row" id="count-chips">
+        <button class="chip active" data-v="20">20</button>
+        <button class="chip" data-v="32">32</button>
+        <button class="chip" data-v="48">48</button>
+        <button class="chip" data-v="0">الكل</button>
+      </div>
+    </div>
+    <div class="config-row">
+      <span class="config-row-label">وقت الدور (ث)</span>
+      <div class="chip-row" id="timer-chips">
+        <button class="chip active" data-v="30">30</button>
+        <button class="chip" data-v="60">60</button>
+        <button class="chip" data-v="90">90</button>
+        <button class="chip" data-v="0">∞</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Host / Join Buttons (default view) -->
+  <div id="menu-default">
+    <div class="menu-actions">
+      <button class="btn-hero btn-primary-hero" id="btn-host">
+        <span class="btn-icon">🏟️</span> إنشاء مباراة جديدة
+      </button>
+      <div class="or-divider">أو</div>
+      <div class="join-form" style="padding:0;">
+        <input class="input-field" id="join-input" type="tel" inputmode="numeric" maxlength="4" placeholder="أدخل كود الخصم">
+        <button class="btn-hero btn-outline-hero" id="btn-join">
+          <span class="btn-icon">🚪</span> انضمام للمباراة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Waiting (after host) -->
+  <div id="menu-waiting" style="display:none;">
+    <div class="code-display">
+      <span id="code-val" class="code-value">----</span>
+      <div class="code-hint">شارك هذا الكود مع صديقك</div>
+    </div>
+    <div class="waiting-box">
+      <p style="font-weight:700; margin-bottom:4px;">في انتظار الخصم...</p>
+      <div class="waiting-dots">
+        <div class="waiting-dot"></div>
+        <div class="waiting-dot"></div>
+        <div class="waiting-dot"></div>
+      </div>
+      <p style="font-size:0.75rem; color:var(--text-dim);">الكود صالح لمدة 5 دقائق</p>
+    </div>
+    <div class="menu-actions" style="margin-top:16px;">
+      <button class="btn-hero btn-outline-hero" id="btn-copy-code">
+        <span class="btn-icon">📋</span> نسخ الكود
+      </button>
+      <button class="btn-hero btn-ghost" id="btn-cancel">
+        <span class="btn-icon">✕</span> إلغاء
+      </button>
+    </div>
+  </div>
+
+</div><!-- /screen-menu -->
+
+<!-- ══ SCREEN: SELECTION ════════════════════════════════ -->
+<div id="screen-select" class="screen">
+  <div class="phase-header">
+    <div class="phase-banner">
+      <div class="phase-icon blue"><i class="fas fa-user-secret"></i></div>
+      <div>
+        <div class="phase-title" id="sel-title">اختر لاعبك السري</div>
+        <div class="phase-sub" id="sel-sub">هذا هو اللاعب الذي سيحاول الخصم تخمينه</div>
+      </div>
+    </div>
+  </div>
+  <div class="players-grid" id="grid-select"></div>
+</div>
+
+<!-- Confirm Selection Bar -->
+<div id="confirm-bar">
+  <div class="inner">
+    <button class="btn btn-gold" id="btn-confirm-sel">
+      <i class="fas fa-check-circle"></i> تأكيد الاختيار
     </button>
+  </div>
 </div>
 
-<!-- Screen: Game -->
-<main id="screen-game" class="screen">
-    <div class="secret-info-bar">
-        <img src="" id="my-secret-img" class="secret-avatar" alt="">
-        <div class="secret-details">
-            <h4 id="my-secret-name">—</h4>
-            <p id="my-secret-meta">—</p>
-        </div>
-        <div style="text-align:left;">
-            <div class="config-label">استبعدت</div>
-            <div style="font-weight:900;font-size:1.2rem;color:var(--danger);" id="count-eliminated">0</div>
-        </div>
+<!-- ══ SCREEN: GAME ══════════════════════════════════════ -->
+<div id="screen-game" class="screen">
+  <div class="game-header">
+    <div class="my-player-chip">
+      <img id="my-img" src="" alt="">
+      <div class="chip-info">
+        <h4 id="my-name">—</h4>
+        <p id="my-meta">—</p>
+      </div>
     </div>
-    <div class="grid" id="grid-main"></div>
-</main>
-
-<!-- Turn Decision Overlay -->
-<div id="turn-decision" class="choice-overlay">
-    <div class="choice-card">
-        <h2 style="margin-bottom:20px;">حان دورك! 🎤</h2>
-        <div style="display:flex;flex-direction:column;gap:15px;">
-            <button class="btn btn-primary" id="btn-ask-action">
-                <i class="fas fa-question-circle"></i> طرح سؤال (استبعاد)
-            </button>
-            <button class="btn btn-outline" style="border-color:var(--gold);color:var(--gold);" id="btn-guess-action">
-                <i class="fas fa-bullseye"></i> تخمين نهائي (فرصة واحدة)
-            </button>
-        </div>
-        <p style="margin-top:20px;font-size:0.75rem;color:var(--text-dim);">تنبيه: التخمين الخاطئ يعني الخسارة فوراً.</p>
+    <div class="stats-bar">
+      <div class="stat-chip green">
+        <span class="val" id="stat-remain">0</span>
+        <span class="lbl">متبقي</span>
+      </div>
+      <div class="stat-chip red">
+        <span class="val" id="stat-elim">0</span>
+        <span class="lbl">مستبعد</span>
+      </div>
     </div>
-</div>
-
-<!-- Guess Modal -->
-<div id="modal-guess" class="modal">
-    <div class="modal-content">
-        <h3>من هو لاعب الخصم؟ 🎯</h3>
-        <input type="text" class="input-code" id="guess-search" style="letter-spacing:0;font-size:1rem;margin-top:15px;"
-               placeholder="ابحث عن اسم اللاعب أو النادي...">
-        <div class="guess-grid" id="guess-list"></div>
-        <button class="btn btn-outline" style="margin-top:20px;" onclick="cancelGuess()">تراجع</button>
-    </div>
+  </div>
+  <div class="players-grid" id="grid-game" style="padding-bottom:90px;"></div>
 </div>
 
 <!-- HUD -->
-<div id="game-hud">
-    <div class="hud-content">
-        <div class="turn-indicator">
-            <div id="turn-status" class="status-badge">
-                <i class="fas fa-hourglass-half"></i>
-                <span>جاري التحميل...</span>
-            </div>
-            <div id="game-timer" style="font-family:var(--font-head);font-size:1.5rem;font-weight:900;color:var(--gold);">--</div>
-            <button id="btn-end-turn" class="btn btn-primary" style="width:auto;display:none;">
-                إنهاء الدور <i class="fas fa-check-double"></i>
-            </button>
-        </div>
+<div id="hud">
+  <div class="hud-inner">
+    <div id="hud-status" class="hud-status">
+      <i class="fas fa-hourglass-half"></i>
+      <span id="hud-status-text">تحميل...</span>
     </div>
+    <div id="hud-timer">--</div>
+    <button class="btn btn-gold" id="btn-end-turn" style="width:auto;display:none;padding:10px 16px;">
+      إنهاء الدور <i class="fas fa-check"></i>
+    </button>
+  </div>
 </div>
 
-<!-- Result Overlay -->
-<div id="result-overlay" class="result-overlay">
-    <div class="result-icon" id="result-icon">🏆</div>
-    <div class="result-title" id="result-title">فزت!</div>
-    <div class="result-sub" id="result-sub"></div>
-    <button class="btn btn-primary" style="max-width:300px;" onclick="location.reload()">
-        <i class="fas fa-redo"></i> العب مجدداً
+<!-- ══ OVERLAY: TURN DECISION ═══════════════════════════ -->
+<div id="overlay-turn" class="overlay">
+  <div class="sheet">
+    <div class="sheet-title">حان دورك! 🎤</div>
+    <div class="sheet-sub">ماذا تريد أن تفعل في هذا الدور؟</div>
+    <div class="action-list">
+      <button class="action-btn gold-btn" id="btn-act-ask">
+        <div class="action-icon-wrap gold-icon"><i class="fas fa-question"></i></div>
+        <div class="action-text">
+          <h4>طرح سؤال</h4>
+          <p>استبعد اللاعبين غير المطابقين</p>
+        </div>
+      </button>
+      <button class="action-btn danger-btn" id="btn-act-guess">
+        <div class="action-icon-wrap danger-icon"><i class="fas fa-bullseye"></i></div>
+        <div class="action-text">
+          <h4>تخمين نهائي</h4>
+          <p>تحذير: الخطأ = خسارة فورية</p>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ OVERLAY: GUESS MODAL ══════════════════════════════ -->
+<div id="modal-guess">
+  <div class="guess-header">
+    <h3>🎯 من هو لاعب الخصم؟</h3>
+    <input class="guess-search" id="guess-input" type="text" placeholder="ابحث بالاسم أو النادي أو الجنسية..." autocomplete="off">
+  </div>
+  <div class="guess-grid" id="guess-list"></div>
+  <div class="guess-footer">
+    <button class="btn btn-outline" onclick="closeGuessModal()">
+      <i class="fas fa-arrow-right"></i> تراجع
     </button>
+  </div>
+</div>
+
+<!-- ══ CONFIRM DIALOG ════════════════════════════════════ -->
+<div id="confirm-dialog">
+  <div class="confirm-card">
+    <img id="conf-img" src="" class="confirm-player-img" alt="">
+    <div id="conf-name" class="confirm-player-name">—</div>
+    <div id="conf-club" class="confirm-player-club">—</div>
+    <div class="confirm-warning">
+      ⚠️ التخمين الخاطئ يعني الخسارة الفورية. هل أنت متأكد تماماً؟
+    </div>
+    <div class="confirm-btns">
+      <button class="btn btn-outline" onclick="cancelConfirm()">إلغاء</button>
+      <button class="btn btn-gold" id="btn-confirm-guess">
+        <i class="fas fa-check"></i> نعم، خمّن!
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULT OVERLAY ════════════════════════════════════ -->
+<div id="result-overlay">
+  <div class="result-bg" id="result-bg"></div>
+  <div class="result-content">
+    <span class="result-emoji" id="res-emoji">🏆</span>
+    <div class="result-title" id="res-title">—</div>
+    <p class="result-msg" id="res-msg">—</p>
+    <button class="btn btn-gold" onclick="location.reload()">
+      <i class="fas fa-redo"></i> العب مجدداً
+    </button>
+  </div>
 </div>
 
 <script>
-// ── Utilities ──────────────────────────────────────────
-function vibrate(pattern) {
-    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
-}
+/* ═══════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+const vibrate = p => { try { navigator.vibrate && navigator.vibrate(p); } catch(e){} };
+const normalizeAr = t => t.replace(/[أإآا]/g,'ا').replace(/ة/g,'ه').replace(/[يى]/g,'ي').toLowerCase();
 
-function normalizeArabic(text) {
-    return text.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي');
-}
-
-function shuffleArray(array) {
-    let cur = array.length, rand;
-    while (cur != 0) {
-        rand = Math.floor(Math.random() * cur); cur--;
-        [array[cur], array[rand]] = [array[rand], array[cur]];
-    }
-    return array;
-}
-
-// ── PeerJS P2P Network Layer ────────────────────────────
-let peer = null;
-let conn = null;
-let isHost = false;
-let gameStarted = false;
-
-function initPeer(id, onReady) {
-    const peerId = id || undefined;
-    peer = new Peer(peerId, {
-        debug: 0,
-        config: {
-            iceServers:[
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' }
-            ]
-        }
-    });
-
-    peer.on('open', (assignedId) => {
-        onReady(assignedId);
-    });
-
-    peer.on('error', (err) => {
-        console.error('PeerJS error:', err);
-        if (err.type === 'peer-unavailable') {
-            showToast('الكود غير صحيح أو انتهت صلاحيته', 'danger');
-            document.getElementById('btn-join').disabled = false;
-        } else if (err.type === 'unavailable-id') {
-            const newId = 'LEG26' + Math.floor(1000 + Math.random() * 9000);
-            initPeer(newId, onReady);
-        } else {
-            showToast('خطأ في الاتصال: ' + err.type, 'danger');
-            document.getElementById('btn-host').disabled = false;
-            document.getElementById('btn-join').disabled = false;
-        }
-    });
-}
-
-function setupConnection(c) {
-    conn = c;
-    conn.on('data', (data) => {
-        handleMessage(data);
-    });
-    conn.on('close', () => {
-        if (gameStarted) showResult(true, 'انسحب الخصم من المباراة! 🏃‍♂️💨');
-        else {
-            showToast('انقطع الاتصال بالخصم', 'danger');
-            setTimeout(() => location.reload(), 2000);
-        }
-    });
-    conn.on('error', (err) => {
-        showToast('خطأ في الاتصال', 'danger');
-    });
-}
-
-function send(data) {
-    if (conn && conn.open) conn.send(data);
-}
-
-// ── Message Handler ─────────────────────────────────────
-function handleMessage(data) {
-    switch (data.type) {
-        case 'HELLO_ACK':
-            config = data.config;
-            updateStatus('متصل الآن ✓', true);
-            showToast('اتصلت بالمضيف! ابدأ الاختيار');
-            startSelectionPhase(data.gamePlayerIds);
-            break;
-        case 'PLAYER_SELECTED':
-            oppSecretPlayerId = data.playerId;
-            oppSelectionDone = true;
-            showToast('اختار الخصم لاعبه السري ✓');
-            checkBothSelected();
-            break;
-        case 'ACTION_CHOICE':
-            handleOpponentAction(data.action);
-            break;
-        case 'END_TURN':
-            startMyTurn();
-            break;
-        case 'FINAL_GUESS':
-            processOpponentGuess(data.guessId);
-            break;
-    }
-}
-
-// ── Players Data ────────────────────────────────────────
-const PLAYERS =[
-    {id:1,name:"كيليان مبابي",team:"ريال مدريد",pos:"FW",rating:91,nat:"فرنسا",img:"KM"},
-    {id:2,name:"إيرلينغ هالاند",team:"مانشستر سيتي",pos:"FW",rating:91,nat:"النرويج",img:"EH"},
-    {id:3,name:"فينيسيوس جونيور",team:"ريال مدريد",pos:"FW",rating:90,nat:"البرازيل",img:"VJ"},
-    {id:4,name:"جود بيلينجهام",team:"ريال مدريد",pos:"MF",rating:90,nat:"إنجلترا",img:"JB"},
-    {id:5,name:"لامين يامال",team:"برشلونة",pos:"FW",rating:86,nat:"إسبانيا",img:"LY"},
-    {id:6,name:"رودري",team:"مانشستر سيتي",pos:"MF",rating:91,nat:"إسبانيا",img:"R"},
-    {id:7,name:"كيفين دي بروين",team:"مانشستر سيتي",pos:"MF",rating:90,nat:"بلجيكا",img:"KDB"},
-    {id:8,name:"محمد صلاح",team:"ليفربول",pos:"FW",rating:89,nat:"مصر",img:"MS"},
-    {id:9,name:"ليونيل ميسي",team:"إنتر ميامي",pos:"FW",rating:88,nat:"الأرجنتين",img:"LM"},
-    {id:10,name:"كريستيانو رونالدو",team:"النصر",pos:"FW",rating:86,nat:"البرتغال",img:"CR"},
-    {id:11,name:"هاري كين",team:"بايرن ميونخ",pos:"FW",rating:90,nat:"إنجلترا",img:"HK"},
-    {id:12,name:"فيرجيل فان دايك",team:"ليفربول",pos:"DF",rating:89,nat:"هولندا",img:"VVD"},
-    {id:13,name:"فلوريان فيرتز",team:"باير ليفركوزن",pos:"MF",rating:88,nat:"ألمانيا",img:"FW2"},
-    {id:14,name:"جمال موسيالا",team:"بايرن ميونخ",pos:"MF",rating:87,nat:"ألمانيا",img:"JM"},
-    {id:15,name:"بوكايو ساكا",team:"أرسنال",pos:"FW",rating:87,nat:"إنجلترا",img:"BS"},
-    {id:16,name:"أنطوان غريزمان",team:"أتلتيكو مدريد",pos:"FW",rating:88,nat:"فرنسا",img:"AG"},
-    {id:17,name:"روبرت ليفاندوفسكي",team:"برشلونة",pos:"FW",rating:88,nat:"بولندا",img:"RL"},
-    {id:18,name:"باولو ديبالا",team:"روما",pos:"FW",rating:86,nat:"الأرجنتين",img:"PD"},
-    {id:19,name:"رافاييل لياو",team:"ميلان",pos:"FW",rating:86,nat:"البرتغال",img:"RL2"},
-    {id:20,name:"برناردو سيلفا",team:"مانشستر سيتي",pos:"MF",rating:88,nat:"البرتغال",img:"BS2"},
-    {id:21,name:"لاوتارو مارتينيز",team:"إنتر ميلان",pos:"FW",rating:89,nat:"الأرجنتين",img:"LM2"},
-    {id:22,name:"فيديريكو فالفيردي",team:"ريال مدريد",pos:"MF",rating:88,nat:"الأوروغواي",img:"FV"},
-    {id:23,name:"ثيبو كورتوا",team:"ريال مدريد",pos:"GK",rating:89,nat:"بلجيكا",img:"TC"},
-    {id:24,name:"أليسون بيكر",team:"ليفربول",pos:"GK",rating:89,nat:"البرازيل",img:"AB"},
-    {id:25,name:"مارتن أوديجارد",team:"أرسنال",pos:"MF",rating:89,nat:"النرويج",img:"MO"},
-    {id:26,name:"ديكلان رايس",team:"أرسنال",pos:"MF",rating:87,nat:"إنجلترا",img:"DR"},
-    {id:27,name:"فيل فودين",team:"مانشستر سيتي",pos:"FW",rating:88,nat:"إنجلترا",img:"PF"},
-    {id:28,name:"روبن دياز",team:"مانشستر سيتي",pos:"DF",rating:89,nat:"البرتغال",img:"RD"},
-    {id:29,name:"ويليام ساليبا",team:"أرسنال",pos:"DF",rating:87,nat:"فرنسا",img:"WS"},
-    {id:30,name:"كول بالمر",team:"تشيلسي",pos:"MF",rating:85,nat:"إنجلترا",img:"CP"},
-    {id:31,name:"فيكتور أوسيمين",team:"غلطة سراي",pos:"FW",rating:87,nat:"نيجيريا",img:"VO"},
-    {id:32,name:"برونو فيرنانديز",team:"مانشستر يونايتد",pos:"MF",rating:87,nat:"البرتغال",img:"BF"},
-    {id:33,name:"جيريمي دوكو",team:"مانشستر سيتي",pos:"FW",rating:85,nat:"بلجيكا",img:"JD"},
-    {id:34,name:"دومينيك سوبوسلاي",team:"ليفربول",pos:"MF",rating:85,nat:"النمسا",img:"DS"},
-    {id:35,name:"غافي",team:"برشلونة",pos:"MF",rating:86,nat:"إسبانيا",img:"G"},
-    {id:36,name:"بيدري",team:"برشلونة",pos:"MF",rating:87,nat:"إسبانيا",img:"B"},
-    {id:37,name:"ماركوس راشفورد",team:"مانشستر يونايتد",pos:"FW",rating:84,nat:"إنجلترا",img:"MR"},
-    {id:38,name:"ريكاردو كالافيوري",team:"أرسنال",pos:"DF",rating:84,nat:"إيطاليا",img:"RC"},
-    {id:39,name:"مايك ماينان",team:"ميلان",pos:"GK",rating:87,nat:"فرنسا",img:"MM"},
-    {id:40,name:"أشرف حكيمي",team:"باريس سان جيرمان",pos:"DF",rating:86,nat:"المغرب",img:"AH"},
-    {id:41,name:"جوناثان تاه",team:"باير ليفركوزن",pos:"DF",rating:84,nat:"ألمانيا",img:"JT"},
-    {id:42,name:"إدواردو كامافينجا",team:"ريال مدريد",pos:"MF",rating:85,nat:"فرنسا",img:"EC"},
-    {id:43,name:"عمر مارموش",team:"آينتراخت فرانكفورت",pos:"FW",rating:84,nat:"مصر",img:"OM"},
-    {id:44,name:"جواو فيليكس",team:"تشيلسي",pos:"FW",rating:84,nat:"البرتغال",img:"JF"},
-    {id:45,name:"ألكساندر إيزاك",team:"نيوكاسل",pos:"FW",rating:85,nat:"السويد",img:"AI"},
-    {id:46,name:"يوسف النصيري",team:"فنربخشة",pos:"FW",rating:83,nat:"المغرب",img:"YN"},
-    {id:47,name:"ريان غرافنبرش",team:"ليفربول",pos:"MF",rating:85,nat:"هولندا",img:"RG"},
-    {id:48,name:"أندريه أونانا",team:"مانشستر يونايتد",pos:"GK",rating:85,nat:"الكاميرون",img:"AO"},
-];
-
-// ── State ──────────────────────────────────────────────
-let mySecretPlayer = null;
-let pendingSelection = null;
-let oppSecretPlayerId = null;
-let activePlayersList =[];
-let eliminatedIds = new Set();
-let isMyTurn = false;
-let timerInterval = null;
-let selectionDone = false;
-let oppSelectionDone = false;
-let config = { playerCount: 20, timer: 30 };
-
-// ── Boot ───────────────────────────────────────────────
-window.onload = () => {
-    setTimeout(() => {
-        const loader = document.getElementById('master-loader');
-        loader.style.opacity = '0';
-        setTimeout(() => loader.style.display = 'none', 400);
-    }, 600);
-    initLobby();
-};
-
-function initLobby() {
-    document.querySelectorAll('#count-selector .btn-check').forEach(btn => {
-        btn.onclick = () => {
-            document.querySelectorAll('#count-selector .btn-check').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            config.playerCount = parseInt(btn.dataset.value);
-            vibrate(30);
-        };
-    });
-    document.querySelectorAll('#time-selector .btn-check').forEach(btn => {
-        btn.onclick = () => {
-            document.querySelectorAll('#time-selector .btn-check').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            config.timer = parseInt(btn.dataset.value);
-            vibrate(30);
-        };
-    });
-    document.getElementById('btn-host').onclick = hostGame;
-    document.getElementById('btn-join').onclick = joinGame;
-    document.getElementById('btn-cancel-host').onclick = () => { if(peer) peer.destroy(); location.reload(); };
-    
-    document.getElementById('btn-copy-code').onclick = () => {
-        navigator.clipboard.writeText(document.getElementById('display-code').textContent);
-        showToast('تم نسخ الكود!', 'success');
-    };
-
-    document.getElementById('btn-ask-action').onclick = () => handleActionChoice('ask');
-    document.getElementById('btn-guess-action').onclick = () => handleActionChoice('guess');
-    document.getElementById('btn-end-turn').onclick = endTurn;
-    document.getElementById('guess-search').oninput = e => renderGuessList(e.target.value);
-    document.getElementById('btn-confirm-selection').onclick = confirmMySelection;
-}
-
-// ── Toast ──────────────────────────────────────────────
-function showToast(msg, type = 'gold') {
-    const c = document.getElementById('toast-container');
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.style.borderBottomColor = type === 'danger' ? 'var(--danger)' : type === 'success' ? 'var(--success)' : 'var(--gold)';
-    t.textContent = msg;
-    c.appendChild(t);
-    setTimeout(() => t.remove(), 3500);
-}
-
-function updateStatus(text, active) {
-    const s = document.getElementById('connection-status');
-    s.querySelector('span').textContent = text;
-    s.className = 'status-badge' + (active ? ' active' : '');
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function avatarUrl(code) {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(code)}&background=1a1f26&color=d4af37&bold=true&size=128`;
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(code)}&background=1a1f26&color=d4af37&bold=true&size=128`;
 }
 
-// ── Host ───────────────────────────────────────────────
-function hostGame() {
-    document.getElementById('btn-host').disabled = true;
-    updateStatus('جاري الإنشاء...', false);
-
-    const shortCode = Math.floor(1000 + Math.random() * 9000).toString();
-    const peerId = 'LEG26-' + shortCode;
-
-    initPeer(peerId, (assignedId) => {
-        const code = assignedId.replace('LEG26-', '');
-        isHost = true;
-
-        document.getElementById('host-section').style.display = 'none';
-        document.getElementById('join-area').style.display = 'none';
-        document.querySelector('.join-divider').style.display = 'none';
-        document.getElementById('waiting-area').style.display = 'block';
-        document.getElementById('display-code').textContent = code;
-        updateStatus('في انتظار الخصم...', false);
-        showToast('الغرفة جاهزة! شارك الكود مع صديقك');
-
-        peer.on('connection', (c) => {
-            setupConnection(c);
-            c.on('open', () => {
-                updateStatus('متصل الآن ✓', true);
-                showToast('انضم الخصم! ابدأ الاختيار');
-                
-                const limit = config.playerCount === 0 ? PLAYERS.length : config.playerCount;
-                const gamePlayerIds = shuffleArray(PLAYERS.map(p=>p.id)).slice(0, limit);
-                
-                send({ type: 'HELLO_ACK', config, gamePlayerIds });
-                startSelectionPhase(gamePlayerIds);
-            });
-        });
-    });
+function toast(msg, type = 'gold') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  $('toast-wrap').appendChild(el);
+  setTimeout(() => el.remove(), 3200);
 }
 
-// ── Join ───────────────────────────────────────────────
-function joinGame() {
-    const rawCode = document.getElementById('input-join').value.trim();
-    if (rawCode.length !== 4 || isNaN(rawCode)) {
-        return showToast('الكود يجب أن يكون 4 أرقام', 'danger');
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setConn(text, online = false) {
+  $('conn-text').textContent = text;
+  $('conn-pill').className = 'status-badge' + (online ? ' online' : '');
+  // Mimic badge behavior
+  const pill = $('conn-pill');
+  pill.style.background = online ? 'rgba(34,197,94,0.1)' : 'var(--surface2)';
+  pill.style.borderColor = online ? 'var(--success)' : 'var(--border2)';
+  pill.style.color = online ? 'var(--success)' : 'var(--text-dim)';
+  const dot = pill.querySelector('.dot');
+  dot.style.background = online ? 'var(--success)' : 'var(--text-dim)';
+}
+
+/* ═══════════════════════════════════════════════════════
+   PLAYER DATA
+═══════════════════════════════════════════════════════ */
+const PLAYERS = [
+  {id:1,  name:"كيليان مبابي",         team:"ريال مدريد",           pos:"FW", rating:91, nat:"فرنسا",       img:"KM"},
+  {id:2,  name:"إيرلينغ هالاند",        team:"مانشستر سيتي",         pos:"FW", rating:91, nat:"النرويج",      img:"EH"},
+  {id:3,  name:"فينيسيوس جونيور",       team:"ريال مدريد",           pos:"FW", rating:90, nat:"البرازيل",     img:"VJ"},
+  {id:4,  name:"جود بيلينجهام",         team:"ريال مدريد",           pos:"MF", rating:90, nat:"إنجلترا",      img:"JB"},
+  {id:5,  name:"لامين يامال",           team:"برشلونة",              pos:"FW", rating:86, nat:"إسبانيا",      img:"LY"},
+  {id:6,  name:"رودري",                 team:"مانشستر سيتي",         pos:"MF", rating:91, nat:"إسبانيا",      img:"RD2"},
+  {id:7,  name:"كيفين دي بروين",        team:"مانشستر سيتي",         pos:"MF", rating:90, nat:"بلجيكا",       img:"KDB"},
+  {id:8,  name:"محمد صلاح",            team:"ليفربول",              pos:"FW", rating:89, nat:"مصر",         img:"MS"},
+  {id:9,  name:"ليونيل ميسي",           team:"إنتر ميامي",           pos:"FW", rating:88, nat:"الأرجنتين",    img:"LM"},
+  {id:10, name:"كريستيانو رونالدو",      team:"النصر",               pos:"FW", rating:86, nat:"البرتغال",     img:"CR"},
+  {id:11, name:"هاري كين",              team:"بايرن ميونخ",          pos:"FW", rating:90, nat:"إنجلترا",      img:"HK"},
+  {id:12, name:"فيرجيل فان دايك",       team:"ليفربول",              pos:"DF", rating:89, nat:"هولندا",       img:"VVD"},
+  {id:13, name:"فلوريان فيرتز",         team:"باير ليفركوزن",        pos:"MF", rating:88, nat:"ألمانيا",      img:"FW2"},
+  {id:14, name:"جمال موسيالا",           team:"بايرن ميونخ",          pos:"MF", rating:87, nat:"ألمانيا",      img:"JM"},
+  {id:15, name:"بوكايو ساكا",           team:"أرسنال",               pos:"FW", rating:87, nat:"إنجلترا",      img:"BS"},
+  {id:16, name:"أنطوان غريزمان",         team:"أتلتيكو مدريد",        pos:"FW", rating:88, nat:"فرنسا",        img:"AG"},
+  {id:17, name:"روبرت ليفاندوفسكي",      team:"برشلونة",              pos:"FW", rating:88, nat:"بولندا",       img:"RL"},
+  {id:18, name:"باولو ديبالا",           team:"روما",                pos:"FW", rating:86, nat:"الأرجنتين",    img:"PD"},
+  {id:19, name:"رافاييل لياو",           team:"ميلان",               pos:"FW", rating:86, nat:"البرتغال",     img:"RL2"},
+  {id:20, name:"برناردو سيلفا",          team:"مانشستر سيتي",         pos:"MF", rating:88, nat:"البرتغال",     img:"BS2"},
+  {id:21, name:"لاوتارو مارتينيز",       team:"إنتر ميلان",           pos:"FW", rating:89, nat:"الأرجنتين",    img:"LM2"},
+  {id:22, name:"فيديريكو فالفيردي",      team:"ريال مدريد",           pos:"MF", rating:88, nat:"الأوروغواي",   img:"FV"},
+  {id:23, name:"ثيبو كورتوا",           team:"ريال مدريد",           pos:"GK", rating:89, nat:"بلجيكا",       img:"TC"},
+  {id:24, name:"أليسون بيكر",           team:"ليفربول",              pos:"GK", rating:89, nat:"البرازيل",     img:"AB"},
+  {id:25, name:"مارتن أوديجارد",         team:"أرسنال",               pos:"MF", rating:89, nat:"النرويج",      img:"MO"},
+  {id:26, name:"ديكلان رايس",           team:"أرسنال",               pos:"MF", rating:87, nat:"إنجلترا",      img:"DR"},
+  {id:27, name:"فيل فودين",             team:"مانشستر سيتي",         pos:"FW", rating:88, nat:"إنجلترا",      img:"PF"},
+  {id:28, name:"روبن دياز",             team:"مانشستر سيتي",         pos:"DF", rating:89, nat:"البرتغال",     img:"RD"},
+  {id:29, name:"ويليام ساليبا",          team:"أرسنال",               pos:"DF", rating:87, nat:"فرنسا",        img:"WS"},
+  {id:30, name:"كول بالمر",             team:"تشيلسي",               pos:"MF", rating:85, nat:"إنجلترا",      img:"CP"},
+  {id:31, name:"فيكتور أوسيمين",         team:"غلطة سراي",            pos:"FW", rating:87, nat:"نيجيريا",      img:"VO"},
+  {id:32, name:"برونو فيرنانديز",        team:"مانشستر يونايتد",      pos:"MF", rating:87, nat:"البرتغال",     img:"BF"},
+  {id:33, name:"جيريمي دوكو",           team:"مانشستر سيتي",         pos:"FW", rating:85, nat:"بلجيكا",       img:"JD"},
+  {id:34, name:"دومينيك سوبوسلاي",       team:"ليفربول",              pos:"MF", rating:85, nat:"النمسا",       img:"DS"},
+  {id:35, name:"غافي",                  team:"برشلونة",              pos:"MF", rating:86, nat:"إسبانيا",      img:"GA"},
+  {id:36, name:"بيدري",                 team:"برشلونة",              pos:"MF", rating:87, nat:"إسبانيا",      img:"PE"},
+  {id:37, name:"ماركوس راشفورد",         team:"مانشستر يونايتد",      pos:"FW", rating:84, nat:"إنجلترا",      img:"MR"},
+  {id:38, name:"ريكاردو كالافيوري",      team:"أرسنال",               pos:"DF", rating:84, nat:"إيطاليا",      img:"RC"},
+  {id:39, name:"مايك ماينان",            team:"ميلان",               pos:"GK", rating:87, nat:"فرنسا",        img:"MM"},
+  {id:40, name:"أشرف حكيمي",            team:"باريس سان جيرمان",     pos:"DF", rating:86, nat:"المغرب",       img:"AH"},
+  {id:41, name:"جوناثان تاه",           team:"باير ليفركوزن",        pos:"DF", rating:84, nat:"ألمانيا",      img:"JT"},
+  {id:42, name:"إدواردو كامافينجا",      team:"ريال مدريد",           pos:"MF", rating:85, nat:"فرنسا",        img:"EC"},
+  {id:43, name:"عمر مارموش",            team:"مانشستر سيتي",         pos:"FW", rating:84, nat:"مصر",         img:"OM"},
+  {id:44, name:"جواو فيليكس",           team:"تشيلسي",               pos:"FW", rating:84, nat:"البرتغال",     img:"JF"},
+  {id:45, name:"ألكساندر إيزاك",         team:"نيوكاسل",              pos:"FW", rating:85, nat:"السويد",       img:"AI"},
+  {id:46, name:"يوسف النصيري",           team:"فنربخشة",              pos:"FW", rating:83, nat:"المغرب",       img:"YN"},
+  {id:47, name:"ريان غرافنبرش",          team:"ليفربول",              pos:"MF", rating:85, nat:"هولندا",       img:"RG"},
+  {id:48, name:"أندريه أونانا",          team:"مانشستر يونايتد",      pos:"GK", rating:85, nat:"الكاميرون",    img:"AO"},
+];
+
+/* ═══════════════════════════════════════════════════════
+   GAME STATE
+═══════════════════════════════════════════════════════ */
+let peer = null, conn = null;
+let isHost = false;
+let gameActive = false;
+
+let config = { playerCount: 20, timer: 30 };
+let activePlayers = [];
+let eliminatedIds = new Set();
+let mySecret = null;
+let oppSecretId = null;
+let pendingCard = null;
+let mySelDone = false;
+let oppSelDone = false;
+let isMyTurn = false;
+let timerInt = null;
+let pendingGuessPlayer = null;
+
+/* ═══════════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    $('loader').classList.add('hidden');
+  }, 700);
+
+  // Config chips
+  $('count-chips').querySelectorAll('.chip').forEach(c => {
+    c.onclick = () => {
+      $('count-chips').querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      config.playerCount = parseInt(c.dataset.v);
+      vibrate(20);
+    };
+  });
+  $('timer-chips').querySelectorAll('.chip').forEach(c => {
+    c.onclick = () => {
+      $('timer-chips').querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      config.timer = parseInt(c.dataset.v);
+      vibrate(20);
+    };
+  });
+
+  $('btn-host').onclick = hostGame;
+  $('btn-join').onclick = joinGame;
+  $('btn-cancel').onclick = () => { if (peer) peer.destroy(); location.reload(); };
+  $('btn-copy-code').onclick = () => {
+    const code = $('code-val').textContent;
+    navigator.clipboard.writeText(code).then(() => toast('تم نسخ الكود! 📋', 'success'));
+  };
+  $('btn-confirm-sel').onclick = confirmSelection;
+  $('btn-act-ask').onclick = () => chooseAction('ask');
+  $('btn-act-guess').onclick = () => chooseAction('guess');
+  $('btn-end-turn').onclick = endTurn;
+  $('guess-input').oninput = e => renderGuessList(e.target.value);
+  $('btn-confirm-guess').onclick = fireGuess;
+});
+
+/* ═══════════════════════════════════════════════════════
+   P2P NETWORK
+═══════════════════════════════════════════════════════ */
+function initPeer(id, onOpen) {
+  peer = new Peer(id || undefined, {
+    debug: 0,
+    config: { iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' }
+    ]}
+  });
+  peer.on('open', onOpen);
+  peer.on('error', err => {
+    if (err.type === 'peer-unavailable') {
+      toast('الكود غير صحيح أو انتهت صلاحيته', 'danger');
+      $('btn-join').disabled = false;
+    } else if (err.type === 'unavailable-id') {
+      initPeer('LEG26-' + Math.floor(1000 + Math.random() * 9000), onOpen);
+    } else {
+      toast('خطأ في الاتصال: ' + err.type, 'danger');
+      $('btn-host').disabled = false;
+      $('btn-join').disabled = false;
     }
-
-    document.getElementById('btn-join').disabled = true;
-    isHost = false;
-    updateStatus('جاري الاتصال...', false);
-
-    initPeer(null, () => {
-        const targetId = 'LEG26-' + rawCode;
-        const c = peer.connect(targetId, { reliable: true });
-        setupConnection(c);
-
-        c.on('open', () => {
-            updateStatus('متصل بالخادم...', false);
-            showToast('متصل! في انتظار إشارة البدء...');
-        });
-    });
+  });
 }
 
-// ── Selection Phase ────────────────────────────────────
-function startSelectionPhase(playerIds) {
-    activePlayersList = PLAYERS.filter(p => playerIds.includes(p.id));
-    activePlayersList.sort((a,b) => playerIds.indexOf(a.id) - playerIds.indexOf(b.id));
-    
-    switchScreen('screen-select');
-    renderSelectionGrid();
+function wireConn(c) {
+  conn = c;
+  conn.on('data', handleMsg);
+  conn.on('close', () => {
+    if (gameActive) showResult(true, 'انسحب الخصم! الفوز لك 🏃‍♂️');
+    else { toast('انقطع الاتصال', 'danger'); setTimeout(() => location.reload(), 2000); }
+  });
+  conn.on('error', () => toast('خطأ في الاتصال', 'danger'));
+}
+
+function send(data) {
+  if (conn && conn.open) conn.send(data);
+}
+
+function handleMsg(data) {
+  switch (data.type) {
+    case 'START':
+      config = data.config;
+      setConn('متصل ✓', true);
+      toast('تم الاتصال! اختر لاعبك السري');
+      startSelection(data.ids);
+      break;
+    case 'SEL_DONE':
+      oppSecretId = data.id;
+      oppSelDone = true;
+      toast('اختار الخصم لاعبه ✓');
+      checkBothReady();
+      break;
+    case 'ACTION':
+      if (data.action === 'ask') toast('الخصم يفكر ويستبعد...');
+      else toast('⚠️ الخصم يستعد للتخمين!', 'danger');
+      break;
+    case 'ACTION_CANCEL':
+      toast('الخصم تراجع عن التخمين...');
+      break;
+    case 'TURN_END':
+      beginMyTurn();
+      break;
+    case 'GUESS':
+      processOppGuess(data.id);
+      break;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   HOST / JOIN
+═══════════════════════════════════════════════════════ */
+function hostGame() {
+  $('btn-host').disabled = true;
+  setConn('جاري الإنشاء...', false);
+  const code = Math.floor(1000 + Math.random() * 9000).toString();
+  initPeer('LEG26-' + code, assignedId => {
+    isHost = true;
+    const displayCode = assignedId.replace('LEG26-', '');
+    $('code-val').textContent = displayCode;
+    $('menu-default').style.display = 'none';
+    $('menu-waiting').style.display = 'block';
+    setConn('في انتظار الخصم...', false);
+    toast('الغرفة جاهزة! شارك الكود');
+
+    peer.on('connection', c => {
+      wireConn(c);
+      c.on('open', () => {
+        setConn('متصل ✓', true);
+        toast('انضم الخصم! ابدأ الاختيار');
+        const limit = config.playerCount === 0 ? PLAYERS.length : config.playerCount;
+        const ids = shuffle(PLAYERS.map(p => p.id)).slice(0, limit);
+        send({ type: 'START', config, ids });
+        startSelection(ids);
+      });
+    });
+  });
+}
+
+function joinGame() {
+  const raw = $('join-input').value.trim();
+  if (!/^\d{4}$/.test(raw)) { toast('الكود يجب أن يكون 4 أرقام', 'danger'); return; }
+  $('btn-join').disabled = true;
+  isHost = false;
+  setConn('جاري الاتصال...', false);
+  initPeer(null, () => {
+    const c = peer.connect('LEG26-' + raw, { reliable: true });
+    wireConn(c);
+    c.on('open', () => setConn('متصل بالخادم...', false));
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   SELECTION PHASE
+═══════════════════════════════════════════════════════ */
+function startSelection(ids) {
+  activePlayers = PLAYERS.filter(p => ids.includes(p.id));
+  activePlayers.sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id));
+  switchScreen('screen-select');
+  renderSelectionGrid();
 }
 
 function renderSelectionGrid() {
-    const container = document.getElementById('grid-selection');
-    container.innerHTML = '';
-
-    activePlayersList.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <div class="card-rating">${p.rating}</div>
-            <img src="${avatarUrl(p.img)}" loading="lazy" alt="${p.name}">
-            <div class="card-info">
-                <div class="card-meta">${p.team}</div>
-                <div class="card-name">${p.name}</div>
-            </div>`;
-
-        card.onclick = () => {
-            if (selectionDone) return;
-            vibrate(30);
-            container.querySelectorAll('.card').forEach(c => c.classList.remove('my-secret-card'));
-            card.classList.add('my-secret-card');
-            pendingSelection = p;
-            document.getElementById('confirm-selection-bar').style.display = 'block';
-            document.getElementById('select-title').textContent = `اخترت: ${p.name}`;
-        };
-
-        container.appendChild(card);
-    });
+  const g = $('grid-select');
+  g.innerHTML = '';
+  activePlayers.forEach(p => {
+    const el = makeCard(p, false);
+    el.onclick = () => {
+      if (mySelDone) return;
+      vibrate(25);
+      g.querySelectorAll('.pcard').forEach(c => c.classList.remove('chosen'));
+      el.classList.add('chosen');
+      pendingCard = p;
+      $('confirm-bar').style.display = 'block';
+      $('sel-title').textContent = 'اخترت: ' + p.name;
+    };
+    g.appendChild(el);
+  });
 }
 
-function confirmMySelection() {
-    if (!pendingSelection) return;
-    selectionDone = true;
-    mySecretPlayer = pendingSelection;
-    document.getElementById('confirm-selection-bar').style.display = 'none';
-
-    document.querySelectorAll('#grid-selection .card:not(.my-secret-card)').forEach(c => {
-        c.style.opacity = '0.3';
-        c.style.pointerEvents = 'none';
-    });
-
-    document.getElementById('select-sub').textContent = 'تم الاختيار ✓ في انتظار الخصم...';
-    send({ type: 'PLAYER_SELECTED', playerId: mySecretPlayer.id });
-    showToast(`تم تثبيت ${mySecretPlayer.name} كلاعب سري`);
-    vibrate([50, 50, 50]);
-    checkBothSelected();
+function makeCard(p, showElim) {
+  const el = document.createElement('div');
+  el.className = 'pcard';
+  el.dataset.id = p.id;
+  el.innerHTML = `
+    <div class="pcard-rating">${p.rating}</div>
+    <div class="pcard-pos">${p.pos}</div>
+    <img src="${avatarUrl(p.img)}" loading="lazy" alt="${p.name}">
+    <div class="pcard-body">
+      <div class="pcard-club">${p.team} · ${p.nat}</div>
+      <div class="pcard-name">${p.name}</div>
+    </div>
+    ${showElim ? '' : '<div class="chosen-badge">✓</div>'}`;
+  return el;
 }
 
-function checkBothSelected() {
-    if (selectionDone && oppSelectionDone) {
-        setTimeout(initGameBoard, 600);
-    }
+function confirmSelection() {
+  if (!pendingCard) return;
+  mySelDone = true;
+  mySecret = pendingCard;
+  $('confirm-bar').style.display = 'none';
+
+  $('grid-select').querySelectorAll('.pcard:not(.chosen)').forEach(c => {
+    c.style.opacity = '0.25';
+    c.style.pointerEvents = 'none';
+  });
+  $('sel-sub').textContent = 'تم الاختيار ✓ في انتظار الخصم...';
+  send({ type: 'SEL_DONE', id: mySecret.id });
+  toast(`تم اختيار ${mySecret.name} كلاعبك السري`);
+  vibrate([40, 30, 40]);
+  checkBothReady();
 }
 
-// ── Game Board ─────────────────────────────────────────
-function initGameBoard() {
-    gameStarted = true;
-    switchScreen('screen-game');
-    document.getElementById('game-hud').style.display = 'block';
+function checkBothReady() {
+  if (mySelDone && oppSelDone) setTimeout(initGame, 500);
+}
 
-    const p = mySecretPlayer;
-    document.getElementById('my-secret-img').src = avatarUrl(p.img);
-    document.getElementById('my-secret-name').textContent = p.name;
-    document.getElementById('my-secret-meta').textContent = `${p.team} | ${p.pos} | ${p.rating} ★`;
+/* ═══════════════════════════════════════════════════════
+   GAME BOARD
+═══════════════════════════════════════════════════════ */
+function initGame() {
+  gameActive = true;
+  switchScreen('screen-game');
+  $('hud').style.display = 'block';
 
-    renderGameGrid();
+  $('my-img').src = avatarUrl(mySecret.img);
+  $('my-name').textContent = mySecret.name;
+  $('my-meta').textContent = `${mySecret.team} | ${mySecret.pos} | ★${mySecret.rating}`;
 
-    if (isHost) startMyTurn();
-    else startOpponentTurn();
+  renderGameGrid();
+  updateStats();
+
+  if (isHost) beginMyTurn();
+  else beginOppTurn();
 }
 
 function renderGameGrid() {
-    const container = document.getElementById('grid-main');
-    container.innerHTML = '';
-    eliminatedIds.clear();
-    document.getElementById('count-eliminated').textContent = '0';
+  const g = $('grid-game');
+  g.innerHTML = '';
+  eliminatedIds.clear();
 
-    activePlayersList.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.id = p.id;
+  activePlayers.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'pcard';
+    el.dataset.id = p.id;
+    el.innerHTML = `
+      <div class="pcard-rating">${p.rating}</div>
+      <div class="pcard-pos">${p.pos}</div>
+      <img src="${avatarUrl(p.img)}" loading="lazy" alt="${p.name}">
+      <div class="pcard-body">
+        <div class="pcard-club">${p.team} · ${p.nat}</div>
+        <div class="pcard-name">${p.name}</div>
+      </div>`;
 
-        card.innerHTML = `
-            <div class="card-rating">${p.rating}</div>
-            <img src="${avatarUrl(p.img)}" loading="lazy" alt="${p.name}">
-            <div class="card-info">
-                <div class="card-meta">${p.team}</div>
-                <div class="card-name">${p.name}</div>
-            </div>`;
+    el.onclick = () => {
+      if (!isMyTurn) { toast('انتظر دورك!', 'danger'); return; }
+      vibrate(30);
+      el.classList.toggle('elim');
+      if (el.classList.contains('elim')) eliminatedIds.add(p.id);
+      else eliminatedIds.delete(p.id);
+      updateStats();
+    };
 
-        card.onclick = () => {
-            if (!isMyTurn) { showToast('انتظر دورك!', 'danger'); return; }
-
-            vibrate(40);
-            card.classList.add('selected-anim');
-            card.classList.toggle('eliminated');
-
-            if (card.classList.contains('eliminated')) eliminatedIds.add(p.id);
-            else eliminatedIds.delete(p.id);
-            
-            document.getElementById('count-eliminated').textContent = eliminatedIds.size;
-            
-            setTimeout(() => card.classList.remove('selected-anim'), 300);
-        };
-
-        container.appendChild(card);
-    });
+    g.appendChild(el);
+  });
 }
 
-// ── Turn System ────────────────────────────────────────
-function startMyTurn() {
-    isMyTurn = true;
-    document.getElementById('turn-decision').style.display = 'flex';
-    const ts = document.getElementById('turn-status');
-    ts.className = 'status-badge active';
-    ts.querySelector('span').textContent = 'دورك الآن';
-    document.getElementById('btn-end-turn').style.display = 'none';
-    vibrate([100, 50, 100]);
-    startTimer();
+function updateStats() {
+  const elim = eliminatedIds.size;
+  const rem = activePlayers.length - elim;
+  $('stat-remain').textContent = rem;
+  $('stat-elim').textContent = elim;
 }
 
-function startOpponentTurn() {
-    isMyTurn = false;
-    clearInterval(timerInterval);
-    const ts = document.getElementById('turn-status');
-    ts.className = 'status-badge';
-    ts.querySelector('span').textContent = 'دور الخصم...';
-    document.getElementById('btn-end-turn').style.display = 'none';
-    document.getElementById('game-timer').textContent = '..';
+/* ═══════════════════════════════════════════════════════
+   TURN SYSTEM
+═══════════════════════════════════════════════════════ */
+function beginMyTurn() {
+  isMyTurn = true;
+  $('overlay-turn').classList.add('open');
+  const s = $('hud-status');
+  s.className = 'hud-status myturn';
+  $('hud-status-text').textContent = 'دورك الآن';
+  $('btn-end-turn').style.display = 'none';
+  vibrate([80, 40, 80]);
+  startTimer();
 }
 
-function handleActionChoice(choice) {
-    document.getElementById('turn-decision').style.display = 'none';
-
-    if (choice === 'ask') {
-        document.getElementById('btn-end-turn').style.display = 'flex';
-        showToast('استبعد اللاعبين ثم أنهِ دورك');
-        send({ type: 'ACTION_CHOICE', action: 'ask' });
-    } else {
-        openGuessModal();
-    }
+function beginOppTurn() {
+  isMyTurn = false;
+  clearTimer();
+  const s = $('hud-status');
+  s.className = 'hud-status oppturn';
+  $('hud-status-text').textContent = 'دور الخصم...';
+  $('btn-end-turn').style.display = 'none';
+  $('hud-timer').textContent = '..';
+  $('hud-timer').classList.remove('danger');
 }
 
-function handleOpponentAction(action) {
-    if (action === 'ask') showToast('الخصم يحلل ويستبعد اللاعبين...');
-    else showToast('⚠️ الخصم يستعد للتخمين النهائي!', 'danger');
+function chooseAction(action) {
+  $('overlay-turn').classList.remove('open');
+  if (action === 'ask') {
+    $('btn-end-turn').style.display = 'flex';
+    toast('استبعد اللاعبين ثم أنهِ دورك');
+    send({ type: 'ACTION', action: 'ask' });
+  } else {
+    send({ type: 'ACTION', action: 'guess' });
+    openGuessModal();
+  }
 }
 
 function endTurn() {
-    clearInterval(timerInterval);
-    send({ type: 'END_TURN' });
-    startOpponentTurn();
-    showToast('انتهى دورك. انتظر إجابة الخصم...');
+  clearTimer();
+  send({ type: 'TURN_END' });
+  beginOppTurn();
+  toast('انتهى دورك. انتظر الخصم...');
 }
 
-// ── Timer ──────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════
+   TIMER
+═══════════════════════════════════════════════════════ */
 function startTimer() {
-    clearInterval(timerInterval);
-    if (config.timer === 0) {
-        document.getElementById('game-timer').textContent = '∞';
-        return;
-    }
-    let t = config.timer;
-    const el = document.getElementById('game-timer');
+  clearTimer();
+  if (config.timer === 0) { $('hud-timer').textContent = '∞'; return; }
+  let t = config.timer;
+  const el = $('hud-timer');
+  el.textContent = t;
+  el.classList.remove('danger');
+  timerInt = setInterval(() => {
+    t--;
     el.textContent = t;
-    el.style.color = 'var(--gold)';
-
-    timerInterval = setInterval(() => {
-        t--;
-        el.textContent = t;
-        if (t <= 10) el.style.color = 'var(--danger)';
-        if (t <= 0) {
-            clearInterval(timerInterval);
-            showToast('انتهى الوقت! تم إنهاء دورك', 'danger');
-            cancelGuess();
-            document.getElementById('turn-decision').style.display = 'none';
-            endTurn();
-        }
-    }, 1000);
+    if (t <= 10) el.classList.add('danger');
+    if (t <= 0) {
+      clearTimer();
+      toast('انتهى الوقت! انتقل للخصم', 'danger');
+      $('modal-guess').classList.remove('open');
+      $('overlay-turn').classList.remove('open');
+      endTurn();
+    }
+  }, 1000);
 }
 
-// ── Guess Logic ────────────────────────────────────────
+function clearTimer() {
+  clearInterval(timerInt);
+  timerInt = null;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GUESS SYSTEM
+═══════════════════════════════════════════════════════ */
 function openGuessModal() {
-    document.getElementById('guess-search').value = '';
-    renderGuessList('');
-    document.getElementById('modal-guess').style.display = 'flex';
+  $('guess-input').value = '';
+  renderGuessList('');
+  $('modal-guess').classList.add('open');
 }
 
-function cancelGuess() {
-    document.getElementById('modal-guess').style.display = 'none';
-    if (isMyTurn) document.getElementById('turn-decision').style.display = 'flex';
+function closeGuessModal() {
+  $('modal-guess').classList.remove('open');
+  if (isMyTurn) {
+    $('overlay-turn').classList.add('open');
+    send({ type: 'ACTION_CANCEL' });
+  }
 }
 
-function renderGuessList(query) {
-    const list = document.getElementById('guess-list');
-    list.innerHTML = '';
-    const q = normalizeArabic(query.trim().toLowerCase());
-    const filtered = activePlayersList.filter(p => 
-        normalizeArabic(p.name.toLowerCase()).includes(q) || 
-        normalizeArabic(p.team.toLowerCase()).includes(q) || 
-        normalizeArabic(p.nat.toLowerCase()).includes(q)
-    );
+function renderGuessList(q) {
+  const norm = normalizeAr(q.trim());
+  const list = $('guess-list');
+  list.innerHTML = '';
 
-    filtered.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'guess-item';
-        item.innerHTML = `
-            <img src="${avatarUrl(p.img)}" alt="${p.name}">
-            <div>${p.name}</div>
-            <div style="color:var(--text-dim);font-size:0.55rem;">${p.team}</div>`;
-        item.onclick = () => confirmGuess(p);
-        list.appendChild(item);
-    });
+  const filtered = activePlayers.filter(p => {
+    if (eliminatedIds.has(p.id)) return false;
+    if (!norm) return true;
+    return normalizeAr(p.name).includes(norm) ||
+           normalizeAr(p.team).includes(norm) ||
+           normalizeAr(p.nat).includes(norm);
+  });
 
-    if (filtered.length === 0) {
-        list.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-dim);padding:20px;">لا توجد نتائج</div>';
-    }
+  if (!filtered.length) {
+    list.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-dim);font-size:0.85rem;">لا نتائج</div>';
+    return;
+  }
+
+  filtered.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'guess-item';
+    el.innerHTML = `
+      <img src="${avatarUrl(p.img)}" alt="${p.name}">
+      <div class="guess-item-name">${p.name}</div>
+      <div class="guess-item-club">${p.team}</div>`;
+    el.onclick = () => openConfirmDialog(p);
+    list.appendChild(el);
+  });
 }
 
-function confirmGuess(p) {
-    if (!confirm(`هل أنت متأكد أن لاعب الخصم هو:\n${p.name} (${p.team})؟\n\nتنبيه: التخمين الخاطئ = خسارة فورية!`)) return;
-
-    document.getElementById('modal-guess').style.display = 'none';
-    send({ type: 'FINAL_GUESS', guessId: p.id });
-
-    if (p.id === oppSecretPlayerId) {
-        showResult(true, `أحسنت! لاعب الخصم كان فعلاً ${p.name} 🎉`);
-    } else {
-        const correctPlayer = PLAYERS.find(x => x.id === oppSecretPlayerId);
-        showResult(false, `خطأ! لاعب الخصم كان ${correctPlayer ? correctPlayer.name : '؟'}\nوليس ${p.name}.`);
-    }
+function openConfirmDialog(p) {
+  pendingGuessPlayer = p;
+  $('conf-img').src = avatarUrl(p.img);
+  $('conf-name').textContent = p.name;
+  $('conf-club').textContent = p.team + ' · ' + p.nat;
+  $('confirm-dialog').classList.add('open');
 }
 
-function processOpponentGuess(guessId) {
-    const guessName = PLAYERS.find(x => x.id === guessId)?.name || 'لاعب مجهول';
-    if (guessId === mySecretPlayer.id) {
-        showResult(false, `لقد عرف الخصم لاعبك السري (${mySecretPlayer.name})! خسرت المباراة 💔`);
-    } else {
-        showResult(true, `الخصم خمن إجابة خاطئة (${guessName})! فزت بالمباراة 🏆`);
-    }
+function cancelConfirm() {
+  $('confirm-dialog').classList.remove('open');
+  pendingGuessPlayer = null;
 }
 
-// ── Result ─────────────────────────────────────────────
+function fireGuess() {
+  if (!pendingGuessPlayer) return;
+  const p = pendingGuessPlayer;
+  $('confirm-dialog').classList.remove('open');
+  $('modal-guess').classList.remove('open');
+  send({ type: 'GUESS', id: p.id });
+
+  if (p.id === oppSecretId) {
+    showResult(true, `أحسنت! لاعب الخصم كان ${p.name} 🎉`);
+  } else {
+    const correct = PLAYERS.find(x => x.id === oppSecretId);
+    showResult(false, `خطأ! لاعب الخصم كان ${correct ? correct.name : '؟'}\nوليس ${p.name}.`);
+  }
+}
+
+function processOppGuess(guessId) {
+  const gName = PLAYERS.find(x => x.id === guessId)?.name || '؟';
+  if (guessId === mySecret.id) {
+    showResult(false, `الخصم عرف لاعبك السري (${mySecret.name}) 💔`);
+  } else {
+    showResult(true, `الخصم خمّن بالخطأ (${gName})! فزت 🏆`);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESULT
+═══════════════════════════════════════════════════════ */
 function showResult(won, msg) {
-    clearInterval(timerInterval);
-    gameStarted = false;
-    vibrate(won ?[100, 100, 100, 100, 300] : [500]);
-    
-    const overlay = document.getElementById('result-overlay');
-    document.getElementById('result-icon').textContent = won ? '🏆' : '💔';
-    document.getElementById('result-title').textContent = won ? 'انتصرت!' : 'خسرت!';
-    document.getElementById('result-title').style.color = won ? 'var(--gold)' : 'var(--danger)';
-    document.getElementById('result-sub').innerText = msg;
-    overlay.classList.add('show');
-}
+  clearTimer();
+  gameActive = false;
+  vibrate(won ? [80,80,80,80,200] : [400]);
 
-// ── Core UX Utilities ──────────────────────────────────
-function switchScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
+  $('res-emoji').textContent = won ? '🏆' : '💔';
+  $('res-title').textContent = won ? 'انتصرت!' : 'خسرت!';
+  $('res-title').className = 'result-title ' + (won ? 'won' : 'lost');
+  $('res-msg').textContent = msg;
+  $('result-bg').className = 'result-bg ' + (won ? 'won' : 'lost');
+  $('result-overlay').classList.add('open');
 }
 </script>
 </body>
