@@ -18,8 +18,8 @@
   --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:32px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100dvh;-webkit-user-select:none;user-select:none}
+html{scroll-behavior:smooth;overscroll-behavior:none} /* Fix Pull-to-refresh */
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100dvh;-webkit-user-select:none;user-select:none;overscroll-behavior:none} /* Fix Pull-to-refresh */
 input,textarea{-webkit-user-select:auto;user-select:auto}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
@@ -43,9 +43,7 @@ header{height:60px;padding:0 18px;padding-top:env(safe-area-inset-top);display:f
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:dp 1.5s ease-in-out infinite}
 @keyframes dp{0%,100%{opacity:1}50%{opacity:.25}}
 
-/* SCREEN SYSTEM — KEY FIX:
-   All screens are hidden with display:none !important by default.
-   .active restores display. flex-screen gets display:flex instead of block. */
+/* SCREEN SYSTEM */
 .screen{display:none !important;min-height:calc(100dvh - 60px)}
 .screen.active{display:block !important}
 .screen.fscreen.active{display:flex !important;flex-direction:column}
@@ -176,7 +174,7 @@ header{height:60px;padding:0 18px;padding-top:env(safe-area-inset-top);display:f
 #mgues.open{display:flex}
 .gmh{padding:16px 14px 12px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;padding-top:calc(16px + env(safe-area-inset-top,0))}
 .gmh h3{font-size:.98rem;font-weight:900;margin-bottom:9px}
-.gmsrch{width:100%;padding:11px 15px;border-radius:var(--r-md);background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:.92rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.gmsrch{width:100%;padding:11px 15px;border-radius:var(--r-md);background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:var(--font);font-size:16px;outline:none;transition:border-color .2s;-webkit-appearance:none} /* Fixed iOS zoom by setting font-size to 16px */
 .gmsrch:focus{border-color:var(--gold)}
 .gmgrid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:9px;padding:13px 13px 90px;align-content:start}
 .gi{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 7px;text-align:center;cursor:pointer;transition:all .14s}
@@ -521,12 +519,22 @@ window.addEventListener('load',()=>{
 
 /* ════════ NETWORK ════════ */
 function initPeer(id,onOpen){
+  if(peer) peer.destroy(); // Fix: Prevent ghost connections
   peer=new Peer(id||undefined,{debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]}});
   peer.on('open',onOpen);
   peer.on('error',err=>{
-    if(err.type==='peer-unavailable'){toast('الكود غير صحيح أو انتهت صلاحيته','d');$('btn-join').disabled=false;}
+    if(err.type==='peer-unavailable'){
+      toast('الكود غير صحيح أو انتهت صلاحيته','d');
+      $('btn-join').disabled=false;
+      setConn('غير متصل', false); // Fix: Reset connection text
+    }
     else if(err.type==='unavailable-id')initPeer('LEG26-'+Math.floor(1000+Math.random()*9000),onOpen);
-    else{toast('خطأ في الاتصال: '+err.type,'d');$('btn-host').disabled=false;$('btn-join').disabled=false;}
+    else{
+      toast('خطأ في الاتصال: '+err.type,'d');
+      $('btn-host').disabled=false;
+      $('btn-join').disabled=false;
+      setConn('غير متصل', false); // Fix: Reset connection text
+    }
   });
 }
 
@@ -535,7 +543,11 @@ function wireConn(c){
   conn.on('data',handleMsg);
   conn.on('close',()=>{
     if(gameActive)showResult(true,'انسحب الخصم من المباراة!\nالفوز لك 🏃‍♂️');
-    else{toast('انقطع الاتصال','d');setTimeout(()=>location.reload(),2000);}
+    else{
+      toast('انقطع الاتصال','d');
+      setConn('غير متصل', false);
+      setTimeout(()=>location.reload(),2000);
+    }
   });
   conn.on('error',()=>toast('خطأ في الاتصال','d'));
 }
@@ -744,6 +756,7 @@ function startTimer(){
       clearTimer();
       toast('انتهى الوقت! انتقل للخصم','d');
       $('mgues').classList.remove('open');
+      $('cdiag').classList.remove('open'); // Fix: Close confirm dialog on time up
       $('ov-turn').classList.remove('open');
       endTurn();
     }
