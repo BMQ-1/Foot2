@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>أساطير كرة القدم 2026</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.2/peerjs.min.js"></script>
     <style>
         :root {
             --gold: #d4af37;
@@ -133,7 +133,6 @@
         .secret-details { flex: 1; }
         .secret-details h4 { font-size: 0.9rem; color: var(--gold); }
         .secret-details p { font-size: 0.7rem; color: var(--text-dim); }
-        /* Decision overlay - uses flex but avoids fixed by using absolute within screen flow trick */
         .choice-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92);
             z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center;
@@ -178,6 +177,7 @@
         .result-icon { font-size: 5rem; margin-bottom: 20px; }
         .result-title { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
         .result-sub { color: var(--text-dim); margin-bottom: 30px; }
+        .connecting-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--text-dim); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
     </style>
 </head>
 <body>
@@ -235,7 +235,7 @@
                 <div class="input-code" id="display-code" style="margin-bottom:0;font-size:2rem;color:var(--gold);">----</div>
             </div>
             <div class="status-badge" style="justify-content:center;margin-top:10px;">
-                <i class="fas fa-spinner fa-spin"></i> في انتظار الخصم...
+                <span class="connecting-spinner" style="margin-left:8px;"></span> في انتظار الخصم...
             </div>
             <button id="btn-cancel-host" class="btn btn-outline" style="margin-top:15px;">
                 <i class="fas fa-times"></i> إلغاء
@@ -246,7 +246,7 @@
 
         <div id="join-area">
             <input type="text" class="input-code" id="input-join" placeholder="أدخل كود الخصم" maxlength="4"
-                   style="text-transform:uppercase;">
+                   style="text-transform:uppercase;" inputmode="numeric">
             <button id="btn-join" class="btn btn-outline">
                 <i class="fas fa-sign-in-alt"></i> انضمام للمباراة
             </button>
@@ -336,100 +336,85 @@
 </div>
 
 <script>
-// ── WebSocket Relay Network Layer ──────────────────────
-// Uses a free public WebSocket channel relay.
-// Both players join the same channel code; messages are
-// broadcast to all members of that channel.
-const WS_RELAYS = [
-    'wss://socketsbay.com/wss/v2/1/demo/',
-    'wss://ws.postman-echo.com/raw'
-];
-let wsRelayIndex = 0;
-let ws = null;
-let wsConnected = false;
-let myRole = null; // 'host' | 'guest'
-let roomCode = null;
-let _wsOnOpen = null;
+// ── PeerJS P2P Network Layer ────────────────────────────
+// Host creates a Peer with ID = "LEG26-XXXX"
+// Guest connects directly to that peer ID
+// No WebSocket relay server needed — uses PeerJS cloud for signaling only (fast)
 
-function wsConnect(onOpen) {
-    _wsOnOpen = onOpen;
-    _tryConnect();
+let peer = null;
+let conn = null;
+let isHost = false;
+let myRole = null;
+let roomCode = null;
+let gameStarted = false;
+
+function initPeer(id, onReady) {
+    const peerId = id || undefined;
+    peer = new Peer(peerId, {
+        debug: 0,
+        config: {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        }
+    });
+
+    peer.on('open', (assignedId) => {
+        roomCode = assignedId;
+        onReady(assignedId);
+    });
+
+    peer.on('error', (err) => {
+        console.error('PeerJS error:', err);
+        if (err.type === 'peer-unavailable') {
+            showToast('الكود غير صحيح أو انتهت صلاحيته', 'danger');
+            document.getElementById('btn-join').disabled = false;
+        } else if (err.type === 'unavailable-id') {
+            // ID taken, try with random suffix
+            const newId = 'LEG26' + Math.floor(1000 + Math.random() * 9000);
+            initPeer(newId, onReady);
+        } else {
+            showToast('خطأ في الاتصال: ' + err.type, 'danger');
+            document.getElementById('btn-host').disabled = false;
+            document.getElementById('btn-join').disabled = false;
+        }
+    });
+
+    peer.on('disconnected', () => {
+        if (gameStarted) {
+            showToast('انقطع الاتصال بالخصم', 'danger');
+        }
+    });
 }
 
-function _tryConnect() {
-    if (wsRelayIndex >= WS_RELAYS.length) {
-        showToast('تعذر الاتصال بأي خادم. تحقق من الإنترنت وأعد المحاولة', 'danger');
-        document.getElementById('btn-host').disabled = false;
-        document.getElementById('btn-join').disabled = false;
-        return;
-    }
-    ws = new WebSocket(WS_RELAYS[wsRelayIndex]);
-    ws.onopen = () => {
-        wsConnected = true;
-        _wsOnOpen && _wsOnOpen();
-    };
-    ws.onmessage = (ev) => {
-        let data;
-        try { data = JSON.parse(ev.data); } catch { return; }
-        if (!data.__room || data.__room !== roomCode) return;
-        if (data.__role === myRole) return;
+function setupConnection(c) {
+    conn = c;
+    conn.on('data', (data) => {
         handleMessage(data);
-    };
-    ws.onclose = () => {
-        wsConnected = false;
+    });
+    conn.on('close', () => {
         if (gameStarted) showToast('انقطع الاتصال بالخصم', 'danger');
-    };
-    ws.onerror = () => {
-        wsRelayIndex++;
-        setTimeout(_tryConnect, 500);
-    };
+    });
+    conn.on('error', (err) => {
+        showToast('خطأ في الاتصال', 'danger');
+        console.error(err);
+    });
 }
 
 function send(data) {
-    if (!wsConnected || !ws) return;
-    ws.send(JSON.stringify({ ...data, __room: roomCode, __role: myRole }));
+    if (conn && conn.open) {
+        conn.send(data);
+    }
 }
 
-// ── Handshake: Host waits for HELLO, Guest sends HELLO ──
-// After WS connects:
-//   Host: sits and waits for guest's HELLO message
-//   Guest: sends HELLO immediately, waits for HELLO_ACK
-function hostStartListening() {
-    // host is already connected to WS, just wait
-    showToast('الغرفة جاهزة! شارك الكود مع صديقك');
-}
-
-function guestSayHello() {
-    send({ type: 'HELLO' });
-    // retry in case message was missed
-    let tries = 0;
-    const retry = setInterval(() => {
-        if (tries++ > 10 || gameStarted || wsConnected === false) { clearInterval(retry); return; }
-        if (!wsConnected) return;
-        send({ type: 'HELLO' });
-    }, 1500);
-    window._helloRetry = retry;
-}
-
+// ── Message Handler ─────────────────────────────────────
 function handleMessage(data) {
     switch (data.type) {
-        case 'HELLO':
-            // Host receives guest hello
-            if (myRole !== 'host') return;
-            clearInterval(window._helloRetry);
-            updateStatus('متصل الآن', true);
-            showToast('انضم الخصم! ابدأ الاختيار');
-            // Send config + ack
-            send({ type: 'HELLO_ACK', config });
-            startSelectionPhase();
-            break;
-
         case 'HELLO_ACK':
-            // Guest receives ack with config
-            if (myRole !== 'guest') return;
-            clearInterval(window._helloRetry);
+            // Guest receives config from host
             config = data.config;
-            updateStatus('متصل الآن', true);
+            updateStatus('متصل الآن ✓', true);
             showToast('اتصلت بالمضيف! ابدأ الاختيار');
             startSelectionPhase();
             break;
@@ -455,6 +440,7 @@ function handleMessage(data) {
     }
 }
 
+// ── Players Data ────────────────────────────────────────
 const PLAYERS = [
     {id:1,name:"كيليان مبابي",team:"ريال مدريد",pos:"FW",rating:91,nat:"فرنسا",img:"KM"},
     {id:2,name:"إيرلينغ هالاند",team:"مانشستر سيتي",pos:"FW",rating:91,nat:"النرويج",img:"EH"},
@@ -468,7 +454,7 @@ const PLAYERS = [
     {id:10,name:"كريستيانو رونالدو",team:"النصر",pos:"FW",rating:86,nat:"البرتغال",img:"CR"},
     {id:11,name:"هاري كين",team:"بايرن ميونخ",pos:"FW",rating:90,nat:"إنجلترا",img:"HK"},
     {id:12,name:"فيرجيل فان دايك",team:"ليفربول",pos:"DF",rating:89,nat:"هولندا",img:"VVD"},
-    {id:13,name:"فلوريان فيرتز",team:"باير ليفركوزن",pos:"MF",rating:88,nat:"ألمانيا",img:"FW"},
+    {id:13,name:"فلوريان فيرتز",team:"باير ليفركوزن",pos:"MF",rating:88,nat:"ألمانيا",img:"FW2"},
     {id:14,name:"جمال موسيالا",team:"بايرن ميونخ",pos:"MF",rating:87,nat:"ألمانيا",img:"JM"},
     {id:15,name:"بوكايو ساكا",team:"أرسنال",pos:"FW",rating:87,nat:"إنجلترا",img:"BS"},
     {id:16,name:"أنطوان غريزمان",team:"أتلتيكو مدريد",pos:"FW",rating:88,nat:"فرنسا",img:"AG"},
@@ -507,14 +493,12 @@ const PLAYERS = [
 ];
 
 // ── State ──────────────────────────────────────────────
-let isHost = false;
 let mySecretPlayer = null;
 let oppSecretPlayerId = null;
 let activePlayersList = [];
 let eliminatedIds = new Set();
 let isMyTurn = false;
 let timerInterval = null;
-let gameStarted = false;
 let selectionDone = false;
 let oppSelectionDone = false;
 let config = { playerCount: 20, timer: 30 };
@@ -525,7 +509,7 @@ window.onload = () => {
         const loader = document.getElementById('master-loader');
         loader.style.opacity = '0';
         setTimeout(() => loader.style.display = 'none', 400);
-    }, 800);
+    }, 600);
     initLobby();
 };
 
@@ -546,7 +530,7 @@ function initLobby() {
     });
     document.getElementById('btn-host').onclick = hostGame;
     document.getElementById('btn-join').onclick = joinGame;
-    document.getElementById('btn-cancel-host').onclick = () => location.reload();
+    document.getElementById('btn-cancel-host').onclick = () => { if(peer) peer.destroy(); location.reload(); };
     document.getElementById('btn-ask-action').onclick = () => handleActionChoice('ask');
     document.getElementById('btn-guess-action').onclick = () => handleActionChoice('guess');
     document.getElementById('btn-end-turn').onclick = endTurn;
@@ -570,7 +554,6 @@ function updateStatus(text, active) {
     s.className = 'status-badge' + (active ? ' active' : '');
 }
 
-// ── Avatar URL helper ─────────────────────────────────
 function avatarUrl(code) {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(code)}&background=1a1f26&color=d4af37&bold=true&size=128`;
 }
@@ -578,21 +561,35 @@ function avatarUrl(code) {
 // ── Host ───────────────────────────────────────────────
 function hostGame() {
     document.getElementById('btn-host').disabled = true;
-    roomCode = 'LEG26-' + Math.floor(1000 + Math.random() * 9000).toString();
-    myRole = 'host';
-    isHost = true;
+    updateStatus('جاري الإنشاء...', false);
 
-    const displayCode = roomCode.replace('LEG26-', '');
+    const shortCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const peerId = 'LEG26-' + shortCode;
 
-    updateStatus('جاري الاتصال...', false);
-    wsConnect(() => {
+    initPeer(peerId, (assignedId) => {
+        const code = assignedId.replace('LEG26-', '');
+        isHost = true;
+        myRole = 'host';
+
         document.getElementById('host-section').style.display = 'none';
         document.getElementById('join-area').style.display = 'none';
         document.querySelector('.join-divider').style.display = 'none';
         document.getElementById('waiting-area').style.display = 'block';
-        document.getElementById('display-code').textContent = displayCode;
+        document.getElementById('display-code').textContent = code;
         updateStatus('في انتظار الخصم...', false);
-        hostStartListening();
+        showToast('الغرفة جاهزة! شارك الكود مع صديقك');
+
+        // Listen for incoming connections
+        peer.on('connection', (c) => {
+            setupConnection(c);
+            c.on('open', () => {
+                updateStatus('متصل الآن ✓', true);
+                showToast('انضم الخصم! ابدأ الاختيار');
+                // Send config to guest
+                send({ type: 'HELLO_ACK', config });
+                startSelectionPhase();
+            });
+        });
     });
 }
 
@@ -604,15 +601,22 @@ function joinGame() {
     }
 
     document.getElementById('btn-join').disabled = true;
-    roomCode = 'LEG26-' + rawCode;
-    myRole = 'guest';
     isHost = false;
-
+    myRole = 'guest';
     updateStatus('جاري الاتصال...', false);
-    showToast('جاري الاتصال بالغرفة...');
-    wsConnect(() => {
-        updateStatus('متصل بالخادم', false);
-        guestSayHello();
+
+    // Guest gets a random peer ID
+    initPeer(null, () => {
+        const targetId = 'LEG26-' + rawCode;
+        showToast('جاري الاتصال بالغرفة...');
+
+        const c = peer.connect(targetId, { reliable: true });
+        setupConnection(c);
+
+        c.on('open', () => {
+            updateStatus('متصل بالخادم...', false);
+            showToast('متصل! في انتظار إشارة البدء...');
+        });
     });
 }
 
@@ -620,7 +624,6 @@ function joinGame() {
 function startSelectionPhase() {
     const count = config.playerCount === 0 ? PLAYERS.length : Math.min(config.playerCount, PLAYERS.length);
     activePlayersList = PLAYERS.slice(0, count);
-
     switchScreen('screen-select');
     renderSelectionGrid();
 }
@@ -641,13 +644,12 @@ function renderSelectionGrid() {
             </div>`;
 
         card.onclick = () => {
-            if (selectionDone) return; // prevent re-selection
+            if (selectionDone) return;
             selectionDone = true;
 
             mySecretPlayer = p;
             card.classList.add('my-secret-card');
 
-            // Dim all other cards
             container.querySelectorAll('.card:not(.my-secret-card)').forEach(c => {
                 c.style.opacity = '0.3';
                 c.style.pointerEvents = 'none';
@@ -667,7 +669,6 @@ function renderSelectionGrid() {
 
 function checkBothSelected() {
     if (selectionDone && oppSelectionDone) {
-        // Small delay so both see the confirmation toast
         setTimeout(initGameBoard, 600);
     }
 }
@@ -685,7 +686,6 @@ function initGameBoard() {
 
     renderGameGrid();
 
-    // Host always goes first
     if (isHost) startMyTurn();
     else startOpponentTurn();
 }
@@ -756,7 +756,6 @@ function handleActionChoice(choice) {
         showToast('استبعد اللاعبين غير المنطقيين ثم أنهِ دورك');
         send({ type: 'ACTION_CHOICE', action: 'ask' });
     } else {
-        // Don't send to opponent until after we actually submit a guess
         send({ type: 'ACTION_CHOICE', action: 'guess' });
         clearInterval(timerInterval);
         document.getElementById('game-timer').textContent = '..';
@@ -851,7 +850,7 @@ function processOpponentGuess(guessId) {
     if (guessId === mySecretPlayer.id) {
         showResult(false, 'الخصم عرف لاعبك! خسرت المباراة');
     } else {
-        showResult(true, 'الخصم أخطأ في تخميله! فزت بالمباراة 🏆');
+        showResult(true, 'الخصم أخطأ في تخمينه! فزت بالمباراة 🏆');
     }
 }
 
